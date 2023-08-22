@@ -212,7 +212,7 @@ class LoginView extends StatelessWidget {
                     children: [
                       Container(
                         // margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0* fem, 0 * fem),
-                        child: Text(AppStrings.account,
+                        child: Text(AppStrings.empRole,
                             style: TextStyle(
                               fontSize: 14 * fem,
                               color: AppColors.black,
