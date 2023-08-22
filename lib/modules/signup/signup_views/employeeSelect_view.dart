@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:tethys/modules/signUp/employeeSelect_view.dart';
-import 'package:tethys/modules/signUp/signUp_view.dart';
-// import 'package:get/get.dart';
 
-import '../../resources/app_colors.dart';
-import '../../resources/app_strings.dart';
+import '../../../resources/app_colors.dart';
+import '../../../resources/app_strings.dart';
 
-class RoleSelectScreen extends StatelessWidget {
-  const RoleSelectScreen({super.key});
+class EmployeeSelectionScrn extends StatelessWidget {
+  const EmployeeSelectionScrn({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +18,7 @@ class RoleSelectScreen extends StatelessWidget {
               26 * fem, 52 * fem, 25 * fem, 0), // Adjust padding
           width: double.infinity,
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(33 * fem),
             gradient: LinearGradient(
               begin: Alignment(0, -1),
               end: Alignment(0, 1),
@@ -34,9 +31,9 @@ class RoleSelectScreen extends StatelessWidget {
             children: [
               Container(
                 margin: EdgeInsets.fromLTRB(
-                    0 * fem, 2 * fem, 1 * fem, 0), // Adjust margin
+                    0 * fem, 5 * fem, 1 * fem, 0), // Adjust margin
                 child: Text(
-                  AppStrings.selectRole,
+                  AppStrings.empRole,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 34 * fem, // Adjust font size
@@ -46,11 +43,10 @@ class RoleSelectScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 180 * fem),
+              SizedBox(height: 160 * fem),
               ElevatedButton(
                 onPressed: () {
-                  print('object4');
-                  Get.to(() => SignUpScreen());
+                  print('object');
                   // Add functionality for the 'Owner' button
                 },
                 style: ElevatedButton.styleFrom(
@@ -78,7 +74,7 @@ class RoleSelectScreen extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      AppStrings.owner,
+                      AppStrings.stockManager,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 30 * fem, // Adjust font size
@@ -90,11 +86,10 @@ class RoleSelectScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 40 * fem),
+              SizedBox(height: 20 * fem),
               ElevatedButton(
                 onPressed: () {
-                  print('object');
-                  Get.off(() => EmployeeSelectionScrn());
+                  print('object5');
                   // Add functionality for the 'Employee' button
                 },
                 style: ElevatedButton.styleFrom(
@@ -122,7 +117,50 @@ class RoleSelectScreen extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      AppStrings.employee,
+                      AppStrings.prodManager,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 30 * fem, // Adjust font size
+                        fontWeight: FontWeight.w700,
+                        height: 1.3025,
+                        color: AppColors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20 * fem),
+              ElevatedButton(
+                onPressed: () {
+                  print('object8');
+                  // Add functionality for the 'Employee' button
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(35 * fem),
+                  ),
+                  elevation: 0,
+                  primary: Colors.transparent,
+                  onPrimary: Colors.transparent,
+                ),
+                child: Container(
+                  width: double.infinity,
+                  height: 72.14 * fem,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(35 * fem),
+                    color: AppColors.btnColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.btnShadow,
+                        offset: Offset(0 * fem, 10 * fem),
+                        blurRadius: 4 * fem,
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      AppStrings.gateKeeper,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 30 * fem, // Adjust font size
