@@ -8,6 +8,7 @@ import 'package:tethys/modules/signUp/roleSelection_view.dart';
 
 // import 'package:tethys/modules/login/login_views/splash_view.dart';
 
+import 'modules/owner/owner/views/owner_home_view.dart';
 import 'modules/signUp/signUp_view.dart';
 import 'resources/app_routes.dart';
 
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
      
       ),
-      home:  SplashView(),
+      home:OwnerHome(), 
+      //  SplashView(),
       getPages: [
           GetPage(
             name: AppRoutes.roleSelectScreen,
