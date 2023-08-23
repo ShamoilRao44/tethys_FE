@@ -26,10 +26,10 @@ class _OwnerHomeState extends State<OwnerHome> {
         child = OwnerDashboard();
         break;
       case 1:
-        child = NewColumns(fem: .5);
+        child =UserScrn();
         break;
       case 2:
-        child = OwnerDashboard();
+        child = ListTilesWithButtons() ;
         break;
     }
     return Container(
