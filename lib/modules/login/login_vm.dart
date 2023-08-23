@@ -20,6 +20,7 @@ class LoginVM extends GetxController {
       (res) {
         if (res.accessToken != null) {
           debugPrint('success login');
+          // Get.offAll()
         } else {
           debugPrint('failed');
         }

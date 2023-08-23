@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tethys/modules/owner/views/owner_home_view.dart';
 import 'package:tethys/modules/signup/signup_repo/signup_repo_impl.dart';
 import 'package:tethys/modules/signup/signup_views/signUp_view.dart';
 
@@ -34,7 +35,7 @@ class SignupVM extends GetxController {
 
   Future<void> submitOtp() async {
     String? field = otpcontroller.text.trim();
-    if (field == null || field == ''){
+    if (field == null || field == '') {
       Get.snackbar('Error', 'please enter otp');
     }
     if (otptext == field) {
@@ -51,16 +52,19 @@ class SignupVM extends GetxController {
     data['phone'] = "";
     data['email'] = emailCtrl.text.trim();
     data['password'] = passwordCtrl.text;
-    // data['secret_key'] = secCodeCtrl.text;
+    // data['secret_key'] = "$Owner935$4jwTethis";
+    // data['secret_key'] = secCodeCtrl.text.trim();
 
-    await sri.ownerCreate(data).then(
-      (res) {
-        if (res.id != null) {
-          debugPrint("success");
-        } else {
-          debugPrint("failure");
-        }
-      },
-    );
+    Get.offAll(() => OwnerHome());
+    // await sri.ownerCreate(data).then(
+    //   (res) {
+    //     if (res.id != null) {
+    //       debugPrint("success");
+    //       Get.offAll(() => OwnerHome());
+    //     } else {
+    //       debugPrint("failure");
+    //     }
+    //   },
+    // );
   }
 }
