@@ -113,50 +113,73 @@ class LoginView extends StatelessWidget {
             //   ),
             // ),
             Positioned(
-              left: 95 * fem,
-              top: 360 * fem,
+              left: 95 * fem - 10,
+              top: 360 * fem - 40,
               child: Align(
                 child: SizedBox(
-                  width: 200 * fem,
-                  height: 32 * fem,
-                  child: TextFormField(
-                    controller: c.usernameCtrl,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                  width: 200 * fem + 20,
+                  height: 32 * fem + 16,
+                  child: Container(
+                    height: 32 * fem + 20,
+                    padding: EdgeInsets.all(0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        border:
+                            Border.all(color: AppColors.fieldBorder, width: 2)),
+                    child: TextFormField(
+                      controller: c.usernameCtrl,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColors.txtField,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        labelText: AppStrings.username,
+                        labelStyle: TextStyle(
+                          fontSize: 16 * fem,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
+                        ),
+                        contentPadding: EdgeInsets.all(18),
                       ),
-                      labelText: AppStrings.username,
-                      labelStyle: TextStyle(
-                        fontSize: 16 * fem,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.black,
-                      ),
-                      contentPadding: EdgeInsets.all(8),
                     ),
                   ),
                 ),
               ),
             ),
             Positioned(
-              left: 95 * fem,
-              top: 400 * fem, // Adjust this position as needed
+              left: 95 * fem - 10,
+              top: 400 * fem - 20, // Adjust this position as needed
               child: Align(
                 child: SizedBox(
-                  width: 200 * fem,
-                  height: 32 * fem,
-                  child: TextFormField(
-                    controller: c.passwordCtrl,
-                    decoration: InputDecoration(
+                  width: 200 * fem + 20,
+                  height: 32 * fem + 16,
+                  child: Container(
+                    height: 32 * fem + 20,
+                    padding: EdgeInsets.all(0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        border:
+                            Border.all(color: AppColors.fieldBorder, width: 2)),
+                    child: TextFormField(
+                      controller: c.passwordCtrl,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColors.txtField,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(18),
                         ),
-                        labelText: AppStrings.password, // Adjust the label text
+                        labelText: AppStrings.password,
                         labelStyle: TextStyle(
                           fontSize: 16 * fem,
                           fontWeight: FontWeight.w400,
                           color: AppColors.black,
                         ),
-                        contentPadding: EdgeInsets.all(8)),
+                        contentPadding: EdgeInsets.all(18),
+                      ),
+                    ),
                   ),
                 ),
               ),

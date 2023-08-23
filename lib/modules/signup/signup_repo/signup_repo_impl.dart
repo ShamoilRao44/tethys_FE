@@ -12,4 +12,10 @@ class SignupRepoImpl extends SignupRepo {
       await apiService.post(Endpoints.owner + Endpoints.create, data),
     );
   }
+
+  @override
+  Future<OtpModel> getOtp(Map data) async {
+    // TODO: implement getOtp
+    return OtpModelFromJson(await apiService.post(Endpoints.otp, data));
+  }
 }

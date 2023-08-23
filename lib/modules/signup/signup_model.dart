@@ -48,3 +48,23 @@ class OwnerCreateModel {
         "is_active": isActive,
       };
 }
+
+OtpModel OtpModelFromJson(String str) =>
+    OtpModel.fromJson(json.decode(str));
+class OtpModel {
+    String? status;
+    String? otp;
+
+    OtpModel({
+        this.status,
+        this.otp,
+    });
+
+    factory OtpModel.fromJson(Map<String, dynamic> json) => OtpModel(
+        status: json["status"],
+        otp: json["otp"],
+    );
+
+
+}
+

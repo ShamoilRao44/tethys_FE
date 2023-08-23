@@ -20,6 +20,7 @@ class SignupView extends StatelessWidget {
           Container(
             height: double.infinity,
             width: double.infinity,
+            
             decoration: BoxDecoration(
               color: Colors.white,
               image: DecorationImage(
@@ -128,84 +129,112 @@ class SignupView extends StatelessWidget {
           //   ),
           // ),
           Positioned(
-            left: 95 * fem,
-            top: 348.5 * fem,
+            left: 95 * fem - 10,
+            top: 348.5 * fem - 30,
             child: Align(
               child: SizedBox(
-                width: 159 * fem,
-                height: 24 * fem,
-                child: TextFormField(
-                  controller: c.emailCtrl,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    labelText: AppStrings.username,
-                    labelStyle: TextStyle(
-                      fontSize: 16 * fem,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.black,
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 1.2125 * fem,
+                width: 200 * fem + 20,
+                  height: 32 * fem + 16,
+                child: Container(
+                    height: 32 * fem + 20,
+                    padding: EdgeInsets.all(0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(18),
+                        border: Border.all(color: AppColors.fieldBorder, width: 2)),
+                    child: TextFormField(
+                      controller: c.emailCtrl,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColors.txtField,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        labelText: AppStrings.username,
+                        labelStyle: TextStyle(
+                          fontSize: 16 * fem,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
+                        ),
+                        contentPadding: EdgeInsets.all(18),
+                      ),
                     ),
                   ),
-                ),
               ),
             ),
           ),
           Positioned(
-            left: 95 * fem,
-            top: 423.5 * fem, // Adjust this position as needed
+            left: 95 * fem - 10,
+            top: 423.5 * fem - 30, // Adjust this position as needed
             child: Align(
               child: SizedBox(
-                width: 159 * fem,
-                height: 24 * fem,
-                child: TextFormField(
-                  controller: c.passwordCtrl,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    labelText: AppStrings.password, // Adjust the label text
-                    labelStyle: TextStyle(
-                      fontSize: 16 * fem,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.black,
-                    ),
-
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 1.2125 * fem,
+                width: 200 * fem + 20,
+                  height: 32 * fem + 16,
+                child: Container(
+                    height: 32 * fem + 20,
+                    padding: EdgeInsets.all(0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(18),
+                        border: Border.all(color: AppColors.fieldBorder, width: 2)),
+                    child: TextFormField(
+                      controller: c.passwordCtrl,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColors.txtField,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        labelText: AppStrings.password,
+                        labelStyle: TextStyle(
+                          fontSize: 16 * fem,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
+                        ),
+                        contentPadding: EdgeInsets.all(18),
+                      ),
                     ),
                   ),
-                ),
               ),
             ),
           ),
           Positioned(
-            left: 95 * fem,
-            top: 498.5 * fem, // Adjust this position as needed
+            left: 95 * fem - 10,
+            top: 498.5 * fem - 30, // Adjust this position as needed
             child: Align(
               child: SizedBox(
-                width: 159 * fem,
-                height: 24 * fem,
-                child: TextFormField(
-                  controller: c.secCodeCtrl,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    labelText: AppStrings.secureCode, // Adjust the label text
-                    labelStyle: TextStyle(
-                      fontSize: 16 * fem,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.black,
-                    ),
-
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 1.2125 * fem,
+                width: 200 * fem + 20,
+                  height: 32 * fem + 16,
+                child: Container(
+                    height: 32 * fem + 20,
+                    padding: EdgeInsets.all(0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(18),
+                        border: Border.all(color: AppColors.fieldBorder, width: 2)),
+                    child: TextFormField(
+                      controller: c.secCodeCtrl,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColors.txtField,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        labelText: AppStrings.secureCode,
+                        labelStyle: TextStyle(
+                          fontSize: 16 * fem,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
+                        ),
+                        contentPadding: EdgeInsets.all(18),
+                      ),
                     ),
                   ),
-                ),
               ),
             ),
           ),
           Positioned(
-            left: 112 * fem, // Adjust the left value as needed
+            left: 112 * fem + 10, // Adjust the left value as needed
             top: 580 * fem,
             child: Align(
                 child: SizedBox(
@@ -230,7 +259,8 @@ class SignupView extends StatelessWidget {
                           color: Colors.white,
                         ),
                       ),
-                    ))),
+                    )),
+                    ),
           )
         ])),
       );

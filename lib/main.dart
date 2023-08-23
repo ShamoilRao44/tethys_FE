@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:tethys/modules/login/login_views/login_view.dart';
 // import 'package:tethys/modules/login/login_views/login_view.dart';
 import 'package:tethys/modules/login/login_views/splash_view.dart';
+import 'package:tethys/modules/signup/signup_views/otp_view.dart';
 import 'package:tethys/modules/signup/signup_views/roleSelection_view.dart';
 import 'package:tethys/utils/bindings.dart';
 // import 'package:tethys/modules/signUp/roleSelection_view.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(),
+        // home: SignupView(),
         home: SplashView(),
         getPages: [
           GetPage(
