@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/login/login_repo/login_repo_impl.dart';
-import 'package:tethys/modules/signup/signup_views/roleSelection_view.dart';
+import 'package:tethys/resources/app_routes.dart';
 
 class LoginVM extends GetxController {
   LoginRepoImpl lri = LoginRepoImpl();
@@ -18,9 +18,9 @@ class LoginVM extends GetxController {
 
     await lri.login(data).then(
       (res) {
-        if (res.accessToken != null) {
+        if (res.status == '200') {
           debugPrint('success login');
-          // Get.offAll()
+          Get.offAllNamed(AppRoutes.ownerHome);
         } else {
           debugPrint('failed');
         }

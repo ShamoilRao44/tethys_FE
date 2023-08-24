@@ -8,7 +8,7 @@ class LoginRepoImpl extends LoginRepo {
 
   @override
   Future<LoginModel> login(Map data) async {
-    return loginModelFromJson(
+    return LoginModelFromJson(
       await apiService.post(Endpoints.login, data),
     );
   }

@@ -6,6 +6,7 @@ import 'package:tethys/modules/signup/signup_views/signUp_view.dart';
 
 class SignupVM extends GetxController {
   String otptext = '';
+  bool isowner = true;
 
   SignupRepoImpl sri = SignupRepoImpl();
   TextEditingController emailCtrl = TextEditingController();
@@ -40,7 +41,7 @@ class SignupVM extends GetxController {
     }
     if (otptext == field) {
       print("match");
-      Get.offAll(() => SignupView());
+      Get.to(() => SignupView());
     } else {
       Get.snackbar('Failed', 'wrong otp');
     }
@@ -48,23 +49,25 @@ class SignupVM extends GetxController {
 
   Future<void> ownerCreate() async {
     var data = {};
-    data['name'] = "";
-    data['phone'] = "";
+    data['name'] = "name";
+    data['phone'] = "958978";
     data['email'] = emailCtrl.text.trim();
     data['password'] = passwordCtrl.text;
-    // data['secret_key'] = "$Owner935$4jwTethis";
-    // data['secret_key'] = secCodeCtrl.text.trim();
+    // data['secret_key'] = "Owner935";
+    data['secret_key'] = secCodeCtrl.text.trim().toString();
 
-    Get.offAll(() => OwnerHome());
-    // await sri.ownerCreate(data).then(
-    //   (res) {
-    //     if (res.id != null) {
-    //       debugPrint("success");
-    //       Get.offAll(() => OwnerHome());
-    //     } else {
-    //       debugPrint("failure");
-    //     }
-    //   },
-    // );
+    print(data);
+
+    await sri.ownerCreate(data).then(
+      (res) {
+        if (res.status != null && res.status == '200') {
+          debugPrint("success");
+          debugPrint(res.data!.email);
+          Get.offAll(() => OwnerHome());
+        } else {
+          debugPrint("failure");
+        }
+      },
+    );
   }
 }

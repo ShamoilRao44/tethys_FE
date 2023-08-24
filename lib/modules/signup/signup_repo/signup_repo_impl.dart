@@ -7,15 +7,14 @@ class SignupRepoImpl extends SignupRepo {
   ApiService apiService = ApiService();
 
   @override
-  Future<OwnerCreateModel> ownerCreate(Map data) async {
-    return ownerCreateModelFromJson(
+  Future<SignUpModel> ownerCreate(Map data) async {
+    return signUpModelFromJson(
       await apiService.post(Endpoints.owner + Endpoints.create, data),
     );
   }
 
   @override
   Future<OtpModel> getOtp(Map data) async {
-    // TODO: implement getOtp
     return OtpModelFromJson(await apiService.post(Endpoints.otp, data));
   }
 }
