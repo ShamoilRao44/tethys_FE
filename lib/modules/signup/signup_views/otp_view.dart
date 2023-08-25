@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/login/login_vm.dart';
 import 'package:tethys/modules/signup/signup_views/roleSelection_view.dart';
+import 'package:tethys/modules/signup/signup_vm.dart';
 import 'package:tethys/resources/app_routes.dart';
 // import 'package:tethys/resources/app_colors.dart';
 
@@ -11,16 +12,16 @@ import '../../../resources/app_colors.dart';
 import '../../../resources/app_images.dart';
 import '../../../resources/app_strings.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class OtpView extends StatelessWidget {
+  const OtpView({super.key});
 
   @override
   Widget build(BuildContext context) {
     double baseWidth = 375;
     double fem = MediaQuery.of(context).size.width / baseWidth;
-    Get.put(LoginVM());
+    Get.put(SignupVM());
 
-    return GetBuilder<LoginVM>(builder: (c) {
+    return GetBuilder<SignupVM>(builder: (c) {
       return Scaffold(
         body: Center(
           child: Stack(children: [
@@ -127,7 +128,7 @@ class LoginView extends StatelessWidget {
                         border:
                             Border.all(color: AppColors.fieldBorder, width: 2)),
                     child: TextFormField(
-                      controller: c.usernameCtrl,
+                      controller: c.emailCtrl,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: AppColors.txtField,
@@ -135,7 +136,7 @@ class LoginView extends StatelessWidget {
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(18),
                         ),
-                        labelText: AppStrings.username,
+                        labelText: AppStrings.email,
                         labelStyle: TextStyle(
                           fontSize: 16 * fem,
                           fontWeight: FontWeight.w400,
@@ -171,7 +172,7 @@ class LoginView extends StatelessWidget {
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(18),
                         ),
-                        labelText: AppStrings.password,
+                        labelText: AppStrings.otp,
                         labelStyle: TextStyle(
                           fontSize: 16 * fem,
                           fontWeight: FontWeight.w400,
@@ -184,22 +185,22 @@ class LoginView extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(
-                left: 120 * fem,
-                top: 440 * fem,
-                child: Align(
-                    child: SizedBox(
-                        width: 160 * fem,
-                        height: 24 * fem,
-                        child: Text(
-                          AppStrings.forgotpass,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize:
-                                15 * fem, // Adjust the font size as needed
-                            color: AppColors.black,
-                          ),
-                        )))),
+            // Positioned(
+            //     left: 120 * fem,
+            //     top: 440 * fem,
+            //     child: Align(
+            //         child: SizedBox(
+            //             width: 160 * fem,
+            //             height: 24 * fem,
+            //             child: Text(
+            //               AppStrings.forgotpass,
+            //               textAlign: TextAlign.center,
+            //               style: TextStyle(
+            //                 fontSize:
+            //                     15 * fem, // Adjust the font size as needed
+            //                 color: AppColors.black,
+            //               ),
+            //             )))),
             Positioned(
               left: 120 * fem, // Adjust the left value as needed
               top: 480 * fem,
@@ -209,7 +210,7 @@ class LoginView extends StatelessWidget {
                   height: 46 * fem,
                   child: ElevatedButton(
                     onPressed: () {
-                      c.login();
+                      c.getOtp();
                       // Add your login button functionality here
                     },
                     style: ElevatedButton.styleFrom(
@@ -220,7 +221,7 @@ class LoginView extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      AppStrings.login,
+                      AppStrings.getotp,
                       style: TextStyle(
                         fontSize: 20 * fem,
                         fontWeight: FontWeight.w400,
@@ -231,35 +232,35 @@ class LoginView extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(
-                left: 96 * fem,
-                top: 544 * fem,
-                child: Container(
-                  width: 200.5 * fem,
-                  height: 19 * fem,
-                  child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(AppStrings.account,
-                            style: TextStyle(
-                              fontSize: 14 * fem,
-                              color: AppColors.black,
-                            )),
-                        GestureDetector(
-                          onTap: () => Get.offNamed(AppRoutes.roleSelectScreen),
-                          child: Text(
-                            AppStrings.signup,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 14 * fem,
-                              fontWeight: FontWeight.w400,
-                              height: 1.21 * fem / fem,
-                              color: AppColors.darkblue,
-                            ),
-                          ),
-                        ),
-                      ]),
-                ))
+            // Positioned(
+            //     left: 96 * fem,
+            //     top: 544 * fem,
+            //     child: Container(
+            //       width: 200.5 * fem,
+            //       height: 19 * fem,
+            //       child: Row(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             Text(AppStrings.account,
+            //                 style: TextStyle(
+            //                   fontSize: 14 * fem,
+            //                   color: AppColors.black,
+            //                 )),
+            //             GestureDetector(
+            //               onTap: () => Get.offNamed(AppRoutes.roleSelectScreen),
+            //               child: Text(
+            //                 AppStrings.signup,
+            //                 textAlign: TextAlign.center,
+            //                 style: TextStyle(
+            //                   fontSize: 14 * fem,
+            //                   fontWeight: FontWeight.w400,
+            //                   height: 1.21 * fem / fem,
+            //                   color: AppColors.darkblue,
+            //                 ),
+            //               ),
+            //             ),
+            //           ]),
+            //     ))
           ]),
         ),
       );

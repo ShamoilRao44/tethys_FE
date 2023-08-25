@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'dart:async';
 import 'package:tethys/modules/login/login_views/login_view.dart';
 import 'package:tethys/resources/app_colors.dart';
 import 'package:tethys/resources/app_images.dart';
+import 'package:tethys/resources/app_routes.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -19,9 +21,10 @@ class _SplashViewState extends State<SplashView> {
     super.initState();
     // continueAnimation();
     Timer(
-        const Duration(seconds: 2),
-        () => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const LoginView())));
+      const Duration(seconds: 2), () => Get.toNamed(AppRoutes.loginView),
+      //       () => Navigator.of(context).pushReplacement(
+      //           MaterialPageRoute(builder: (context) => const LoginView()))
+    );
   }
 
   @override
@@ -32,7 +35,6 @@ class _SplashViewState extends State<SplashView> {
         decoration: BoxDecoration(
             color: AppColors.white,
             image: DecorationImage(
-                fit: BoxFit.cover, 
-                image: AssetImage(AppImages.splash))));
+                fit: BoxFit.cover, image: AssetImage(AppImages.splash))));
   }
 }
