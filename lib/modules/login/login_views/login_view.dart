@@ -135,7 +135,7 @@ class LoginView extends StatelessWidget {
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(18),
                         ),
-                        labelText: AppStrings.username,
+                       hintText: AppStrings.username,
                         labelStyle: TextStyle(
                           fontSize: 16 * fem,
                           fontWeight: FontWeight.w400,
@@ -171,7 +171,7 @@ class LoginView extends StatelessWidget {
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(18),
                         ),
-                        labelText: AppStrings.password,
+                        hintText: AppStrings.password,
                         labelStyle: TextStyle(
                           fontSize: 16 * fem,
                           fontWeight: FontWeight.w400,

@@ -25,15 +25,42 @@ class OwnerHomeVM extends GetxController {
           update();
         }
       }
-    }).onError((error, stackTrace) {});
+    }).onError((error, stackTrace) {
+      debugPrint(error.toString());
+    });
   }
 
   Future<void> acceptRequest(int id) async {
     //implement permiting request api here and pass id as 'req_id'
+    var data = {};
+    data['req_id'] = id.toString();
+    debugPrint(data.toString());
+      await ownerRepoImp.postEmpReq(data).then((val) {
+      if (val.status == '200') {
+        debugPrint('success');
+        getRequests();
+      } else {
+        debugPrint('failed');
+      }
+    }).onError((error, stackTrace) => null);
   }
 
   Future<void> deleteRequest(int id) async {
     //implement deleteing request api here and pass id as 'req_id'
+    var data = {};
+    data['req_id'] = id.toString();
+    debugPrint(data.toString());
+    await ownerRepoImp.DeleteReq(data).then((res) {
+      if (res.status == '200') {
+        debugPrint('success');
+        getRequests();
+      } else {
+        debugPrint('failed');
+      }
+    }).onError((error, stackTrace) => null);
+    // var data2 = {
+    //   "req_id" : id.toString()
+    // }
   }
 
   @override

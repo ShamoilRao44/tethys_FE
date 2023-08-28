@@ -69,7 +69,7 @@ class EmplRequests extends StatelessWidget {
                                     ElevatedButton(
                                       onPressed: () {
                                         debugPrint('denied');
-                                        ctrl.acceptRequest(req.reqId!);
+                                        ctrl.deleteRequest(req.reqId!);
                                       },
                                       child: Text('Deny'),
                                     ),

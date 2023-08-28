@@ -91,8 +91,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.6"
-<<<<<<< HEAD
-=======
   http:
     dependency: "direct main"
     description:
@@ -109,7 +107,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
->>>>>>> 95629d6766b2ce82e8552ce8a2daa87cc89d8ad9
   lints:
     dependency: transitive
     description:

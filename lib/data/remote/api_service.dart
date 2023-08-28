@@ -41,4 +41,17 @@ class ApiService extends ApiInterface {
     debugPrint('get response: ${response.body}');
     return response.body;
   }
+
+  @override
+  Future delete(url, data) async {
+    final client = http.Client();
+    debugPrint('delte api callled');
+    http.Response response = await client.delete(
+      Uri.parse(ApiInterface.baseUrl + url),
+      body: jsonEncode(data),
+      headers: {"Content-Type": "application/json"},
+    );
+    debugPrint('delete rsponse: ${response.body}');
+    return response.body;
+  }
 }

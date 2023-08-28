@@ -86,3 +86,106 @@ class Employee {
         "is_active": isActive,
     };
 }
+
+
+
+// To parse this JSON data, do
+//
+//     final deleteReqResponse = deleteReqResponseFromJson(jsonString);
+
+// import 'dart:convert';
+
+DeleteReqResponse deleteReqResponseFromJson(String str) => DeleteReqResponse.fromJson(json.decode(str));
+
+String deleteReqResponseToJson(DeleteReqResponse data) => json.encode(data.toJson());
+
+class DeleteReqResponse {
+    String? status;
+    String? message;
+
+    DeleteReqResponse({
+        this.status,
+        this.message,
+    });
+
+    factory DeleteReqResponse.fromJson(Map<String, dynamic> json) => DeleteReqResponse(
+        status: json["status"],
+        message: json["message"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "status": status,
+        "message": message,
+    };
+}
+
+
+// To parse this JSON data, do
+//
+//     final acceptReqResponse = acceptReqResponseFromJson(jsonString);
+
+// import 'dart:convert';
+
+AcceptReqResponse acceptReqResponseFromJson(String str) => AcceptReqResponse.fromJson(json.decode(str));
+
+String acceptReqResponseToJson(AcceptReqResponse data) => json.encode(data.toJson());
+
+class AcceptReqResponse {
+    String? status;
+    Data? data;
+
+    AcceptReqResponse({
+        this.status,
+        this.data,
+    });
+
+    factory AcceptReqResponse.fromJson(Map<String, dynamic> json) => AcceptReqResponse(
+        status: json["status"],
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "status": status,
+        "data": data?.toJson(),
+    };
+}
+
+class Data {
+    String? name;
+    String? email;
+    int? role;
+    String? phone;
+    int? id;
+    DateTime? createdAt;
+    bool? isActive;
+
+    Data({
+        this.name,
+        this.email,
+        this.role,
+        this.phone,
+        this.id,
+        this.createdAt,
+        this.isActive,
+    });
+
+    factory Data.fromJson(Map<String, dynamic> json) => Data(
+        name: json["name"],
+        email: json["email"],
+        role: json["role"],
+        phone: json["phone"],
+        id: json["id"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        isActive: json["is_active"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "name": name,
+        "email": email,
+        "role": role,
+        "phone": phone,
+        "id": id,
+        "created_at": createdAt?.toIso8601String(),
+        "is_active": isActive,
+    };
+}
