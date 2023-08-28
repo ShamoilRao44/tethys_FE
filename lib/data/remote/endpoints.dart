@@ -4,4 +4,7 @@ class Endpoints {
 
   static const owner = 'owner/';
   static const create = 'create';
+
+  static const request = "requests/";
+  static const permit = "permit/";
 }

@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:tethys/modules/owner/views/requestlist_view.dart';
+import 'package:tethys/modules/owner/views/userlist_view.dart';
 import 'package:tethys/resources/app_colors.dart';
 
 import 'owner_dashboard_view.dart';
@@ -26,10 +28,10 @@ class _OwnerHomeState extends State<OwnerHome> {
         child = OwnerDashboard();
         break;
       case 1:
-        child =UserScrn();
+        child =UserListScreen();
         break;
       case 2:
-        child = ListTilesWithButtons() ;
+        child = EmplRequests() ;
         break;
     }
     return Container(

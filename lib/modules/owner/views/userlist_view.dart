@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../resources/app_colors.dart';
 
-class OwnerDashboard extends StatelessWidget {
-  const OwnerDashboard({super.key});
+class UserListScreen extends StatelessWidget {
+  const UserListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class OwnerDashboard extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(
                 0 * fem, 50 * fem, 1 * fem, 0), // Adjust margin
             child: Text(
-              "Dashboard",
+              "User List",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 34 * fem, // Adjust font size
