@@ -11,7 +11,14 @@ class AppColors {
   static const black = Color(0xff000000);
   static const darkblue = Color(0xff1f467f);
   static const bgColor = [Color(0xfff4faff), Color(0xffacd2e3)];
+  static const buttonColor = [
+    Color.fromARGB(255, 80, 159, 231),
+    Color.fromARGB(255, 80, 200, 231)
+  ];
   static const txtColor = Color(0xff293241);
   static const btnShadow = Color(0x3d000000);
   static const btnColor = Color.fromARGB(255, 48, 86, 145);
+  static const bordercolor = Color.fromARGB(56, 4, 156, 189);
+  static const bordeColor2 = Color.fromARGB(255, 80, 195, 231);
+  static const errorColor = Colors.red;
 }

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:tethys/modules/login/login_vm.dart';
-import 'package:tethys/modules/signUp/signup_vm.dart';
+import 'package:tethys/modules/signup/signup_vm.dart';
 
 import '../modules/owner/owner_vm.dart';
 
@@ -17,6 +17,7 @@ class SignupBinding extends Bindings {
     Get.put(SignupVM());
   }
 }
+
 class OwnerBinding extends Bindings {
   @override
   void dependencies() {

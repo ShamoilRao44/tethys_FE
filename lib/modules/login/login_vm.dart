@@ -8,8 +8,6 @@ class LoginVM extends GetxController {
   TextEditingController usernameCtrl = TextEditingController();
   TextEditingController passwordCtrl = TextEditingController();
 
-  
-
   Future<void> login() async {
     var data = {};
 
