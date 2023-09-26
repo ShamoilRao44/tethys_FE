@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static const white = Colors.white;
+  static const bgGradient = [
+    Color.fromARGB(255, 244, 250, 255),
+    Color.fromARGB(255, 172, 210, 227)
+  ];
   static const fluoroscentBlue = Color(0x38039cbd);
   static const lightBlue = Color(0xff71cdf4);
   static const beige = Color(0xbfffffff);
@@ -21,4 +25,6 @@ class AppColors {
   static const bordercolor = Color.fromARGB(56, 4, 156, 189);
   static const bordeColor2 = Color.fromARGB(255, 80, 195, 231);
   static const errorColor = Colors.red;
+  static final snackBarColorSuccess = Colors.green.shade400;
+  static final snackBarColorFailure = Colors.red.shade400;
 }

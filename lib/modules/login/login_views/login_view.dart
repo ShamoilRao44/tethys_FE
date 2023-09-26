@@ -66,7 +66,7 @@ class LoginView extends StatelessWidget {
                       TextFormField(
                         decoration: InputDecoration(
                           label: Text(
-                            'Enter Username',
+                            'Enter Email',
                             style: TextStyle(fontSize: 16),
                           ),
                           filled: true,
@@ -150,7 +150,8 @@ class LoginView extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {
                           if (loginFormkey.currentState!.validate()) {
-                            c.login();
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            c.login(context: context);
                           }
                         },
                         style: ElevatedButton.styleFrom(

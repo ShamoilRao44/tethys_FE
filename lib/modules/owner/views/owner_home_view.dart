@@ -28,10 +28,10 @@ class _OwnerHomeState extends State<OwnerHome> {
         child = OwnerDashboard();
         break;
       case 1:
-        child =UserListScreen();
+        child = UserListScreen();
         break;
       case 2:
-        child = EmplRequests() ;
+        child = EmplRequests();
         break;
     }
     return Container(
@@ -56,8 +56,12 @@ class _OwnerHomeState extends State<OwnerHome> {
             margin: EdgeInsets.all(16),
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
-                color: AppColors.boxShadow,
-                borderRadius: BorderRadius.circular(30)),
+              color: AppColors.boxShadow,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              ),
+            ),
             child: GNav(
               rippleColor: Colors.grey[300]!,
               hoverColor: Colors.grey[100]!,

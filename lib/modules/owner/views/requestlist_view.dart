@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/owner/owner_vm.dart';
+import 'package:tethys/utils/widgets/app_text.dart';
 
 import '../../../../resources/app_colors.dart';
 
@@ -49,8 +50,14 @@ class EmplRequests extends StatelessWidget {
                   height: 490,
                   child: GetX<OwnerHomeVM>(builder: (ctrl) {
                     return ctrl.empRequests.isEmpty
-                        ? SizedBox(
-                            height: 10, child: CircularProgressIndicator())
+                        ? Center(
+                            child: AppText(
+                              text: 'There are no requests at this time!',
+                              size: 20,
+                              color: AppColors.txtColor,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          )
                         : ListView(
                             children: ctrl.empRequests.map((req) {
                               return ListTile(
