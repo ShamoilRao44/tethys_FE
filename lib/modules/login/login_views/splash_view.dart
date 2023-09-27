@@ -34,6 +34,8 @@ class _SplashViewState extends State<SplashView> {
             Get.offNamed(AppRoutes.StockMngrHome);
           } else if (role == 2) {
             Get.offNamed(AppRoutes.prodMngrHome);
+          } else if (role == 3) {
+            Get.offNamed(AppRoutes.gateKeepHome);
           }
         }
       },

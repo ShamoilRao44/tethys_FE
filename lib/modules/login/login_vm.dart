@@ -23,7 +23,7 @@ class LoginVM extends GetxController {
     await lri.login(data).then(
       (res) {
         if (res.status == '200') {
-          storeInSecuredStorage(res);
+          // storeInSecuredStorage(res);
           if (res.user!.role == 0) {
             ScaffoldMessenger.of(context).showSnackBar(
               appSnackbar(
@@ -43,6 +43,8 @@ class LoginVM extends GetxController {
               Get.offNamed(AppRoutes.StockMngrHome);
             } else if (res.user!.role == 2) {
               Get.offNamed(AppRoutes.prodMngrHome);
+            } else if (res.user!.role == 3) {
+              Get.offNamed(AppRoutes.gateKeepHome);
             }
           } else {
             ScaffoldMessenger.of(context).showSnackBar(

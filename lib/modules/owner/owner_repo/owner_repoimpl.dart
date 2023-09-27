@@ -25,6 +25,7 @@ class OwnerRepoImp extends OwnerRepo {
   @override
   Future<AcceptReqResponse> postEmpReq(data) async {
     debugPrint('accept');
+    debugPrint(Endpoints.request + Endpoints.delete);
     return acceptReqResponseFromJson(
         await apiService.post(Endpoints.request + Endpoints.permit, data));
   }
