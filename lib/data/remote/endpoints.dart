@@ -12,4 +12,5 @@ class Endpoints {
   static const employee = 'employees/';
 
   static const getItemsList = 'pmanager/';
+  static const sendRequestforItems = 'pmanager/create';
 }
