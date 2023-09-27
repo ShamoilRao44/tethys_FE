@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class AdminView extends StatelessWidget {
-  const AdminView({super.key});
+class GatekeeperView extends StatelessWidget {
+  const GatekeeperView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('gatekeeper'),
-        backgroundColor: Colors.blue,
-      ),
-    );
+    return GetBuilder(builder: (c) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('GateKeeper'),
+        ),
+      );
+    });
   }
 }

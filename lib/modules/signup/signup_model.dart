@@ -1,86 +1,76 @@
 // To parse this JSON data, do
 //
-//     final signUpModel = signUpModelFromJson(jsonString);
+//     final signupModel = signupModelFromJson(jsonString);
 
 import 'dart:convert';
 
-SignUpModel signUpModelFromJson(String str) => SignUpModel.fromJson(json.decode(str));
+SignupModel signupModelFromJson(String str) =>
+    SignupModel.fromJson(json.decode(str));
 
-String signUpModelToJson(SignUpModel data) => json.encode(data.toJson());
+String signupModelToJson(SignupModel data) => json.encode(data.toJson());
 
-class SignUpModel {
-    String? status;
-    Data? data;
+class SignupModel {
+  String? status;
+  String? detail;
+  Data? data;
 
-    SignUpModel({
-        this.status,
-        this.data,
-    });
+  SignupModel({
+    this.status,
+    this.detail,
+    this.data,
+  });
 
-    factory SignUpModel.fromJson(Map<String, dynamic> json) => SignUpModel(
+  factory SignupModel.fromJson(Map<String, dynamic> json) => SignupModel(
         status: json["status"],
+        detail: json["detail"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "status": status,
+        "detail": detail,
         "data": data?.toJson(),
-    };
+      };
 }
 
 class Data {
-    String? name;
-    String? phone;
-    String? email;
-    int? id;
-    DateTime? createdAt;
-    bool? isActive;
+  String? name;
+  String? email;
+  int? role;
+  String? phone;
+  int? id;
+  DateTime? createdAt;
+  bool? isActive;
 
-    Data({
-        this.name,
-        this.phone,
-        this.email,
-        this.id,
-        this.createdAt,
-        this.isActive,
-    });
+  Data({
+    this.name,
+    this.email,
+    this.role,
+    this.phone,
+    this.id,
+    this.createdAt,
+    this.isActive,
+  });
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
         name: json["name"],
-        phone: json["phone"],
         email: json["email"],
+        role: json["role"],
+        phone: json["phone"],
         id: json["id"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
         isActive: json["is_active"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "name": name,
-        "phone": phone,
         "email": email,
+        "role": role,
+        "phone": phone,
         "id": id,
         "created_at": createdAt?.toIso8601String(),
         "is_active": isActive,
-    };
+      };
 }
-
-
-OtpModel OtpModelFromJson(String str) =>
-    OtpModel.fromJson(json.decode(str));
-class OtpModel {
-    String? status;
-    String? otp;
-
-    OtpModel({
-        this.status,
-        this.otp,
-    });
-
-    factory OtpModel.fromJson(Map<String, dynamic> json) => OtpModel(
-        status: json["status"],
-        otp: json["otp"],
-    );
-
-
-}
-

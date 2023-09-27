@@ -33,9 +33,9 @@ class OwnerHomeVM extends GetxController {
   Future<void> acceptRequest(int id) async {
     //implement permiting request api here and pass id as 'req_id'
     var data = {};
-    data['req_id'] = id.toString();
+    data['req_id'] = id;
     debugPrint(data.toString());
-      await ownerRepoImp.postEmpReq(data).then((val) {
+    await ownerRepoImp.postEmpReq(data).then((val) {
       if (val.status == '200') {
         debugPrint('success');
         getRequests();

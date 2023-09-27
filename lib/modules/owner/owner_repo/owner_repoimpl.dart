@@ -18,7 +18,7 @@ class OwnerRepoImp extends OwnerRepo {
   Future<DeleteReqResponse> DeleteReq(Map data) async {
     debugPrint('demo');
     return deleteReqResponseFromJson(
-      await apiService.delete('requests/delete', data),
+      await apiService.delete(Endpoints.request + Endpoints.delete, data),
     );
   }
 
@@ -27,7 +27,6 @@ class OwnerRepoImp extends OwnerRepo {
     debugPrint('accept');
     debugPrint(Endpoints.request + Endpoints.delete);
     return acceptReqResponseFromJson(
-      await apiService.post('requests/permit', data),
-    );
+        await apiService.post(Endpoints.request + Endpoints.permit, data));
   }
 }

@@ -6,6 +6,10 @@ class Endpoints {
   static const create = 'create';
 
   static const request = "requests/";
-  static const permit = "permit/";
-  static const delete = "delete/";
+  static const permit = "permit";
+  static const delete = "delete";
+
+  static const employee = 'employees/';
+
+  static const getItemsList = 'pmanager/';
 }

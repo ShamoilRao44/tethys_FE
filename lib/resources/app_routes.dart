@@ -3,6 +3,8 @@
 class AppRoutes {
   static const loginView = "/LoginView";
   static const roleSelectScreen = "/RoleSelectScreen";
-  static const signupScrn = "/SignUpScreen";
+  static const signupView = "/SignupView";
   static const ownerHome = "/OwnerHome";
+  static const stockMngrDashboard = "/StockMngrDashboard";
+  static const prodMngrHome = "/prodMngrHome";
 }

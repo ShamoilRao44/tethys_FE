@@ -1,71 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tethys/modules/owner/views/owner_home_view.dart';
 import 'package:tethys/modules/signup/signup_repo/signup_repo_impl.dart';
-import 'package:tethys/modules/signup/signup_views/signUp_view.dart';
+import 'package:tethys/resources/app_routes.dart';
 
 class SignupVM extends GetxController {
-  String otptext = '';
-  bool isowner = true;
-
-  SignupRepoImpl sri = SignupRepoImpl();
-  TextEditingController emailCtrl = TextEditingController();
+  SignupRepoImpl suri = SignupRepoImpl();
   TextEditingController nameCtrl = TextEditingController();
+  TextEditingController emailCtrl = TextEditingController();
+  TextEditingController roleCtrl = TextEditingController();
+  TextEditingController phoneCtrl = TextEditingController();
   TextEditingController passwordCtrl = TextEditingController();
-  TextEditingController confirmpassCtrl = TextEditingController();
-  TextEditingController secCodeCtrl = TextEditingController();
-  TextEditingController otpcontroller = TextEditingController();
 
-  Future<void> getOtp() async {
-    var otpdata = {};
-    otpdata['email'] = emailCtrl.text.trim();
-    await sri.getOtp(otpdata).then(
-      (res) {
-        if (res.status != null) {
-          debugPrint("success");
-          if (res.status == '200') {
-            Get.snackbar('OTP sent', 'check you email');
-            otptext = res.otp!;
-          }
-        } else {
-          debugPrint("failure");
-        }
-      },
-    );
-  }
-
-  Future<void> submitOtp() async {
-    String? field = otpcontroller.text.trim();
-    if (field == null || field == '') {
-      Get.snackbar('Error', 'please enter otp');
-    }
-    if (otptext == field) {
-      print("match");
-      Get.to(() => SignupView());
-    } else {
-      Get.snackbar('Failed', 'wrong otp');
-    }
-  }
-
-  Future<void> ownerCreate() async {
+  Future<void> signup() async {
     var data = {};
-    data['name'] = "name";
-    data['phone'] = "958978";
-    data['email'] = emailCtrl.text.trim();
+
+    data['name'] = nameCtrl.text;
+    data['email'] = emailCtrl.text;
+    debugPrint(emailCtrl.text);
+    data['role'] = roleCtrl.text == 'Stock Manager'
+        ? 1
+        : roleCtrl.text == 'Product Manager'
+            ? 2
+            : 3;
+    data['phone'] = phoneCtrl.text;
     data['password'] = passwordCtrl.text;
-    // data['secret_key'] = "Owner935";
-    data['secret_key'] = secCodeCtrl.text.trim().toString();
 
-    print(data);
-
-    await sri.ownerCreate(data).then(
+    await suri.signup(data).then(
       (res) {
-        if (res.status != null && res.status == '200') {
-          debugPrint("success");
-          debugPrint(res.data!.email);
-          Get.offAll(() => OwnerHome());
+        if (res.status == "200") {
+          debugPrint('success');
+          Get.offNamed(AppRoutes.loginView);
         } else {
-          debugPrint("failure");
+          debugPrint(res.detail);
         }
       },
     );
