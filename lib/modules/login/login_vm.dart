@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tethys/modules/login/login_model.dart';
 import 'package:tethys/modules/login/login_repo/login_repo_impl.dart';
 import 'package:tethys/resources/app_colors.dart';
 import 'package:tethys/resources/app_routes.dart';
+import 'package:tethys/utils/secured_storage.dart';
 import 'package:tethys/utils/widgets/app_snackbar.dart';
 
 class LoginVM extends GetxController {
@@ -21,7 +23,7 @@ class LoginVM extends GetxController {
     await lri.login(data).then(
       (res) {
         if (res.status == '200') {
-          print('data');
+          storeInSecuredStorage(res);
           if (res.user!.role == 0) {
             ScaffoldMessenger.of(context).showSnackBar(
               appSnackbar(
@@ -54,6 +56,33 @@ class LoginVM extends GetxController {
           debugPrint('failed');
         }
       },
+    );
+  }
+
+  Future<void> storeInSecuredStorage(LoginModel res) async {
+    await SecuredStorage.writeStringValue(
+      Keys.token,
+      res.accessToken.toString(),
+    );
+    await SecuredStorage.writeStringValue(
+      Keys.name,
+      res.user!.name.toString(),
+    );
+    await SecuredStorage.writeStringValue(
+      Keys.email,
+      res.user!.email.toString(),
+    );
+    await SecuredStorage.writeIntValue(
+      Keys.role,
+      res.user!.role!,
+    );
+    await SecuredStorage.writeStringValue(
+      Keys.phone,
+      res.user!.phone.toString(),
+    );
+    await SecuredStorage.writeIntValue(
+      Keys.id,
+      res.user!.id!,
     );
   }
 }

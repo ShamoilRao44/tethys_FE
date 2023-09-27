@@ -10,4 +10,6 @@ class Endpoints {
   static const delete = "delete";
 
   static const employee = 'employees/';
+
+  static const getItemsList = 'pmanager/';
 }
