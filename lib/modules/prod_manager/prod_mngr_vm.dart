@@ -117,9 +117,19 @@ class ProdMngrVM extends GetxController {
 
     debugPrint(data.toString());
 
-    ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
-      msg: 'Request sent successfully',
-      color: AppColors.snackBarColorSuccess,
-    ));
+    await pmri.requestItems(data).then((res) {
+      if (res.status == '200') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          appSnackbar(
+              msg: 'Request sent succesfully',
+              color: AppColors.snackBarColorSuccess),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          appSnackbar(
+              msg: 'Request Not sent', color: AppColors.snackBarColorFailure),
+        );
+      }
+    }).onError((error, stackTrace) => null);
   }
 }

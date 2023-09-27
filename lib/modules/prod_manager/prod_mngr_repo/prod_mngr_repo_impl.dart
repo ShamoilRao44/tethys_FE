@@ -3,6 +3,7 @@
 import 'package:tethys/data/remote/api_service.dart';
 import 'package:tethys/data/remote/endpoints.dart';
 import 'package:tethys/modules/prod_manager/models/get_items_list_model.dart';
+import 'package:tethys/modules/prod_manager/models/request_items_model.dart';
 import 'prod_mngr_repo.dart';
 
 class ProdMngrRepoImpl extends ProdMngrRepo {
@@ -11,6 +12,12 @@ class ProdMngrRepoImpl extends ProdMngrRepo {
   Future<GetItemsListModel> getItemsList() async {
     return getItemsListModelFromJson(
       await apiService.get(Endpoints.getItemsList),
+    );
+  }
+
+  Future<RequestItemsModel> requestItems(Map data) async {
+    return requestItemsModelFromJson(
+      await apiService.post(Endpoints.sendRequestforItems, data),
     );
   }
 }

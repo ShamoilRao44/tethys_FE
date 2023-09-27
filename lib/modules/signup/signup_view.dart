@@ -170,7 +170,7 @@ class SignupView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             AppText(
-                              text: 'Alreadys have an account?',
+                              text: 'Already have an account?',
                               color: AppColors.black,
                               fontFamily: AppFonts.interRegular,
                               fontWeight: FontWeight.w300,

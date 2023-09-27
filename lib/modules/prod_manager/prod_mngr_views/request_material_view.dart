@@ -264,6 +264,44 @@ class RequestMaterialView extends StatelessWidget {
                 )
               ],
             ),
+            SizedBox(height: 24),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                width: 480,
+                child: Table(
+                  border: TableBorder.all(
+                    color: AppColors.bordercolor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  columnWidths: {
+                    0: FlexColumnWidth(3),
+                    1: FlexColumnWidth(1),
+                    2: FlexColumnWidth(1),
+                  },
+                  children: [
+                    TableRow(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Item',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Qty \nRequested'),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Qty \napproved'),
+                      ),
+                    ])
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
