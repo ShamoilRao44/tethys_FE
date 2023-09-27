@@ -15,21 +15,19 @@ class OwnerRepoImp extends OwnerRepo {
   }
 
   @override
-  Future<DeleteReqResponse> DeleteReq(Map data) async{
+  Future<DeleteReqResponse> DeleteReq(Map data) async {
     debugPrint('demo');
     return deleteReqResponseFromJson(
-      
-      await apiService.delete(Endpoints.request+Endpoints.delete, data),
+      await apiService.delete('requests/delete', data),
     );
   }
-  
+
   @override
   Future<AcceptReqResponse> postEmpReq(data) async {
     debugPrint('accept');
+    debugPrint(Endpoints.request + Endpoints.delete);
     return acceptReqResponseFromJson(
-      await apiService.post(Endpoints.request+Endpoints.permit, data ),
-     
+      await apiService.post('requests/permit', data),
     );
-  
   }
 }
