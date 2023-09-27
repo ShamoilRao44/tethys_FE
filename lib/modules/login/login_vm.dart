@@ -40,7 +40,7 @@ class LoginVM extends GetxController {
               ),
             );
             if (res.user!.role == 1) {
-              Get.offNamed(AppRoutes.stockMngrDashboard);
+              Get.offNamed(AppRoutes.StockMngrHome);
             } else if (res.user!.role == 2) {
               Get.offNamed(AppRoutes.prodMngrHome);
             }

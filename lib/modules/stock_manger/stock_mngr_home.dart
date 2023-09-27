@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,9 +27,9 @@ class StockMngrHome extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Padding(
-            padding: const EdgeInsets.only(top: 16.0),
+            padding: const EdgeInsets.only(top: 24.0),
             child: Container(
-              // child: c.child,
+              child: c.child,
             ),
           ),
           bottomNavigationBar: Container(
@@ -60,14 +62,13 @@ class StockMngrHome extends StatelessWidget {
                     text: 'Material Request',
                   ),
                   GButton(
-                    icon: CupertinoIcons.doc,
+                    icon: Icons.fire_truck,
                     text: 'Order & Consignment',
                   ),
-                  
                 ],
-                // selectedIndex: c.indx.value,
+                selectedIndex: c.indx.value,
                 onTabChange: (index) {
-                  // c.onTabChange(index);
+                  c.onTabChange(index);
                 },
               );
             }),

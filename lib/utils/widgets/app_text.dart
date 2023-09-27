@@ -26,6 +26,7 @@ class AppText extends StatelessWidget {
     return Text(
       text,
       softWrap: true,
+      textAlign: textAlign,
       style: TextStyle(
           color: color ?? AppColors.black,
           fontSize: size ?? 15.0.h,

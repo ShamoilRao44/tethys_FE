@@ -8,8 +8,8 @@ import 'package:tethys/resources/app_fonts.dart';
 import '../../resources/app_colors.dart';
 import '../../utils/widgets/app_text.dart';
 
-class StockMngrDashboard extends StatelessWidget {
-  const StockMngrDashboard({super.key});
+class OrderConsgnmnt extends StatelessWidget {
+  const OrderConsgnmnt({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class StockMngrDashboard extends StatelessWidget {
             children: [
               Center(
                 child: AppText(
-                  text: 'Stock Manager Dashboard',
+                  text: 'Orders and Consignment',
                   textAlign: TextAlign.center,
                   size: 24,
                   color: AppColors.fluoroscentBlue,

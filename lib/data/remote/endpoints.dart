@@ -13,4 +13,6 @@ class Endpoints {
 
   static const getItemsList = 'pmanager/';
   static const sendRequestforItems = 'pmanager/create';
+
+  static const getRequestsList = 'smanager/all';
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/login/login_views/login_view.dart';
@@ -7,7 +6,7 @@ import 'package:tethys/modules/login/login_views/splash_view.dart';
 import 'package:tethys/modules/owner/views/owner_home_view.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_views/prod_mngr_home.dart';
 import 'package:tethys/modules/signup/signup_view.dart';
-import 'package:tethys/modules/stock_manger/stock_mngr_dashboard.dart';
+import 'package:tethys/modules/stock_manger/stock_mngr_home.dart';
 import 'package:tethys/utils/bindings.dart';
 import 'package:tethys/utils/secured_storage.dart';
 import 'resources/app_routes.dart';
@@ -32,8 +31,8 @@ class MyApp extends StatelessWidget {
             title: 'Flutter Demo',
             theme: ThemeData(),
             home:
-            // ProdMngrHome(),
-            SplashView(),
+                // ProdMngrHome(),
+                SplashView(),
             getPages: [
               GetPage(
                 name: AppRoutes.loginView,
@@ -51,8 +50,8 @@ class MyApp extends StatelessWidget {
                 binding: OwnerBinding(),
               ),
               GetPage(
-                name: AppRoutes.stockMngrDashboard,
-                page: () => const StockMngrDashboard(),
+                name: AppRoutes.StockMngrHome,
+                page: () => StockMngrHome(),
                 binding: StockMngrBinding(),
               ),
               GetPage(
