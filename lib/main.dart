@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:tethys/modules/gatekeeper/gatekeeper_views/gatekeeper_home.dart';
+// import 'package:tethys/modules/gatekeeper/gatekeeper_view.dart';
 import 'package:tethys/modules/login/login_views/login_view.dart';
 import 'package:tethys/modules/login/login_views/splash_view.dart';
 import 'package:tethys/modules/owner/views/owner_home_view.dart';
@@ -10,6 +12,7 @@ import 'package:tethys/modules/signup/signup_view.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_dashboard.dart';
 import 'package:tethys/utils/bindings.dart';
 import 'package:tethys/utils/secured_storage.dart';
+// import 'modules/gatekeeper/gatekeeper_views/gatekeeper_view.dart';
 import 'resources/app_routes.dart';
 
 void main() {
@@ -57,6 +60,11 @@ class MyApp extends StatelessWidget {
                 name: AppRoutes.prodMngrHome,
                 page: () => ProdMngrHome(),
                 binding: ProdMngrBinding(),
+              ),
+              GetPage(
+                name: AppRoutes.gateKeepHome,
+                page: () => GateKeeperHome(),
+                binding: GatekeepBinding(),
               ),
             ]);
       },

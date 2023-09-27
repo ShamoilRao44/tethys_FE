@@ -7,4 +7,5 @@ class AppRoutes {
   static const ownerHome = "/OwnerHome";
   static const stockMngrDashboard = "/StockMngrDashboard";
   static const prodMngrHome = "/prodMngrHome";
+  static const gateKeepHome = "/GatekeeperHome";
 }
