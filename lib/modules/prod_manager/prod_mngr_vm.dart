@@ -3,16 +3,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:tethys/modules/prod_manager/models/get_items_list_model.dart';
+import 'package:tethys/modules/prod_manager/prod_mngr_repo/prod_mngr_repo_impl.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_views/prod_mngr_dashboard.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_views/request_material_view.dart';
+import 'package:tethys/resources/app_colors.dart';
+import 'package:tethys/utils/secured_storage.dart';
+import 'package:tethys/utils/widgets/app_snackbar.dart';
 
 class ProdMngrVM extends GetxController {
   RxInt indx = 0.obs;
+  ProdMngrRepoImpl pmri = ProdMngrRepoImpl();
   Widget? child = ProdMngrDashboard();
   List<TableRow> tableRows = [];
-  Map items = {};
   TextEditingController itemNameCtrl = TextEditingController();
   TextEditingController itemQtyCtrl = TextEditingController();
+
+  List<String> itemNameList = [];
+  List<MaterialInfo>? materials = [];
+  List<Map>? sendApiList = [];
+
+  @override
+  void onInit() {
+    super.onInit();
+    getList();
+  }
+
+  Future<void> getList() async {
+    await pmri.getItemsList().then(
+      (res) {
+        if (res.status == "200") {
+          res.data!.forEach((element) {
+            itemNameList.add(
+              element.material!.toLowerCase(),
+            );
+          });
+          materials = res.data;
+        }
+        debugPrint(materials.toString());
+      },
+    );
+  }
 
   void onTabChange(int index) {
     indx.value = index;
@@ -40,7 +71,7 @@ class ProdMngrVM extends GetxController {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               itemNameCtrl.text,
-              maxLines: 1,
+              maxLines: 2,
             ),
           ),
           Padding(
@@ -58,11 +89,37 @@ class ProdMngrVM extends GetxController {
     );
     update();
 
-    items[itemNameCtrl.text] = itemQtyCtrl.text;
-    debugPrint(items.toString());
+    materials!.forEach(
+      (element) {
+        if (itemNameCtrl.text == element.material!.toLowerCase()) {
+          sendApiList!.add({
+            'id': element.id,
+            'qty_req': itemQtyCtrl.text,
+            'remarks': 'string',
+          });
+        }
+      },
+    );
+    update();
+
+    debugPrint(sendApiList.toString());
 
     itemNameCtrl.clear();
     itemQtyCtrl.clear();
     update();
+  }
+
+  Future<void> sendRequest(BuildContext context) async {
+    var data = {};
+
+    data['items'] = sendApiList;
+    data['req_by'] = await SecuredStorage.readIntValue(Keys.id);
+
+    debugPrint(data.toString());
+
+    ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+      msg: 'Request sent successfully',
+      color: AppColors.snackBarColorSuccess,
+    ));
   }
 }

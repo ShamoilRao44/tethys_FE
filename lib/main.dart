@@ -9,11 +9,12 @@ import 'package:tethys/modules/prod_manager/prod_mngr_views/prod_mngr_home.dart'
 import 'package:tethys/modules/signup/signup_view.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_dashboard.dart';
 import 'package:tethys/utils/bindings.dart';
+import 'package:tethys/utils/secured_storage.dart';
 import 'resources/app_routes.dart';
 
 void main() {
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  SecuredStorage.initiateSecureStorage();
+
   runApp(const MyApp());
 }
 

@@ -1,0 +1,5 @@
+import 'package:tethys/modules/prod_manager/models/get_items_list_model.dart';
+
+abstract class ProdMngrRepo {
+  Future<GetItemsListModel> getItemsList();
+}

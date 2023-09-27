@@ -29,7 +29,7 @@ class ProdMngrHome extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Padding(
-            padding: const EdgeInsets.only(top: 16.0),
+            padding: const EdgeInsets.only(top: 24.0),
             child: Container(
               child: c.child,
             ),
