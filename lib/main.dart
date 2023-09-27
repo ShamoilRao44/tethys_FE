@@ -31,7 +31,9 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: ThemeData(),
-            home: SplashView(),
+            home:
+            // ProdMngrHome(),
+            SplashView(),
             getPages: [
               GetPage(
                 name: AppRoutes.loginView,
