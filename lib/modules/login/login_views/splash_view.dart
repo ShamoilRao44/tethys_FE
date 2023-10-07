@@ -6,6 +6,7 @@ import 'package:tethys/modules/login/login_views/login_view.dart';
 import 'package:tethys/resources/app_colors.dart';
 import 'package:tethys/resources/app_images.dart';
 import 'package:tethys/resources/app_routes.dart';
+import 'package:tethys/utils/secured_storage.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -17,13 +18,27 @@ class SplashView extends StatefulWidget {
 class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // continueAnimation();
     Timer(
-      const Duration(seconds: 2), () => Get.toNamed(AppRoutes.loginView),
-      //       () => Navigator.of(context).pushReplacement(
-      //           MaterialPageRoute(builder: (context) => const LoginView()))
+      const Duration(seconds: 2),
+      () async {
+        String? token = await SecuredStorage.readStringValue(Keys.token);
+        if (token == null) {
+          Get.offNamed(AppRoutes.loginView);
+        } else {
+          int? role = await SecuredStorage.readIntValue(Keys.role);
+          if (role == 0) {
+            Get.offNamed(AppRoutes.ownerHome);
+          } else if (role == 1) {
+            Get.offNamed(AppRoutes.StockMngrHome);
+          } else if (role == 2) {
+            Get.offNamed(AppRoutes.prodMngrHome);
+          } else if (role == 3) {
+            Get.offNamed(AppRoutes.gateKeepHome);
+          }
+        }
+      },
     );
   }
 
