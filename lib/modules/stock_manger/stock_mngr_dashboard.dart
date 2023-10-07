@@ -27,7 +27,7 @@ class StockMngrDashboard extends StatelessWidget {
                   text: 'Stock Manager Dashboard',
                   textAlign: TextAlign.center,
                   size: 24,
-                  color: AppColors.fluoroscentBlue,
+                  color: AppColors.txtColor,
                   fontWeight: FontWeight.w700,
                   fontFamily: AppFonts.interBold,
                 ),

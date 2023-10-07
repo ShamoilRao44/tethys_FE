@@ -16,16 +16,29 @@ class ProdMngrDashboard extends StatelessWidget {
       return Scaffold(
         backgroundColor: Colors.transparent,
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Center(
+            Padding(
+              padding: const EdgeInsets.all(18.0),
               child: AppText(
-                text: 'Nothing to show here',
+                text: 'Production Manager',
+                textAlign: TextAlign.center,
                 size: 32,
-                color: AppColors.fluoroscentBlue,
                 fontWeight: FontWeight.w700,
                 fontFamily: AppFonts.interBold,
+                color: AppColors.txtColor,
+              ),
+            ),
+            Expanded(
+              child: Center(
+                child: AppText(
+                  text: 'Nothing to show here',
+                  size: 32,
+                  color: AppColors.txtColor,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: AppFonts.interBold,
+                ),
               ),
             )
           ],

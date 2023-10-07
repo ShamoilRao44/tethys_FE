@@ -1,102 +1,167 @@
+// 
+
 // To parse this JSON data, do
 //
 //     final materialRequestModel = materialRequestModelFromJson(jsonString);
 
 import 'dart:convert';
 
-MaterialRequestModel materialRequestModelFromJson(String str) =>
-    MaterialRequestModel.fromJson(json.decode(str));
+MaterialRequestModel materialRequestModelFromJson(String str) => MaterialRequestModel.fromJson(json.decode(str));
 
-String materialRequestModelToJson(MaterialRequestModel data) =>
-    json.encode(data.toJson());
+String materialRequestModelToJson(MaterialRequestModel data) => json.encode(data.toJson());
 
 class MaterialRequestModel {
-  String? status;
-  List<Items>? data;
+    String? status;
+    String? msg;
+    List<Datum>? data;
 
-  MaterialRequestModel({
-    this.status,
-    this.data,
-  });
+    MaterialRequestModel({
+        this.status,
+        this.msg,
+        this.data,
+    });
 
-  factory MaterialRequestModel.fromJson(Map<String, dynamic> json) =>
-      MaterialRequestModel(
+    factory MaterialRequestModel.fromJson(Map<String, dynamic> json) => MaterialRequestModel(
         status: json["status"],
-        data: json["data"] == null
-            ? []
-            : List<Items>.from(json["data"]!.map((x) => Items.fromJson(x))),
-      );
+        msg: json["msg"],
+        data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "status": status,
-        "data": data == null
-            ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
-      };
+        "msg": msg,
+        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+    };
 }
 
-class Items {
-  int? reqId;
-  int? reqBy;
-  int? qty;
-  String? remarks;
-  DateTime? reqAt;
-  Material? material;
+class Datum {
+    int? slotId;
+    DateTime? reqTime;
+    String? remarks;
+    ReqBy? reqBy;
+    List<Requisition>? requisitions;
 
-  Items({
-    this.reqId,
-    this.reqBy,
-    this.qty,
-    this.remarks,
-    this.reqAt,
-    this.material,
-  });
+    Datum({
+        this.slotId,
+        this.reqTime,
+        this.remarks,
+        this.reqBy,
+        this.requisitions,
+    });
 
-  factory Items.fromJson(Map<String, dynamic> json) => Items(
-        reqId: json["req_id"],
-        reqBy: json["req_by"],
-        qty: json["qty"],
+    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        slotId: json["slot_id"],
+        reqTime: json["req_time"] == null ? null : DateTime.parse(json["req_time"]),
         remarks: json["remarks"],
-        reqAt: json["req_at"] == null ? null : DateTime.parse(json["req_at"]),
-        material: json["material"] == null
-            ? null
-            : Material.fromJson(json["material"]),
-      );
+        reqBy: json["req_by"] == null ? null : ReqBy.fromJson(json["req_by"]),
+        requisitions: json["requisitions"] == null ? [] : List<Requisition>.from(json["requisitions"]!.map((x) => Requisition.fromJson(x))),
+    );
 
-  Map<String, dynamic> toJson() => {
-        "req_id": reqId,
-        "req_by": reqBy,
-        "qty": qty,
+    Map<String, dynamic> toJson() => {
+        "slot_id": slotId,
+        "req_time": reqTime?.toIso8601String(),
         "remarks": remarks,
-        "req_at": reqAt?.toIso8601String(),
-        "material": material?.toJson(),
-      };
+        "req_by": reqBy?.toJson(),
+        "requisitions": requisitions == null ? [] : List<dynamic>.from(requisitions!.map((x) => x.toJson())),
+    };
 }
 
-class Material {
-  int? id;
-  String? name;
-  int? group;
-  String? umo;
+class ReqBy {
+    int? id;
+    String? name;
+    String? email;
+    int? role;
+    String? phone;
+    DateTime? createdAt;
+    bool? isActive;
 
-  Material({
-    this.id,
-    this.name,
-    this.group,
-    this.umo,
-  });
+    ReqBy({
+        this.id,
+        this.name,
+        this.email,
+        this.role,
+        this.phone,
+        this.createdAt,
+        this.isActive,
+    });
 
-  factory Material.fromJson(Map<String, dynamic> json) => Material(
+    factory ReqBy.fromJson(Map<String, dynamic> json) => ReqBy(
         id: json["id"],
         name: json["name"],
-        group: json["group"],
-        umo: json["umo"],
-      );
+        email: json["email"],
+        role: json["role"],
+        phone: json["phone"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        isActive: json["is_active"],
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "group": group,
+        "email": email,
+        "role": role,
+        "phone": phone,
+        "created_at": createdAt?.toIso8601String(),
+        "is_active": isActive,
+    };
+}
+
+class Requisition {
+    int? reqId;
+    int? qtyReq;
+    int? issueQty;
+    dynamic issueBy;
+    MatDetails? matDetails;
+
+    Requisition({
+        this.reqId,
+        this.qtyReq,
+        this.issueQty,
+        this.issueBy,
+        this.matDetails,
+    });
+
+    factory Requisition.fromJson(Map<String, dynamic> json) => Requisition(
+        reqId: json["req_id"],
+        qtyReq: json["qty_req"],
+        issueQty: json["issue_qty"],
+        issueBy: json["issue_by"],
+        matDetails: json["mat_details"] == null ? null : MatDetails.fromJson(json["mat_details"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "req_id": reqId,
+        "qty_req": qtyReq,
+        "issue_qty": issueQty,
+        "issue_by": issueBy,
+        "mat_details": matDetails?.toJson(),
+    };
+}
+
+class MatDetails {
+    int? id;
+    String? umo;
+    String? material;
+    int? gNo;
+
+    MatDetails({
+        this.id,
+        this.umo,
+        this.material,
+        this.gNo,
+    });
+
+    factory MatDetails.fromJson(Map<String, dynamic> json) => MatDetails(
+        id: json["id"],
+        umo: json["umo"],
+        material: json["material"],
+        gNo: json["g_no"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
         "umo": umo,
-      };
+        "material": material,
+        "g_no": gNo,
+    };
 }

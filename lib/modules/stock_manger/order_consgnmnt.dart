@@ -27,7 +27,7 @@ class OrderConsgnmnt extends StatelessWidget {
                   text: 'Orders and Consignment',
                   textAlign: TextAlign.center,
                   size: 24,
-                  color: AppColors.fluoroscentBlue,
+                  color: AppColors.txtColor,
                   fontWeight: FontWeight.w700,
                   fontFamily: AppFonts.interBold,
                 ),

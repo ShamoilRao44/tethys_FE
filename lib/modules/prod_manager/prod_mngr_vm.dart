@@ -94,8 +94,7 @@ class ProdMngrVM extends GetxController {
         if (itemNameCtrl.text == element.material!.toLowerCase()) {
           sendApiList!.add({
             'id': element.id,
-            'qty_req': itemQtyCtrl.text,
-            'remarks': 'string',
+            'qty': itemQtyCtrl.text,
           });
         }
       },
@@ -114,6 +113,7 @@ class ProdMngrVM extends GetxController {
 
     data['items'] = sendApiList;
     data['req_by'] = await SecuredStorage.readIntValue(Keys.id);
+    data['remarks'] = "no remark";
 
     debugPrint(data.toString());
 

@@ -25,13 +25,14 @@ class StockMngrVM extends GetxController {
     await smri.getrequests().then((res) {
       if (res.status == '200') {
         res.data!.forEach((element) {
-          tableRows.add(
+          element.requisitions!.forEach((req) {
+            tableRows.add(
             TableRow(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: AppText(
-                    text: element.material!.name!,
+                    text: req.matDetails!.material ?? '',
                     textAlign: TextAlign.center,
                     size: 16,
                     color: AppColors.txtColor,
@@ -40,7 +41,7 @@ class StockMngrVM extends GetxController {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: AppText(
-                    text: element.qty.toString(),
+                    text: req.qtyReq.toString(),
                     textAlign: TextAlign.center,
                     size: 16,
                     color: AppColors.txtColor,
@@ -60,6 +61,7 @@ class StockMngrVM extends GetxController {
               ],
             ),
           );
+          });
         });
       }
     });
