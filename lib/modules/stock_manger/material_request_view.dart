@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_function_literals_in_foreach_calls
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -68,6 +68,8 @@ class MaterialRequestView extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: c.materialReqList.length,
                     itemBuilder: (context, index) {
+                      List<TableRow> tableRowsHere = c.requestTableMaker(
+                          c.materialReqList[index].requisitions!);
                       return Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
                         child: GestureDetector(
@@ -79,8 +81,9 @@ class MaterialRequestView extends StatelessWidget {
                             height: c.isExpanded[index] ? 400 : 96,
                             padding: EdgeInsets.all(16.0),
                             decoration: BoxDecoration(
-                              color: AppColors
-                                  .lightBlue, // Change color when expanded
+                              color: c.isExpanded[index]
+                                  ? AppColors.lightBlue
+                                  : AppColors.lightBlue,
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             child: Column(
@@ -120,7 +123,58 @@ class MaterialRequestView extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                c.isExpanded[index] ? Container() : Container(),
+                                c.isExpanded[index]
+                                    ? Container(
+                                        child: Table(
+                                          border: TableBorder.all(
+                                            width: 1.0,
+                                            color: AppColors.bordeColor2,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          columnWidths: {
+                                            0: FlexColumnWidth(3),
+                                            1: FlexColumnWidth(1),
+                                          },
+                                          children: [
+                                            TableRow(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    'Item Name',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          AppFonts.interRegular,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    'Qty',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          AppFonts.interRegular,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            ...tableRowsHere,
+                                          ],
+                                        ),
+                                      )
+                                    : Container(),
                               ],
                             ),
                           ),

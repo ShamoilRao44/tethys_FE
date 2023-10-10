@@ -86,7 +86,7 @@ class StockMngrVM extends GetxController {
     );
   }
 
-  void addRow() {
+  void addRow() async {
     tableRows.add(
       TableRow(
         children: [
@@ -145,5 +145,32 @@ class StockMngrVM extends GetxController {
     data['remarks'] = suppNameCtrl.text;
     data['exp_date'] = suppNameCtrl.text;
     data['pur_by'] = suppNameCtrl.text;
+  }
+
+  List<TableRow> requestTableMaker(List<Requisition> requestList) {
+    List<TableRow> reqMaterialTableRows = [];
+    requestList.forEach(
+      (element) {
+        reqMaterialTableRows.add(
+          TableRow(children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                element.matDetails!.material.toString(),
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                element.qtyReq.toString(),
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ]),
+        );
+      },
+    );
+    return reqMaterialTableRows;
   }
 }
