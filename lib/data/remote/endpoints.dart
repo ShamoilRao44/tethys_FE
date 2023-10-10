@@ -12,7 +12,9 @@ class Endpoints {
   static const employee = 'employees/';
 
   static const getItemsList = 'material/';
-  static const sendRequestforItems = 'pmanager/create';
 
-  static const getRequestsList = 'smanager/reqs';
+  static const sendRequestforItems = 'pmanager/create';
+  static const getReqListForPmngr = 'pmanager/id';
+
+  static const getReqListForSmngr = 'smanager/reqs';
 }

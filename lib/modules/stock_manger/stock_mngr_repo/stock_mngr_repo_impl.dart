@@ -8,7 +8,7 @@ class StockMngrRepoImpl extends StockMngrRepo {
 
   Future<MaterialRequestModel> getrequests() async {
     return materialRequestModelFromJson(
-      await apiService.get(Endpoints.getRequestsList),
+      await apiService.get(Endpoints.getReqListForSmngr),
     );
   }
 }

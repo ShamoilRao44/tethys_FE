@@ -11,14 +11,14 @@ import 'package:tethys/utils/common.dart';
 import 'package:tethys/utils/widgets/app_button.dart';
 import 'package:tethys/utils/widgets/app_text.dart';
 
-class RequestMaterialView extends StatelessWidget {
-  const RequestMaterialView({super.key});
+class RequisitionReturnView extends StatelessWidget {
+  const RequisitionReturnView({super.key});
 
   void newRequestDialog(BuildContext ctx) {
     Get.dialog(
       AlertDialog(
         title: AppText(
-          text: 'Request material',
+          text: 'Requisition/Return',
           textAlign: TextAlign.center,
           size: 24,
           fontWeight: FontWeight.w700,
@@ -29,7 +29,7 @@ class RequestMaterialView extends StatelessWidget {
         content: GetBuilder<ProdMngrVM>(
           builder: (c) {
             return Container(
-              width: 400.w,
+              constraints: BoxConstraints(maxHeight: 800.h),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -69,13 +69,53 @@ class RequestMaterialView extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 16),
+                    DropdownButtonFormField(
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: AppColors.bordeColor2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: AppColors.bordeColor2),
+                        ),
+                      ),
+                      value: c.selectedOption,
+                      items: ['Request Material', 'Return Material'].map(
+                        (item) {
+                          return DropdownMenuItem(
+                            child: Text(item),
+                            value: item,
+                          );
+                        },
+                      ).toList(),
+                      onChanged: (value) {
+                        c.selectedOption = value!;
+                      },
+                    ),
+                    SizedBox(height: 8),
+                    TextField(
+                      controller: c.remarkCtrl,
+                      decoration: InputDecoration(
+                        hintText: 'Add Remark',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: AppColors.bordeColor2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: AppColors.bordeColor2),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16),
                     Container(
-                      height: 560.h,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Table(
                           border: TableBorder.all(
-                            color: AppColors.bordercolor,
+                            width: 1.0,
+                            color: AppColors.bordeColor2,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           columnWidths: {
@@ -183,9 +223,6 @@ class RequestMaterialView extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            c.itemNameCtrl.clear();
-                            c.itemQtyCtrl.clear();
-                            c.tableRows.clear();
                             c.sendRequest(ctx);
                             Get.back();
                           },
@@ -216,102 +253,140 @@ class RequestMaterialView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
+    return GetBuilder<ProdMngrVM>(builder: (c) {
+      return Padding(
+        padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Expanded(
-                  flex: 2,
-                  child: AppText(
-                    text: 'Your Requests',
-                    textAlign: TextAlign.center,
-                    size: 32,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: AppFonts.interBold,
-                    color: AppColors.txtColor,
-                  ),
-                ),
-                Expanded(
-                  flex: 0,
-                  child: PopupMenuButton(
-                    itemBuilder: (BuildContext context) {
-                      return [
-                        PopupMenuItem<String>(
-                          value: 'logout',
-                          child: AppText(
-                            text: 'Logout',
-                            color: AppColors.txtColor,
-                          ),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: AppText(
+                        text: 'Your Requests',
+                        textAlign: TextAlign.center,
+                        size: 32,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: AppFonts.interBold,
+                        color: AppColors.txtColor,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 0,
+                      child: PopupMenuButton(
+                        itemBuilder: (BuildContext context) {
+                          return [
+                            PopupMenuItem<String>(
+                              value: 'logout',
+                              child: AppText(
+                                text: 'Logout',
+                                color: AppColors.txtColor,
+                              ),
+                            ),
+                          ];
+                        },
+                        onSelected: (value) {
+                          if (value == 'logout') {
+                            logout();
+                          }
+                        },
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: AppColors.txtColor,
                         ),
-                      ];
-                    },
-                    onSelected: (value) {
-                      if (value == 'logout') {
-                        logout();
-                      }
-                    },
-                    icon: Icon(
-                      Icons.more_vert,
-                      color: AppColors.txtColor,
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 24),
+                SingleChildScrollView(
+                  child: Container(
+                    height: 728.h,
+                    child: ListView.builder(
+                      itemCount: c.RequisitionsList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              c.toggleExpansion(index);
+                            },
+                            child: AnimatedContainer(
+                              duration: Duration(milliseconds: 400),
+                              height: c.isExpanded[index] ? 400 : 96,
+                              padding: EdgeInsets.all(16.0),
+                              decoration: BoxDecoration(
+                                color: AppColors
+                                    .lightBlue, // Change color when expanded
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  AppText(
+                                    text: c.RequisitionsList[index].remarks ??
+                                        'Remark',
+                                    color: AppColors.txtColor,
+                                    size: 20,
+                                    fontFamily: AppFonts.interRegular,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  SizedBox(height: 8),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      AppText(
+                                        text:
+                                            'Slot Id : ${c.RequisitionsList[index].slotId}'
+                                                .toString(),
+                                        color: AppColors.txtColor,
+                                        size: 16,
+                                        fontFamily: AppFonts.interRegular,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      SizedBox(width: 32),
+                                      AppText(
+                                        text:
+                                            "Date : ${c.RequisitionsList[index].reqTime.toString().substring(0, 9)}",
+                                        color: AppColors.txtColor,
+                                        size: 16,
+                                        fontFamily: AppFonts.interRegular,
+                                        fontWeight: FontWeight.w400,
+                                      )
+                                    ],
+                                  ),
+                                  c.isExpanded[index]
+                                      ? Container()
+                                      : Container(),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 )
               ],
             ),
-            SizedBox(height: 24),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Container(
-                width: 480,
-                child: Table(
-                  border: TableBorder.all(
-                    color: AppColors.bordercolor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  columnWidths: {
-                    0: FlexColumnWidth(3),
-                    1: FlexColumnWidth(1),
-                    2: FlexColumnWidth(1),
-                  },
-                  children: [
-                    TableRow(children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Item',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Qty \nRequested'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Qty \napproved'),
-                      ),
-                    ])
-                  ],
-                ),
-              ),
-            ),
-          ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: AppColors.txtColor,
+            onPressed: () {
+              newRequestDialog(context);
+            },
+            child: Icon(Icons.add),
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            newRequestDialog(context);
-          },
-          child: Icon(Icons.add),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      ),
-    );
+      );
+    });
   }
 }

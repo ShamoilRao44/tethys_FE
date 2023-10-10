@@ -2,10 +2,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_views/prod_mngr_dashboard.dart';
-import 'package:tethys/modules/prod_manager/prod_mngr_views/request_material_view.dart';
+import 'package:tethys/modules/prod_manager/prod_mngr_views/requisition_return.dart';
 
 import 'package:tethys/modules/prod_manager/prod_mngr_vm.dart';
 import 'package:tethys/resources/app_colors.dart';
@@ -29,7 +30,7 @@ class ProdMngrHome extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Padding(
-            padding: const EdgeInsets.only(top: 24.0),
+            padding: EdgeInsets.only(top: 24.h),
             child: Container(
               child: c.child,
             ),
@@ -37,7 +38,7 @@ class ProdMngrHome extends StatelessWidget {
           bottomNavigationBar: Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColors.boxShadow,
+              color: AppColors.bordeColor2,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30),
                 topRight: Radius.circular(30),
@@ -47,10 +48,10 @@ class ProdMngrHome extends StatelessWidget {
               return GNav(
                 rippleColor: Colors.grey[300]!,
                 hoverColor: Colors.grey[100]!,
-                gap: 8,
+                gap: 8.w,
                 activeColor: Colors.black,
                 iconSize: 24,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
                 duration: Duration(milliseconds: 400),
                 tabBackgroundColor: Colors.grey[100]!,
                 color: Colors.black,
@@ -61,11 +62,11 @@ class ProdMngrHome extends StatelessWidget {
                   ),
                   GButton(
                     icon: Icons.rate_review_rounded,
-                    text: 'Request Material',
+                    text: 'Requisition/Return',
                   ),
                   GButton(
                     icon: CupertinoIcons.doc,
-                    text: 'Return Material',
+                    text: 'Production Handover',
                   ),
                 ],
                 selectedIndex: c.indx.value,
