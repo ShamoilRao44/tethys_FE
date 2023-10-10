@@ -1,5 +1,11 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:tethys/utils/common.dart';
+import 'package:tethys/modules/gatekeeper/gatekeeper_vm.dart';
 import 'package:tethys/resources/app_colors.dart';
 import 'package:tethys/resources/app_fonts.dart';
 import 'package:tethys/utils/widgets/app_text.dart';
@@ -9,24 +15,140 @@ class OrderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Center(
-              child: AppText(
-                text: 'Nothing to show here',
-                size: 32,
-                color: AppColors.fluoroscentBlue,
-                fontWeight: FontWeight.w700,
-                fontFamily: AppFonts.interBold,
-              ),
-            )
-          ],
+    return GetBuilder<GatekeeperVM>(builder: (c) {
+      return Padding(
+        padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 15,
+                      child: AppText(
+                        text: 'Upcoming Orders',
+                        textAlign: TextAlign.center,
+                        size: 32,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: AppFonts.interBold,
+                        color: AppColors.txtColor,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: PopupMenuButton(
+                        itemBuilder: (BuildContext context) {
+                          return [
+                            PopupMenuItem<String>(
+                              value: 'logout',
+                              child: AppText(
+                                text: 'Logout',
+                                color: AppColors.txtColor,
+                              ),
+                            ),
+                          ];
+                        },
+                        onSelected: (value) {
+                          if (value == 'logout') {
+                            logout();
+                          }
+                        },
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: AppColors.txtColor,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 24),
+                SingleChildScrollView(
+                  child: Container(
+                    height: 728.h,
+                    child: ListView.builder(
+                      itemCount: c.orderList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              c.toggleExpansion(index);
+                            },
+                            child: AnimatedContainer(
+                              duration: Duration(milliseconds: 400),
+                              height: c.isExpanded[index] ? 400 : 96,
+                              padding: EdgeInsets.all(16.0),
+                              decoration: BoxDecoration(
+                                color: AppColors
+                                    .lightBlue, // Change color when expanded
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  AppText(
+                                    text: 
+                                    c.orderList[index].remarks ??
+                                        'Remark',
+                                    color: AppColors.txtColor,
+                                    size: 20,
+                                    fontFamily: AppFonts.interRegular,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  SizedBox(height: 8),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      AppText(
+                                        text:
+                                            'Slot Id : ${c.orderList[index].purId}'.toString(),
+                                        color: AppColors.txtColor,
+                                        size: 16,
+                                        fontFamily: AppFonts.interRegular,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      SizedBox(width: 32),
+                                      AppText(
+                                        text:
+                                            "Date : ${c.orderList[index].purTime.toString().substring(0, 9)}",
+                                        color: AppColors.txtColor,
+                                        size: 16,
+                                        fontFamily: AppFonts.interRegular,
+                                        fontWeight: FontWeight.w400,
+                                      )
+                                    ],
+                                  ),
+                                  // c.isExpanded[index]
+                                  //     ? Container()
+                                  //     : Container(),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          // floatingActionButton: FloatingActionButton(
+          //   backgroundColor: AppColors.txtColor,
+          //   onPressed: () {
+          //     newRequestDialog(context);
+          //   },
+          //   child: Icon(Icons.add),
+          // ),
+          // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         ),
       );
+    });
   }
 }
-

@@ -18,4 +18,6 @@ class Endpoints {
 
   static const getReqListForSmngr = 'smanager/reqs';
   static const sendOrder = 'smanager/orders/create';
+
+  static const getOrderList = 'gkeep/';
 }
