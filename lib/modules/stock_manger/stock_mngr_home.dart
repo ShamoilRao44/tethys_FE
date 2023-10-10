@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -35,7 +36,7 @@ class StockMngrHome extends StatelessWidget {
           bottomNavigationBar: Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColors.boxShadow,
+              color: AppColors.bordeColor2,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30),
                 topRight: Radius.circular(30),
@@ -45,10 +46,10 @@ class StockMngrHome extends StatelessWidget {
               return GNav(
                 rippleColor: Colors.grey[300]!,
                 hoverColor: Colors.grey[100]!,
-                gap: 8,
+                gap: 8.w,
                 activeColor: Colors.black,
                 iconSize: 24,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
                 duration: Duration(milliseconds: 400),
                 tabBackgroundColor: Colors.grey[100]!,
                 color: Colors.black,

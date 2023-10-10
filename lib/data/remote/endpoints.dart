@@ -17,4 +17,5 @@ class Endpoints {
   static const getReqListForPmngr = 'pmanager/id';
 
   static const getReqListForSmngr = 'smanager/reqs';
+  static const sendOrder = 'smanager/orders/create';
 }
