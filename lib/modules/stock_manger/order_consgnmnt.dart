@@ -222,7 +222,7 @@ class OrderConsgnmnt extends StatelessWidget {
               onPressed: () {
                 c.itemNameCtrl.clear();
                 c.itemNameCtrl.clear();
-                c.itemNameList.clear();
+
                 c.tableRows.clear();
                 Get.back();
               },
