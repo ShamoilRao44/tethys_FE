@@ -229,7 +229,9 @@ class OrderConsgnmnt extends StatelessWidget {
               child: Text('Cancel'),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                c.sendOrder(ctx);
+              },
               child: Text('Submit'),
             ),
           ],

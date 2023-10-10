@@ -8,6 +8,8 @@ import 'package:tethys/modules/stock_manger/models/get_request_list_model.dart';
 import 'package:tethys/modules/stock_manger/order_consgnmnt.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_repo/stock_mngr_repo_impl.dart';
 import 'package:tethys/resources/app_colors.dart';
+import 'package:tethys/utils/secured_storage.dart';
+import 'package:tethys/utils/widgets/app_snackbar.dart';
 import 'package:tethys/utils/widgets/app_text.dart';
 import 'stock_mngr_dashboard.dart';
 
@@ -116,22 +118,22 @@ class StockMngrVM extends GetxController {
       (element) {
         if (itemNameCtrl.text == element.material!.toLowerCase()) {
           sendApiList!.add({
-            'id': element.id,
-            'qty': itemQtyCtrl.text,
+            'm_id': element.id,
+            'ord_qty': itemQtyCtrl.text,
           });
         }
       },
     );
     update();
 
-    debugPrint(sendApiList.toString());
+    // debugPrint(sendApiList.toString());
 
     itemNameCtrl.clear();
     itemQtyCtrl.clear();
     update();
   }
 
-  Future<void> sendOrder() async {
+  Future<void> sendOrder(BuildContext context) async {
     if (itemNameCtrl.text.isNotEmpty && itemQtyCtrl.text.isNotEmpty) {
       addRow();
     }
@@ -139,11 +141,29 @@ class StockMngrVM extends GetxController {
     var data = {};
 
     data['supp_name'] = suppNameCtrl.text;
-    data['t_amount'] = suppNameCtrl.text;
-    data['invoice'] = suppNameCtrl.text;
-    data['vehicle'] = suppNameCtrl.text;
-    data['remarks'] = suppNameCtrl.text;
-    data['exp_date'] = suppNameCtrl.text;
-    data['pur_by'] = suppNameCtrl.text;
+    data['t_amount'] = totalAmtCtrl.text;
+    data['invoice'] = invoiceCtrl.text;
+    data['vehicle'] = vehicleCtrl.text;
+    data['remarks'] = remarksCtrl.text;
+    data['exp_date'] = DateTime.now();
+    data['pur_by'] = await SecuredStorage.readStringValue(Keys.id);
+    data['orders'] = sendApiList;
+
+    debugPrint(data.toString());
+    // debugPrint('test');
+
+    // suppNameCtrl.clear();
+    // totalAmtCtrl.clear();
+    // invoiceCtrl.clear();
+    // vehicleCtrl.clear();
+    // remarksCtrl.clear();
+    // sendApiList!.clear();
+
+    await smri.sendOrder(data).then((res) {
+      if (res.status == '200') {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(appSnackbar(msg: 'Succesfully Uploaded Purchases'));
+      }
+    });
   }
 }
