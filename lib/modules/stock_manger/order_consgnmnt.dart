@@ -103,48 +103,6 @@ class OrderConsgnmnt extends StatelessWidget {
                                 ],
                               ),
                               ...c.tableRows,
-                              // TableRow(
-                              //   children: [
-                              //     Autocomplete<String>(
-                              //       optionsBuilder:
-                              //           (TextEditingValue textEditingValue) {
-                              //         if (textEditingValue.text == '') {
-                              //           return c.itemNameList;
-                              //         }
-                              //         return c.itemNameList.where(
-                              //           (String option) {
-                              //             return option.contains(
-                              //               textEditingValue.text.toLowerCase(),
-                              //             );
-                              //           },
-                              //         );
-                              //       },
-                              //       onSelected: (option) {
-                              //         c.itemNameCtrl.text = option;
-                              //       },
-                              //     ),
-                              //     Padding(
-                              //       padding: const EdgeInsets.all(8.0),
-                              //       child: TextField(
-                              //         keyboardType: TextInputType.number,
-                              //         textAlign: TextAlign.center,
-                              //         style: TextStyle(
-                              //           fontSize: 14,
-                              //         ),
-                              //         inputFormatters: [
-                              //           FilteringTextInputFormatter.digitsOnly
-                              //         ],
-                              //         decoration: InputDecoration(
-                              //           isDense: true,
-                              //           focusColor: Colors.transparent,
-                              //           enabledBorder: InputBorder.none,
-                              //           focusedBorder: InputBorder.none,
-                              //         ),
-                              //         controller: c.itemQtyCtrl,
-                              //       ),
-                              //     )
-                              //   ],
-                              // )
                             ],
                           )
                         : Container(),

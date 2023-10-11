@@ -55,7 +55,12 @@ class LoginVM extends GetxController {
             );
           }
         } else {
-          debugPrint('failed');
+          ScaffoldMessenger.of(context).showSnackBar(
+            appSnackbar(
+              msg: res.detail,
+              color: AppColors.snackBarColorFailure,
+            ),
+          );
         }
       },
     );

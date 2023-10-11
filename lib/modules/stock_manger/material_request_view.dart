@@ -90,88 +90,135 @@ class MaterialRequestView extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                AppText(
-                                  text: c.materialReqList[index].remarks ??
-                                      'Remarks',
-                                  color: AppColors.txtColor,
-                                  size: 20,
-                                  fontFamily: AppFonts.interRegular,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                SizedBox(height: 8),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    AppText(
-                                      text: c.materialReqList[index].reqBy!
-                                              .name ??
-                                          '',
-                                      color: AppColors.txtColor,
-                                      size: 16,
-                                      fontFamily: AppFonts.interRegular,
-                                      fontWeight: FontWeight.w400,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        AppText(
+                                          text: c.materialReqList[index]
+                                                  .remarks ??
+                                              'Remarks',
+                                          color: AppColors.txtColor,
+                                          size: 20,
+                                          fontFamily: AppFonts.interRegular,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        SizedBox(height: 8),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            AppText(
+                                              text: c.materialReqList[index]
+                                                      .reqBy!.name ??
+                                                  '',
+                                              color: AppColors.txtColor,
+                                              size: 16,
+                                              fontFamily: AppFonts.interRegular,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            SizedBox(width: 32),
+                                            AppText(
+                                              text:
+                                                  'Date: ${c.materialReqList[index].reqTime.toString().substring(0, 10)}',
+                                              color: AppColors.txtColor,
+                                              size: 16,
+                                              fontFamily: AppFonts.interRegular,
+                                              fontWeight: FontWeight.w400,
+                                            )
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(width: 32),
-                                    AppText(
-                                      text:
-                                          'Date: ${c.materialReqList[index].reqTime.toString().substring(0, 10)}',
-                                      color: AppColors.txtColor,
-                                      size: 16,
-                                      fontFamily: AppFonts.interRegular,
-                                      fontWeight: FontWeight.w400,
-                                    )
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          c.approveRequest(
+                                              slotId: c.materialReqList[index]
+                                                  .slotId!,
+                                              context: context);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            padding: EdgeInsets.all(16),
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            backgroundColor:
+                                                AppColors.btnColor),
+                                        child: Icon(Icons.check))
                                   ],
                                 ),
                                 c.isExpanded[index]
-                                    ? Container(
-                                        child: Table(
-                                          border: TableBorder.all(
-                                            width: 1.0,
-                                            color: AppColors.bordeColor2,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(top: 16),
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Table(
+                                                border: TableBorder.all(
+                                                  width: 1.0,
+                                                  color: AppColors.darkblue,
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                                columnWidths: {
+                                                  0: FlexColumnWidth(3),
+                                                  1: FlexColumnWidth(1),
+                                                },
+                                                children: [
+                                                  TableRow(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                          'Item Name',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            color: AppColors
+                                                                .txtColor,
+                                                            fontFamily: AppFonts
+                                                                .interRegular,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                          'Qty',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            color: AppColors
+                                                                .txtColor,
+                                                            fontFamily: AppFonts
+                                                                .interRegular,
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  ...tableRowsHere,
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                          columnWidths: {
-                                            0: FlexColumnWidth(3),
-                                            1: FlexColumnWidth(1),
-                                          },
-                                          children: [
-                                            TableRow(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    'Item Name',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          AppFonts.interRegular,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    'Qty',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          AppFonts.interRegular,
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            ...tableRowsHere,
-                                          ],
                                         ),
                                       )
                                     : Container(),
