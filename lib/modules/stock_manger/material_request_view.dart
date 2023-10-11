@@ -64,7 +64,7 @@ class MaterialRequestView extends StatelessWidget {
               SizedBox(height: 16),
               SingleChildScrollView(
                 child: Container(
-                  height: 700.h,
+                  height: 728.h,
                   child: ListView.builder(
                     itemCount: c.materialReqList.length,
                     itemBuilder: (context, index) {

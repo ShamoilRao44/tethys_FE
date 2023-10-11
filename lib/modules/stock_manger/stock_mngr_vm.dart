@@ -149,7 +149,7 @@ class StockMngrVM extends GetxController {
     data['invoice'] = invoiceCtrl.text;
     data['vehicle'] = vehicleCtrl.text;
     data['remarks'] = remarksCtrl.text;
-    data['exp_date'] = DateTime.now();
+    data['exp_date'] = DateTime.now().toString();
     data['pur_by'] = await SecuredStorage.readStringValue(Keys.id);
     data['orders'] = sendApiList;
 
@@ -165,8 +165,12 @@ class StockMngrVM extends GetxController {
 
     await smri.sendOrder(data).then((res) {
       if (res.status == '200') {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(appSnackbar(msg: 'Succesfully Uploaded Purchases'));
+        ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+            msg: 'Succesfully Uploaded Purchases',
+            color: AppColors.snackBarColorSuccess));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            appSnackbar(msg: res.msg, color: AppColors.snackBarColorFailure));
       }
     });
   }

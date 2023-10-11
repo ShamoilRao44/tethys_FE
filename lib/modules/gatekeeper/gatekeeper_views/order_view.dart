@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +72,8 @@ class OrderView extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: c.orderList.length,
                       itemBuilder: (context, index) {
+                        List<TableRow> tableRowsHere =
+                            c.orderTableMaker(c.orderList[index].orders!);
                         return Padding(
                           padding: EdgeInsets.only(bottom: 8.0),
                           child: GestureDetector(
@@ -92,9 +94,8 @@ class OrderView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   AppText(
-                                    text: 
-                                    c.orderList[index].remarks ??
-                                        'Remark',
+                                    text:
+                                        c.orderList[index].remarks ?? 'Remark',
                                     color: AppColors.txtColor,
                                     size: 20,
                                     fontFamily: AppFonts.interRegular,
@@ -107,7 +108,8 @@ class OrderView extends StatelessWidget {
                                     children: [
                                       AppText(
                                         text:
-                                            'Slot Id : ${c.orderList[index].purId}'.toString(),
+                                            'Slot Id : ${c.orderList[index].purId}'
+                                                .toString(),
                                         color: AppColors.txtColor,
                                         size: 16,
                                         fontFamily: AppFonts.interRegular,
@@ -124,9 +126,78 @@ class OrderView extends StatelessWidget {
                                       )
                                     ],
                                   ),
-                                  // c.isExpanded[index]
-                                  //     ? Container()
-                                  //     : Container(),
+                                  c.isExpanded[index]
+                                      ? Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 16),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Table(
+                                                  border: TableBorder.all(
+                                                    width: 1.0,
+                                                    color: AppColors.darkblue,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                  ),
+                                                  columnWidths: {
+                                                    0: FlexColumnWidth(3),
+                                                    1: FlexColumnWidth(1),
+                                                  },
+                                                  children: [
+                                                    TableRow(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Text(
+                                                            'Item Name',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              color: AppColors
+                                                                  .txtColor,
+                                                              fontFamily: AppFonts
+                                                                  .interRegular,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Text(
+                                                            'Qty',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              color: AppColors
+                                                                  .txtColor,
+                                                              fontFamily: AppFonts
+                                                                  .interRegular,
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    ...tableRowsHere,
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      : Container(),
                                 ],
                               ),
                             ),

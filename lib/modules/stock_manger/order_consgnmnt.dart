@@ -194,7 +194,7 @@ class OrderConsgnmnt extends StatelessWidget {
               child: Text('Submit'),
             ),
           ],
-          actionsAlignment: MainAxisAlignment.spaceBetween,
+          actionsAlignment: MainAxisAlignment.spaceEvenly,
         );
       }),
       barrierDismissible: false,
