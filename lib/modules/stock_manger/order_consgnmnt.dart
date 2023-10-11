@@ -62,7 +62,7 @@ class OrderConsgnmnt extends StatelessWidget {
                       labelText: 'Remarks',
                       controller: c.remarksCtrl,
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 16),
                     c.tableRows.isNotEmpty
                         ? Table(
                             border: TableBorder.all(
@@ -187,7 +187,10 @@ class OrderConsgnmnt extends StatelessWidget {
               child: Text('Cancel'),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.back();
+                c.sendOrder(ctx);
+              },
               child: Text('Submit'),
             ),
           ],
