@@ -58,11 +58,16 @@ class StockMngrHome extends StatelessWidget {
                   ),
                   GButton(
                     icon: Icons.rate_review_rounded,
-                    text: 'Material Request',
+                    text: 'Requests & returns',
                   ),
                   GButton(
                     icon: Icons.fire_truck,
                     text: 'Order & Consignment',
+                    textStyle: TextStyle(),
+                  ),
+                  GButton(
+                    icon: Icons.history,
+                    text: 'History',
                     textStyle: TextStyle(),
                   ),
                 ],

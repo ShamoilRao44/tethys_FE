@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/prod_manager/models/get_items_list_model.dart';
-import 'package:tethys/modules/stock_manger/material_request_view.dart';
+import 'package:tethys/modules/stock_manger/models/get_returns_list_model.dart';
+import 'package:tethys/modules/stock_manger/request_and_returns.dart';
 import 'package:tethys/modules/stock_manger/models/get_request_list_model.dart';
 import 'package:tethys/modules/stock_manger/order_consgnmnt.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_repo/stock_mngr_repo_impl.dart';
@@ -19,13 +20,16 @@ class StockMngrVM extends GetxController {
   RxInt indx = 0.obs;
   Widget? child = StockMngrDashboard();
   bool isApproved = false;
+  bool isRequests = true;
   List<bool> isExpanded = [];
+  List<bool> isExpanded2 = [];
   List<TableRow> tableRows = [];
   List<String> itemNameList = [];
   List<MaterialInfo>? materials = [];
   List<Map>? sendApiList = [];
 
   List<MaterialReqDatum> materialReqList = [];
+  List<ReturnsDatum> returnsList = [];
   TextEditingController suppNameCtrl = TextEditingController();
   TextEditingController totalAmtCtrl = TextEditingController();
   TextEditingController invoiceCtrl = TextEditingController();
@@ -42,6 +46,7 @@ class StockMngrVM extends GetxController {
     super.onInit();
     getRequests();
     fetchMaterialList();
+    fetchReturns();
   }
 
   Future<void> getRequests() async {
@@ -79,7 +84,11 @@ class StockMngrVM extends GetxController {
   }
 
   void toggleExpansion(int index) {
-    isExpanded[index] = !isExpanded[index];
+    if (isRequests == true) {
+      isExpanded[index] = !isExpanded[index];
+    } else {
+      isExpanded2[index] = !isExpanded2[index];
+    }
     update(); // Trigger a UI update
   }
 
@@ -230,5 +239,51 @@ class StockMngrVM extends GetxController {
         );
       }
     }).onError((error, stackTrace) => null);
+  }
+
+  Future<void> fetchReturns() async {
+    returnsList.clear();
+    await smri.fetchReturns().then((res) {
+      res.data!.forEach(
+        (element) {
+          returnsList.add(element);
+        },
+      );
+    }).onError((error, stackTrace) => null);
+    isExpanded2 = List.generate(returnsList.length, (index) => false);
+  }
+
+  void toggleViews(bool value) {
+    isRequests = value;
+    update();
+  }
+
+  List<TableRow> returnsTableMaker(List<MaterialsReturn> returnsList) {
+    List<TableRow> retMaterialTableRows = [];
+    returnsList.forEach(
+      (element) {
+        retMaterialTableRows.add(
+          TableRow(children: [
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: element.matDetails!.material.toString(),
+                  color: AppColors.txtColor,
+                  size: 16,
+                  fontFamily: AppFonts.interRegular,
+                )),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: element.qtyRet.toString(),
+                  color: AppColors.txtColor,
+                  size: 16,
+                  fontFamily: AppFonts.interRegular,
+                )),
+          ]),
+        );
+      },
+    );
+    return retMaterialTableRows;
   }
 }
