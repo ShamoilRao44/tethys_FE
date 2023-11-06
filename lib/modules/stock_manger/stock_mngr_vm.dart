@@ -11,8 +11,6 @@ import 'package:tethys/resources/app_colors.dart';
 import 'package:tethys/resources/app_fonts.dart';
 import 'package:tethys/utils/secured_storage.dart';
 import 'package:tethys/utils/widgets/app_snackbar.dart';
-import 'package:tethys/utils/secured_storage.dart';
-import 'package:tethys/utils/widgets/app_snackbar.dart';
 import 'package:tethys/utils/widgets/app_text.dart';
 import 'stock_mngr_dashboard.dart';
 
@@ -47,9 +45,17 @@ class StockMngrVM extends GetxController {
   }
 
   Future<void> getRequests() async {
+    materialReqList.clear();
     await smri.getrequests().then((res) {
       if (res.status == '200') {
-        materialReqList = res.data!;
+        // materialReqList = res.data!;
+        res.data!.forEach(
+          (element) {
+            if (element.issueStatus == false) {
+              materialReqList.add(element);
+            }
+          },
+        );
         isExpanded = List.generate(materialReqList.length, (index) => false);
       }
     });
@@ -211,12 +217,12 @@ class StockMngrVM extends GetxController {
     data['slot_id'] = slotId;
     data['issue_by'] = await SecuredStorage.readIntValue(Keys.id);
 
-    await smri.issueRequest(data).then((res) {
+    await smri.issueRequest(data).then((res) async {
       if (res.status == '200') {
         ScaffoldMessenger.of(context).showSnackBar(
           appSnackbar(msg: res.msg, color: AppColors.snackBarColorSuccess),
         );
-        getRequests();
+        await getRequests();
         update();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

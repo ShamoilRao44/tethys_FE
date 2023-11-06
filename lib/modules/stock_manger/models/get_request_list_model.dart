@@ -44,6 +44,7 @@ class MaterialReqDatum {
   int? slotId;
   DateTime? reqTime;
   String? remarks;
+  bool? issueStatus;
   ReqBy? reqBy;
   List<Requisition>? requisitions;
 
@@ -51,6 +52,7 @@ class MaterialReqDatum {
     this.slotId,
     this.reqTime,
     this.remarks,
+    this.issueStatus,
     this.reqBy,
     this.requisitions,
   });
@@ -61,6 +63,7 @@ class MaterialReqDatum {
         reqTime:
             json["req_time"] == null ? null : DateTime.parse(json["req_time"]),
         remarks: json["remarks"],
+        issueStatus: json["issue_status"],
         reqBy: json["req_by"] == null ? null : ReqBy.fromJson(json["req_by"]),
         requisitions: json["requisitions"] == null
             ? []
@@ -72,6 +75,7 @@ class MaterialReqDatum {
         "slot_id": slotId,
         "req_time": reqTime?.toIso8601String(),
         "remarks": remarks,
+        "issue_status": issueStatus,
         "req_by": reqBy?.toJson(),
         "requisitions": requisitions == null
             ? []

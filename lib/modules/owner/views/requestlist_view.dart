@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/owner/owner_vm.dart';

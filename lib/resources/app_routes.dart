@@ -5,7 +5,7 @@ class AppRoutes {
   static const roleSelectScreen = "/RoleSelectScreen";
   static const signupView = "/SignupView";
   static const ownerHome = "/OwnerHome";
-  static const StockMngrHome = "/StockMngrDashboard";
+  static const stockMngrHome = "/StockMngrDashboard";
   static const prodMngrHome = "/prodMngrHome";
   static const gateKeepHome = "/GatekeeperHome";
 }

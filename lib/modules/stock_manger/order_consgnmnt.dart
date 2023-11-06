@@ -180,7 +180,6 @@ class OrderConsgnmnt extends StatelessWidget {
               onPressed: () {
                 c.itemNameCtrl.clear();
                 c.itemNameCtrl.clear();
-
                 c.tableRows.clear();
                 Get.back();
               },

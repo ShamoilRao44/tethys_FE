@@ -15,10 +15,12 @@ class Endpoints {
 
   static const sendRequestforItems = 'pmanager/create';
   static const getReqListForPmngr = 'pmanager/id';
+  static const returnMaterial = 'pmanager/return/create';
 
   static const getReqListForSmngr = 'smanager/reqs';
   static const sendOrder = 'smanager/orders/create';
   static const issueSlot = 'smanager/reqs/issue/slot';
 
   static const getOrderList = 'gkeep/';
+  static const verifyOrders = 'gkeep/orders/check';
 }

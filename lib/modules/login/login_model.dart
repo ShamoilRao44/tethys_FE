@@ -2,6 +2,8 @@
 //
 //     final LoginModel = LoginModelFromJson(jsonString);
 
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 LoginModel LoginModelFromJson(String str) =>

@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -93,37 +92,71 @@ class OrderView extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  AppText(
-                                    text:
-                                        c.orderList[index].remarks ?? 'Remark',
-                                    color: AppColors.txtColor,
-                                    size: 20,
-                                    fontFamily: AppFonts.interRegular,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  SizedBox(height: 8),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      AppText(
-                                        text:
-                                            'Slot Id : ${c.orderList[index].purId}'
-                                                .toString(),
-                                        color: AppColors.txtColor,
-                                        size: 16,
-                                        fontFamily: AppFonts.interRegular,
-                                        fontWeight: FontWeight.w400,
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppText(
+                                            text: c.orderList[index].remarks ??
+                                                'Remark',
+                                            color: AppColors.txtColor,
+                                            size: 20,
+                                            fontFamily: AppFonts.interRegular,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          SizedBox(height: 8),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              AppText(
+                                                text:
+                                                    'Slot Id : ${c.orderList[index].purId}'
+                                                        .toString(),
+                                                color: AppColors.txtColor,
+                                                size: 16,
+                                                fontFamily:
+                                                    AppFonts.interRegular,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                              SizedBox(width: 32),
+                                              AppText(
+                                                text:
+                                                    "Date : ${c.orderList[index].purTime.toString().substring(0, 9)}",
+                                                color: AppColors.txtColor,
+                                                size: 16,
+                                                fontFamily:
+                                                    AppFonts.interRegular,
+                                                fontWeight: FontWeight.w400,
+                                              )
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(width: 32),
-                                      AppText(
-                                        text:
-                                            "Date : ${c.orderList[index].purTime.toString().substring(0, 9)}",
-                                        color: AppColors.txtColor,
-                                        size: 16,
-                                        fontFamily: AppFonts.interRegular,
-                                        fontWeight: FontWeight.w400,
-                                      )
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          c.approveOrder(
+                                              purId: c.orderList[index].purId!,
+                                              orders:
+                                                  c.orderList[index].orders!,
+                                              context: context);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            padding: EdgeInsets.all(16),
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            backgroundColor:
+                                                AppColors.btnColor),
+                                        child: Icon(Icons.check),
+                                      ),
                                     ],
                                   ),
                                   c.isExpanded[index]

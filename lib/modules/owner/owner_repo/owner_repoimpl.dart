@@ -15,7 +15,7 @@ class OwnerRepoImp extends OwnerRepo {
   }
 
   @override
-  Future<DeleteReqResponse> DeleteReq(Map data) async {
+  Future<DeleteReqResponse> deleteReq(Map data) async {
     debugPrint('demo');
     return deleteReqResponseFromJson(
       await apiService.delete(Endpoints.request + Endpoints.delete, data),

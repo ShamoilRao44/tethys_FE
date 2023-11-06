@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:tethys/data/remote/api_service.dart';
 import 'package:tethys/data/remote/endpoints.dart';
 import 'package:tethys/modules/login/login_repo/login_repo.dart';

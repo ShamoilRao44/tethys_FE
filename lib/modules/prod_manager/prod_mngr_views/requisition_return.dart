@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, avoid_unnecessary_containers, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,13 +8,10 @@ import 'package:tethys/modules/prod_manager/prod_mngr_vm.dart';
 import 'package:tethys/resources/app_colors.dart';
 import 'package:tethys/resources/app_fonts.dart';
 import 'package:tethys/utils/common.dart';
-import 'package:tethys/utils/widgets/app_button.dart';
 import 'package:tethys/utils/widgets/app_text.dart';
 
 class RequisitionReturnView extends StatelessWidget {
   const RequisitionReturnView({super.key});
-
-  
 
   void newRequestDialog(BuildContext ctx) {
     Get.dialog(
@@ -156,6 +153,17 @@ class RequisitionReturnView extends StatelessWidget {
                             TableRow(
                               children: [
                                 Autocomplete<String>(
+                                  fieldViewBuilder: (context,
+                                      textEditingController,
+                                      focusNode,
+                                      onFieldSubmitted) {
+                                    return TextField(
+                                      controller: textEditingController,
+                                      focusNode: focusNode,
+                                      decoration: InputDecoration(
+                                          hintText: 'Item Name'),
+                                    );
+                                  },
                                   optionsBuilder:
                                       (TextEditingValue textEditingValue) {
                                     if (textEditingValue.text == '') {
@@ -208,7 +216,7 @@ class RequisitionReturnView extends StatelessWidget {
                             c.itemNameCtrl.clear();
                             c.itemQtyCtrl.clear();
                             c.tableRows.clear();
-
+                            c.remarkCtrl.clear();
                             Get.back();
                           },
                           style: ElevatedButton.styleFrom(
@@ -225,7 +233,11 @@ class RequisitionReturnView extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            c.sendRequest(ctx);
+                            if (c.selectedOption == 'Request Material') {
+                              c.sendRequest(ctx);
+                            } else {
+                              c.returnMaterial(ctx);
+                            }
                             Get.back();
                           },
                           style: ElevatedButton.styleFrom(
@@ -310,8 +322,10 @@ class RequisitionReturnView extends StatelessWidget {
                   child: Container(
                     height: 728.h,
                     child: ListView.builder(
-                      itemCount: c.RequisitionsList.length,
+                      itemCount: c.pendingRequisitionsList.length,
                       itemBuilder: (context, index) {
+                        List<TableRow> tableRowsHere = c.requestTableMaker(
+                            c.pendingRequisitionsList[index].requisitions!);
                         return Padding(
                           padding: EdgeInsets.only(bottom: 8.0),
                           child: GestureDetector(
@@ -332,7 +346,8 @@ class RequisitionReturnView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   AppText(
-                                    text: c.RequisitionsList[index].remarks ??
+                                    text: c.pendingRequisitionsList[index]
+                                            .remarks ??
                                         'Remark',
                                     color: AppColors.txtColor,
                                     size: 20,
@@ -346,7 +361,7 @@ class RequisitionReturnView extends StatelessWidget {
                                     children: [
                                       AppText(
                                         text:
-                                            'Slot Id : ${c.RequisitionsList[index].slotId}'
+                                            'Slot Id : ${c.pendingRequisitionsList[index].slotId}'
                                                 .toString(),
                                         color: AppColors.txtColor,
                                         size: 16,
@@ -356,7 +371,7 @@ class RequisitionReturnView extends StatelessWidget {
                                       SizedBox(width: 32),
                                       AppText(
                                         text:
-                                            "Date : ${c.RequisitionsList[index].reqTime.toString().substring(0, 9)}",
+                                            "Date : ${c.pendingRequisitionsList[index].reqTime.toString().substring(0, 9)}",
                                         color: AppColors.txtColor,
                                         size: 16,
                                         fontFamily: AppFonts.interRegular,
@@ -365,7 +380,76 @@ class RequisitionReturnView extends StatelessWidget {
                                     ],
                                   ),
                                   c.isExpanded[index]
-                                      ? Container()
+                                      ? Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 16),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Table(
+                                                  border: TableBorder.all(
+                                                    width: 1.0,
+                                                    color: AppColors.darkblue,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                  ),
+                                                  columnWidths: {
+                                                    0: FlexColumnWidth(3),
+                                                    1: FlexColumnWidth(1),
+                                                  },
+                                                  children: [
+                                                    TableRow(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Text(
+                                                            'Item Name',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              color: AppColors
+                                                                  .txtColor,
+                                                              fontFamily: AppFonts
+                                                                  .interRegular,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Text(
+                                                            'Qty',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              color: AppColors
+                                                                  .txtColor,
+                                                              fontFamily: AppFonts
+                                                                  .interRegular,
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    ...tableRowsHere,
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
                                       : Container(),
                                 ],
                               ),

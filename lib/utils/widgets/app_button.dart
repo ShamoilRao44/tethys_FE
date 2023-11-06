@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_declarations
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tethys/resources/app_colors.dart';
 
 class AppButton extends StatelessWidget {

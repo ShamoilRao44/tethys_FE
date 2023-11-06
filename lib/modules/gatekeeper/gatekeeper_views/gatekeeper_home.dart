@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:tethys/modules/gatekeeper/gatekeeper_vm.dart';
 import 'package:tethys/resources/app_colors.dart';
-
-
 
 class GateKeeperHome extends StatelessWidget {
   GateKeeperHome({super.key});
@@ -51,19 +50,18 @@ class GateKeeperHome extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 duration: Duration(milliseconds: 400),
                 tabBackgroundColor: Colors.grey[100]!,
-                color: Colors.black,mainAxisAlignment: MainAxisAlignment.center,
+                color: Colors.black,
+                mainAxisAlignment: MainAxisAlignment.center,
                 tabMargin: EdgeInsets.symmetric(horizontal: 20),
                 tabs: [
                   GButton(
                     icon: Icons.dashboard,
                     text: 'Orders',
                   ),
-                  
                   GButton(
                     icon: Icons.rate_review_rounded,
                     text: 'Consignment',
                   ),
-                 
                 ],
                 selectedIndex: c.indx.value,
                 onTabChange: (index) {

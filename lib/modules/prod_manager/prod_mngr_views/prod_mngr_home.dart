@@ -1,12 +1,10 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:tethys/modules/prod_manager/prod_mngr_views/prod_mngr_dashboard.dart';
-import 'package:tethys/modules/prod_manager/prod_mngr_views/requisition_return.dart';
 
 import 'package:tethys/modules/prod_manager/prod_mngr_vm.dart';
 import 'package:tethys/resources/app_colors.dart';

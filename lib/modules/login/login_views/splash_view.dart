@@ -1,8 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'dart:async';
-import 'package:tethys/modules/login/login_views/login_view.dart';
 import 'package:tethys/resources/app_colors.dart';
 import 'package:tethys/resources/app_images.dart';
 import 'package:tethys/resources/app_routes.dart';
@@ -31,7 +32,7 @@ class _SplashViewState extends State<SplashView> {
           if (role == 0) {
             Get.offNamed(AppRoutes.ownerHome);
           } else if (role == 1) {
-            Get.offNamed(AppRoutes.StockMngrHome);
+            Get.offNamed(AppRoutes.stockMngrHome);
           } else if (role == 2) {
             Get.offNamed(AppRoutes.prodMngrHome);
           } else if (role == 3) {

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_function_literals_in_foreach_calls
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_function_literals_in_foreach_calls, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,124 +18,143 @@ class MaterialRequestView extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: AppText(
-                      text: 'Material Requests',
-                      textAlign: TextAlign.center,
-                      size: 32,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: AppFonts.interBold,
-                      color: AppColors.txtColor,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 0,
-                    child: PopupMenuButton(
-                      itemBuilder: (BuildContext context) {
-                        return [
-                          PopupMenuItem<String>(
-                            value: 'logout',
-                            child: AppText(
-                              text: 'Logout',
-                              color: AppColors.txtColor,
-                            ),
-                          ),
-                        ];
-                      },
-                      onSelected: (value) {
-                        if (value == 'logout') {
-                          logout();
-                        }
-                      },
-                      icon: Icon(
-                        Icons.more_vert,
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: AppText(
+                        text: 'Material Requests',
+                        textAlign: TextAlign.center,
+                        size: 32,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: AppFonts.interBold,
                         color: AppColors.txtColor,
                       ),
                     ),
-                  )
-                ],
-              ),
-              SizedBox(height: 16),
-              SingleChildScrollView(
-                child: Container(
-                  height: 728.h,
-                  child: ListView.builder(
-                    itemCount: c.materialReqList.length,
-                    itemBuilder: (context, index) {
-                      List<TableRow> tableRowsHere = c.requestTableMaker(
-                          c.materialReqList[index].requisitions!);
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            c.toggleExpansion(index);
-                          },
-                          child: AnimatedContainer(
-                            duration: Duration(milliseconds: 400),
-                            height: c.isExpanded[index] ? 400 : 96,
-                            padding: EdgeInsets.all(16.0),
-                            decoration: BoxDecoration(
-                              color: c.isExpanded[index]
-                                  ? AppColors.lightBlue
-                                  : AppColors.lightBlue,
-                              borderRadius: BorderRadius.circular(10.0),
+                    Expanded(
+                      flex: 0,
+                      child: PopupMenuButton(
+                        itemBuilder: (BuildContext context) {
+                          return [
+                            PopupMenuItem<String>(
+                              value: 'logout',
+                              child: AppText(
+                                text: 'Logout',
+                                color: AppColors.txtColor,
+                              ),
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        AppText(
-                                          text: c.materialReqList[index]
-                                                  .remarks ??
-                                              'Remarks',
-                                          color: AppColors.txtColor,
-                                          size: 20,
-                                          fontFamily: AppFonts.interRegular,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        SizedBox(height: 8),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            AppText(
-                                              text: c.materialReqList[index]
-                                                      .reqBy!.name ??
-                                                  '',
-                                              color: AppColors.txtColor,
-                                              size: 16,
-                                              fontFamily: AppFonts.interRegular,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                            SizedBox(width: 32),
-                                            AppText(
-                                              text:
-                                                  'Date: ${c.materialReqList[index].reqTime.toString().substring(0, 10)}',
-                                              color: AppColors.txtColor,
-                                              size: 16,
-                                              fontFamily: AppFonts.interRegular,
-                                              fontWeight: FontWeight.w400,
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    ElevatedButton(
+                          ];
+                        },
+                        onSelected: (value) {
+                          if (value == 'logout') {
+                            logout();
+                          }
+                        },
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: AppColors.txtColor,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 16),
+                SingleChildScrollView(
+                  child: Container(
+                    height: 736.h,
+                    child: ListView.builder(
+                      itemCount: c.materialReqList.length,
+                      itemBuilder: (context, index) {
+                        List<TableRow> tableRowsHere = c.requestTableMaker(
+                            c.materialReqList[index].requisitions!);
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              c.toggleExpansion(index);
+                            },
+                            child: AnimatedContainer(
+                              duration: Duration(milliseconds: 400),
+                              height: c.isExpanded[index] ? 400 : 96,
+                              padding: EdgeInsets.all(16.0),
+                              decoration: BoxDecoration(
+                                color: c.isExpanded[index]
+                                    ? AppColors.lightBlue
+                                    : AppColors.lightBlue,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppText(
+                                            text: c.materialReqList[index]
+                                                    .remarks ??
+                                                'Remarks',
+                                            color: const Color.fromRGBO(
+                                                62, 86, 126, 1),
+                                            size: MediaQuery.of(context)
+                                                        .size
+                                                        .width >
+                                                    300
+                                                ? 20
+                                                : 20.h,
+                                            fontFamily: AppFonts.interRegular,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          SizedBox(height: 8.h),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              AppText(
+                                                text: c.materialReqList[index]
+                                                        .reqBy!.name ??
+                                                    '',
+                                                color: AppColors.txtColor,
+                                                size: MediaQuery.of(context)
+                                                            .size
+                                                            .width >
+                                                        400
+                                                    ? 16
+                                                    : 16.h,
+                                                fontFamily:
+                                                    AppFonts.interRegular,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                              SizedBox(width: 32.w),
+                                              AppText(
+                                                text:
+                                                    'Date: ${c.materialReqList[index].reqTime.toString().substring(0, 10)}',
+                                                color: AppColors.txtColor,
+                                                size: MediaQuery.of(context)
+                                                            .size
+                                                            .width >
+                                                        400
+                                                    ? 16
+                                                    : 16.h,
+                                                fontFamily:
+                                                    AppFonts.interRegular,
+                                                fontWeight: FontWeight.w400,
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      ElevatedButton(
                                         onPressed: () {
                                           c.approveRequest(
                                               slotId: c.materialReqList[index]
@@ -151,87 +170,93 @@ class MaterialRequestView extends StatelessWidget {
                                             ),
                                             backgroundColor:
                                                 AppColors.btnColor),
-                                        child: Icon(Icons.check))
-                                  ],
-                                ),
-                                c.isExpanded[index]
-                                    ? Padding(
-                                        padding: const EdgeInsets.only(top: 16),
-                                        child: SingleChildScrollView(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Table(
-                                                border: TableBorder.all(
-                                                  width: 1.0,
-                                                  color: AppColors.darkblue,
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                ),
-                                                columnWidths: {
-                                                  0: FlexColumnWidth(3),
-                                                  1: FlexColumnWidth(1),
-                                                },
-                                                children: [
-                                                  TableRow(
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                          'Item Name',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            color: AppColors
-                                                                .txtColor,
-                                                            fontFamily: AppFonts
-                                                                .interRegular,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                          'Qty',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            color: AppColors
-                                                                .txtColor,
-                                                            fontFamily: AppFonts
-                                                                .interRegular,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
+                                        child: Icon(Icons.check),
+                                      ),
+                                    ],
+                                  ),
+                                  c.isExpanded[index]
+                                      ? Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 16),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Table(
+                                                  border: TableBorder.all(
+                                                    width: 1.0,
+                                                    color: AppColors.darkblue,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
                                                   ),
-                                                  ...tableRowsHere,
-                                                ],
-                                              ),
-                                            ],
+                                                  columnWidths: {
+                                                    0: FlexColumnWidth(3),
+                                                    1: FlexColumnWidth(1),
+                                                  },
+                                                  children: [
+                                                    TableRow(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Text(
+                                                            'Item Name',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              color: AppColors
+                                                                  .txtColor,
+                                                              fontFamily: AppFonts
+                                                                  .interRegular,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Text(
+                                                            'Qty',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              color: AppColors
+                                                                  .txtColor,
+                                                              fontFamily: AppFonts
+                                                                  .interRegular,
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    ...tableRowsHere,
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                    : Container(),
-                              ],
+                                        )
+                                      : Container(),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       );

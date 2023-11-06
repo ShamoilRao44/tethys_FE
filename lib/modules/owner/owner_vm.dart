@@ -6,7 +6,6 @@ import 'package:tethys/modules/owner/owner_repo/owner_repoimpl.dart';
 class OwnerHomeVM extends GetxController {
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     debugPrint('called');
     getRequests();
@@ -50,7 +49,7 @@ class OwnerHomeVM extends GetxController {
     var data = {};
     data['req_id'] = id.toString();
     debugPrint(data.toString());
-    await ownerRepoImp.DeleteReq(data).then((res) {
+    await ownerRepoImp.deleteReq(data).then((res) {
       if (res.status == '200') {
         debugPrint('success');
         getRequests();
@@ -65,7 +64,6 @@ class OwnerHomeVM extends GetxController {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     empRequests.clear();
   }
