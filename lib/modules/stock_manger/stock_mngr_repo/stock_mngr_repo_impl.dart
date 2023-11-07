@@ -1,6 +1,7 @@
 import 'package:tethys/data/remote/api_service.dart';
 import 'package:tethys/data/remote/endpoints.dart';
 import 'package:tethys/modules/prod_manager/models/get_items_list_model.dart';
+import 'package:tethys/modules/stock_manger/models/get_orders_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_request_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_returns_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/issue_request_model.dart.dart';
@@ -45,5 +46,10 @@ class StockMngrRepoImpl extends StockMngrRepo {
     );
   }
 
-  
+  @override
+  Future<OrdersListForSMngr> getOrders() async {
+    return ordersListFromJson(
+      await apiService.get(Endpoints.getOrderList),
+    );
+  }
 }

@@ -1,27 +1,29 @@
 import 'dart:convert';
 
-OrdersList ordersListFromJson(String str) =>
-    OrdersList.fromJson(json.decode(str));
+OrdersListForSMngr ordersListFromJson(String str) =>
+    OrdersListForSMngr.fromJson(json.decode(str));
 
-String ordersListToJson(OrdersList data) => json.encode(data.toJson());
+String ordersListToJson(OrdersListForSMngr data) => json.encode(data.toJson());
 
-class OrdersList {
+class OrdersListForSMngr {
   String? status;
   String? msg;
-  List<Datum>? data;
+  List<OrdersDatum>? data;
 
-  OrdersList({
+  OrdersListForSMngr({
     this.status,
     this.msg,
     this.data,
   });
 
-  factory OrdersList.fromJson(Map<String, dynamic> json) => OrdersList(
+  factory OrdersListForSMngr.fromJson(Map<String, dynamic> json) =>
+      OrdersListForSMngr(
         status: json["status"],
         msg: json["msg"],
         data: json["data"] == null
             ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+            : List<OrdersDatum>.from(
+                json["data"]!.map((x) => OrdersDatum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -33,7 +35,7 @@ class OrdersList {
       };
 }
 
-class Datum {
+class OrdersDatum {
   int? purId;
   DateTime? purTime;
   String? remarks;
@@ -42,9 +44,9 @@ class Datum {
   String? vehicle;
   DateTime? expDate;
   PurBy? purBy;
-  List<Order>? orders;
+  List<OrderDetails>? orders;
 
-  Datum({
+  OrdersDatum({
     this.purId,
     this.purTime,
     this.remarks,
@@ -56,7 +58,7 @@ class Datum {
     this.orders,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory OrdersDatum.fromJson(Map<String, dynamic> json) => OrdersDatum(
         purId: json["pur_id"],
         purTime:
             json["pur_time"] == null ? null : DateTime.parse(json["pur_time"]),
@@ -69,7 +71,8 @@ class Datum {
         purBy: json["pur_by"] == null ? null : PurBy.fromJson(json["pur_by"]),
         orders: json["orders"] == null
             ? []
-            : List<Order>.from(json["orders"]!.map((x) => Order.fromJson(x))),
+            : List<OrderDetails>.from(
+                json["orders"]!.map((x) => OrderDetails.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -87,18 +90,18 @@ class Datum {
       };
 }
 
-class Order {
+class OrderDetails {
   int? orderId;
   int? qtyReq;
   MatDetails? matDetails;
 
-  Order({
+  OrderDetails({
     this.orderId,
     this.qtyReq,
     this.matDetails,
   });
 
-  factory Order.fromJson(Map<String, dynamic> json) => Order(
+  factory OrderDetails.fromJson(Map<String, dynamic> json) => OrderDetails(
         orderId: json["order_id"],
         qtyReq: json["qty_req"],
         matDetails: json["mat_details"] == null
