@@ -1,8 +1,12 @@
 // ignore_for_file: prefer_const_constructors, avoid_function_literals_in_foreach_calls
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tethys/modules/gatekeeper/models/gatekeeper%20_model.dart';
 import 'package:tethys/modules/prod_manager/models/get_items_list_model.dart';
+import 'package:tethys/modules/stock_manger/models/get_orders_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_returns_list_model.dart';
 import 'package:tethys/modules/stock_manger/request_and_returns.dart';
 import 'package:tethys/modules/stock_manger/models/get_request_list_model.dart';
@@ -23,13 +27,17 @@ class StockMngrVM extends GetxController {
   bool isRequests = true;
   List<bool> isExpanded = [];
   List<bool> isExpanded2 = [];
+  List<bool> isExpandedForOrders = [];
   List<TableRow> tableRows = [];
   List<String> itemNameList = [];
   List<MaterialInfo>? materials = [];
   List<Map>? sendApiList = [];
 
+  OrdersDatum ordersObj = OrdersDatum();
+
   List<MaterialReqDatum> materialReqList = [];
   List<ReturnsDatum> returnsList = [];
+  List<OrdersDatum> ordersList = [];
   TextEditingController suppNameCtrl = TextEditingController();
   TextEditingController totalAmtCtrl = TextEditingController();
   TextEditingController invoiceCtrl = TextEditingController();
@@ -285,5 +293,51 @@ class StockMngrVM extends GetxController {
       },
     );
     return retMaterialTableRows;
+  }
+
+  Future<void> fetchOrders() async {
+    smri.getOrders().then((res) {
+      if (res.status == '200') {
+        ordersList.clear();
+        res.data!.forEach((element) {
+          ordersList.add(element);
+        });
+      }
+    }).onError((error, stackTrace) => null);
+    isExpandedForOrders = List.generate(ordersList.length, (index) => false);
+  }
+
+  void toggleExpansionForOrders(int index) {
+    isExpandedForOrders[index] = !isExpandedForOrders[index];
+    update(); // Trigger a UI update
+  }
+
+  List<TableRow> ordersTableMaker(List<OrderDetails> ordersListFromUi) {
+    List<TableRow> ordersListForTableMaker = [];
+    ordersListFromUi.forEach(
+      (element) {
+        ordersListForTableMaker.add(
+          TableRow(children: [
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: element.matDetails!.material.toString(),
+                  color: AppColors.txtColor,
+                  size: 16,
+                  fontFamily: AppFonts.interRegular,
+                )),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: element.qtyReq.toString(),
+                  color: AppColors.txtColor,
+                  size: 16,
+                  fontFamily: AppFonts.interRegular,
+                )),
+          ]),
+        );
+      },
+    );
+    return ordersListForTableMaker;
   }
 }
