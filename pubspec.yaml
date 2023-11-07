@@ -30,11 +30,8 @@ dev_dependencies:
 
 
 flutter:
-
-  
   uses-material-design: true
 
-  
   assets:
       - asset/splash.png
       - asset/bgImage.png

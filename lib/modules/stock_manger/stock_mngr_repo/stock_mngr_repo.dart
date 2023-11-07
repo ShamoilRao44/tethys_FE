@@ -10,4 +10,4 @@ abstract class StockMngrRepo {
   Future<SendOrderModel> sendOrder(Map data);
   Future<IssueRequestModel> issueRequest(Map data);
   Future<GetReturnsListModel> fetchReturns();
-}
+  }
