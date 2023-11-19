@@ -25,11 +25,8 @@ class StockMngrHome extends StatelessWidget {
         ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: Padding(
-            padding: const EdgeInsets.only(top: 24.0),
-            child: Container(
-              child: c.child,
-            ),
+          body: Container(
+            child: c.child,
           ),
           bottomNavigationBar: Container(
             padding: EdgeInsets.all(8),

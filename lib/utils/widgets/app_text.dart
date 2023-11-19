@@ -10,6 +10,7 @@ class AppText extends StatelessWidget {
   final String? fontFamily;
   final FontWeight? fontWeight;
   final TextAlign? textAlign;
+  final int? maxLines;
 
   const AppText({
     required this.text,
@@ -18,6 +19,7 @@ class AppText extends StatelessWidget {
     this.fontFamily,
     this.fontWeight,
     this.textAlign,
+    this.maxLines,
     super.key,
   });
 
@@ -27,6 +29,7 @@ class AppText extends StatelessWidget {
       text,
       softWrap: true,
       textAlign: textAlign,
+      maxLines: maxLines,
       style: TextStyle(
           color: color ?? AppColors.black,
           fontSize: size ?? 15.0.h,

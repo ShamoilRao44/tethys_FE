@@ -17,10 +17,14 @@ class Endpoints {
   static const getReqListForPmngr = 'pmanager/id';
   static const returnMaterial = 'pmanager/return/create';
 
+  static const getInventory = 'smanager/';
   static const getReqListForSmngr = 'smanager/reqs';
-  static const getReturnsList = 'smanager/return/reqs';
-  static const sendOrder = 'smanager/orders/create';
   static const issueSlot = 'smanager/reqs/issue/slot';
+  static const denyRequest = 'smanager/reqs/deny/slot';
+  static const getReturnsList = 'smanager/return/reqs';
+  static const approveReturn = 'smanager/return/reqs/allow';
+  static const denyReturns = 'smanager/return/reqs/deny';
+  static const sendOrder = 'smanager/orders/create';
 
   static const getOrderList = 'gkeep/';
   static const verifyOrders = 'gkeep/orders/check';

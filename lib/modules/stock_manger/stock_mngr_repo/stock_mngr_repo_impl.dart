@@ -1,6 +1,10 @@
 import 'package:tethys/data/remote/api_service.dart';
 import 'package:tethys/data/remote/endpoints.dart';
 import 'package:tethys/modules/prod_manager/models/get_items_list_model.dart';
+import 'package:tethys/modules/stock_manger/models/approve_returns_model.dart';
+import 'package:tethys/modules/stock_manger/models/deny_request_model.dart';
+import 'package:tethys/modules/stock_manger/models/deny_returns_model.dart';
+import 'package:tethys/modules/stock_manger/models/get_inventory_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_orders_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_request_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_returns_list_model.dart';
@@ -12,9 +16,9 @@ class StockMngrRepoImpl extends StockMngrRepo {
   ApiService apiService = ApiService();
 
   @override
-  Future<MaterialRequestModel> getrequests() async {
-    return materialRequestModelFromJson(
-      await apiService.get(Endpoints.getReqListForSmngr),
+  Future<GetInventoryModel> getInventory() async {
+    return getInventoryModelFromJson(
+      await apiService.get(Endpoints.getInventory),
     );
   }
 
@@ -26,9 +30,9 @@ class StockMngrRepoImpl extends StockMngrRepo {
   }
 
   @override
-  Future<SendOrderModel> sendOrder(Map data) async {
-    return sendOrderModelFromJson(
-      await apiService.post(Endpoints.sendOrder, data),
+  Future<MaterialRequestModel> getrequests() async {
+    return materialRequestModelFromJson(
+      await apiService.get(Endpoints.getReqListForSmngr),
     );
   }
 
@@ -40,6 +44,13 @@ class StockMngrRepoImpl extends StockMngrRepo {
   }
 
   @override
+  Future<DenyRequestModel> denyRequest(Map data) async {
+    return denyRequestModelFromJson(
+      await apiService.delete(Endpoints.denyRequest, data),
+    );
+  }
+
+  @override
   Future<GetReturnsListModel> fetchReturns() async {
     return getReturnsListModelFromJson(
       await apiService.get(Endpoints.getReturnsList),
@@ -47,9 +58,29 @@ class StockMngrRepoImpl extends StockMngrRepo {
   }
 
   @override
+  Future<ApproveReturnsModel> approveReturn(Map data) async {
+    return approveReturnsModelFromJson(
+      await apiService.post(Endpoints.approveReturn, data),
+    );
+  }
+
+  Future<DenyReturnsModel> denyReturns(Map data) async {
+    return denyReturnsModelFromJson(
+      await apiService.delete(Endpoints.denyReturns, data),
+    );
+  }
+
+  @override
   Future<OrdersListForSMngr> getOrders() async {
     return ordersListFromJson(
       await apiService.get(Endpoints.getOrderList),
+    );
+  }
+
+  @override
+  Future<SendOrderModel> sendOrder(Map data) async {
+    return sendOrderModelFromJson(
+      await apiService.post(Endpoints.sendOrder, data),
     );
   }
 }

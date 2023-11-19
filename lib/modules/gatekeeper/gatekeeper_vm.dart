@@ -18,6 +18,7 @@ class GatekeeperVM extends GetxController {
   GateKeepRepoImpl gkri = GateKeepRepoImpl();
   List<Datum> orderList = [];
   List<bool> isExpanded = [];
+  List<TextEditingController> controllersList = [];
   List<Map<String, String>> qtyReceivedById = [];
 
   void onInit() {
@@ -64,11 +65,11 @@ class GatekeeperVM extends GetxController {
     update(); // Trigger a UI update
   }
 
-  List<TableRow> orderTableMaker(List<Order> orderList) {
+  List<TableRow> orderTableMaker(List<Order> materialList) {
     List<TableRow> reqMaterialTableRows = [];
     qtyReceivedById.clear();
 
-    orderList.forEach(
+    materialList.forEach(
       (element) {
         reqMaterialTableRows.add(
           TableRow(
