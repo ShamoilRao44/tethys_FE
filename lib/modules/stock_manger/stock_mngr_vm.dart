@@ -55,6 +55,7 @@ class StockMngrVM extends GetxController {
     getRequests();
     fetchMaterialList();
     fetchReturns();
+    fetchOrders();
   }
 
   Future<void> getRequests() async {
@@ -196,6 +197,8 @@ class StockMngrVM extends GetxController {
             appSnackbar(msg: res.msg, color: AppColors.snackBarColorFailure));
       }
     });
+    await fetchOrders();
+    update();
   }
 
   List<TableRow> requestTableMaker(List<Requisition> requestList) {
