@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -112,17 +114,14 @@ class OrderConsgnmnt extends StatelessWidget {
                         Expanded(
                           flex: 2,
                           child: Autocomplete<String>(
-                            fieldViewBuilder: (context, textEditingController,
-                                focusNode, onFieldSubmitted) {
+                            fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
                               return TextField(
                                 controller: textEditingController,
                                 focusNode: focusNode,
-                                decoration:
-                                    InputDecoration(hintText: 'Item Name'),
+                                decoration: InputDecoration(hintText: 'Item Name'),
                               );
                             },
-                            optionsBuilder:
-                                (TextEditingValue textEditingValue) {
+                            optionsBuilder: (TextEditingValue textEditingValue) {
                               if (textEditingValue.text == '') {
                                 return c.itemNameList;
                               }
@@ -149,9 +148,7 @@ class OrderConsgnmnt extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 14,
                               ),
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
+                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                               decoration: InputDecoration(
                                 hintText: 'Qty',
                                 focusColor: Colors.transparent,
@@ -204,268 +201,200 @@ class OrderConsgnmnt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<StockMngrVM>(builder: (c) {
-      return Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
+      return SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 16),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Expanded(
-                    flex: 2,
-                    child: AppText(
-                      text: 'Orders & Consignment',
-                      textAlign: TextAlign.center,
-                      size: 24,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: AppFonts.interBold,
-                      color: AppColors.txtColor,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 0,
-                    child: PopupMenuButton(
-                      itemBuilder: (BuildContext context) {
-                        return [
-                          PopupMenuItem<String>(
-                            value: 'logout',
-                            child: AppText(
-                              text: 'Logout',
-                              color: AppColors.txtColor,
-                            ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: AppText(
+                          text: 'Orders & Consignment',
+                          textAlign: TextAlign.center,
+                          size: 24,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: AppFonts.interBold,
+                          color: AppColors.txtColor,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 0,
+                        child: PopupMenuButton(
+                          itemBuilder: (BuildContext context) {
+                            return [
+                              PopupMenuItem<String>(
+                                value: 'logout',
+                                child: AppText(
+                                  text: 'Logout',
+                                  color: AppColors.txtColor,
+                                ),
+                              ),
+                            ];
+                          },
+                          onSelected: (value) {
+                            if (value == 'logout') {
+                              logout();
+                            }
+                          },
+                          icon: Icon(
+                            Icons.more_vert,
+                            color: AppColors.txtColor,
                           ),
-                        ];
-                      },
-                      onSelected: (value) {
-                        if (value == 'logout') {
-                          logout();
-                        }
-                      },
-                      icon: Icon(
-                        Icons.more_vert,
-                        color: AppColors.txtColor,
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  SingleChildScrollView(
+                    child: Container(
+                      height: 736.h,
+                      child: ListView.builder(
+                        itemCount: c.ordersList.length,
+                        itemBuilder: (context, index) {
+                          List<TableRow> tableRowsHere = c.ordersTableMaker(c.ordersList[index].orders!);
+                          return Padding(
+                              padding: EdgeInsets.only(bottom: 8.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  c.toggleExpansionForOrders(index);
+                                },
+                                child: AnimatedContainer(
+                                  duration: Duration(milliseconds: 400),
+                                  height: c.isExpandedForOrders[index] ? 400 : 96,
+                                  padding: EdgeInsets.all(16.0),
+                                  decoration: BoxDecoration(
+                                    color: c.isExpandedForOrders[index] ? AppColors.lightBlue : AppColors.lightBlue,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        AppText(
+                                          text: c.ordersList[index].remarks ?? 'Remarks',
+                                          color: const Color.fromRGBO(62, 86, 126, 1),
+                                          size: MediaQuery.of(context).size.width > 300 ? 20 : 20.h,
+                                          fontFamily: AppFonts.interRegular,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        SizedBox(height: 8.h),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            AppText(
+                                              text: 'Name: ${c.ordersList[index].purBy!.name ?? ''}',
+                                              color: AppColors.txtColor,
+                                              size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
+                                              fontFamily: AppFonts.interRegular,
+                                              fontWeight: FontWeight.w400,
+                                              maxLines: 2,
+                                            ),
+                                            SizedBox(width: 32.w),
+                                            AppText(
+                                              text: 'Date: ${c.ordersList[index].purTime.toString().substring(0, 10)}',
+                                              color: AppColors.txtColor,
+                                              size: MediaQuery.of(context).size.width > 400 ? 16 : 16.w,
+                                              fontFamily: AppFonts.interRegular,
+                                              fontWeight: FontWeight.w400,
+                                            )
+                                          ],
+                                        ),
+                                        c.isExpandedForOrders[index]
+                                            ? SingleChildScrollView(
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(height: 8),
+                                                    AppText(
+                                                      text: 'Invoice: ${c.ordersList[index].invoice ?? ''}',
+                                                      color: AppColors.txtColor,
+                                                      size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
+                                                      fontFamily: AppFonts.interRegular,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                    SizedBox(height: 8),
+                                                    AppText(
+                                                      text: 'Vehicle No.: ${c.ordersList[index].vehicle ?? ''}',
+                                                      color: AppColors.txtColor,
+                                                      size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
+                                                      fontFamily: AppFonts.interRegular,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                    SizedBox(height: 8),
+                                                    Table(
+                                                      border: TableBorder.all(
+                                                        width: 1.0,
+                                                        color: AppColors.darkblue,
+                                                        borderRadius: BorderRadius.circular(8),
+                                                      ),
+                                                      columnWidths: {
+                                                        0: FlexColumnWidth(3),
+                                                        1: FlexColumnWidth(1),
+                                                      },
+                                                      children: [
+                                                        TableRow(
+                                                          children: [
+                                                            Padding(
+                                                              padding: const EdgeInsets.all(8.0),
+                                                              child: Text(
+                                                                'Item Name',
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(
+                                                                  color: AppColors.txtColor,
+                                                                  fontFamily: AppFonts.interRegular,
+                                                                  fontWeight: FontWeight.w600,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.all(8.0),
+                                                              child: Text(
+                                                                'Qty',
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(
+                                                                  color: AppColors.txtColor,
+                                                                  fontFamily: AppFonts.interRegular,
+                                                                  fontSize: 16,
+                                                                  fontWeight: FontWeight.w600,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        ...tableRowsHere,
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            : Container(),
+                                      ]),
+                                ),
+                              ));
+                        },
                       ),
                     ),
                   )
                 ],
               ),
-              SizedBox(height: 16),
-              SingleChildScrollView(
-                //request view
-                child: Container(
-                  height: 736.h,
-                  child: ListView.builder(
-                    itemCount: c.ordersList.length,
-                    itemBuilder: (context, index) {
-                      List<TableRow> tableRowsHere =
-                          c.ordersTableMaker(c.ordersList[index].orders!);
-                      return Padding(
-                          padding: EdgeInsets.only(bottom: 8.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              c.toggleExpansionForOrders(index);
-                            },
-                            child: AnimatedContainer(
-                              duration: Duration(milliseconds: 400),
-                              height: c.isExpanded[index] ? 400 : 96,
-                              padding: EdgeInsets.all(16.0),
-                              decoration: BoxDecoration(
-                                color: c.isExpanded[index]
-                                    ? AppColors.lightBlue
-                                    : AppColors.lightBlue,
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            AppText(
-                                              text:
-                                                  c.ordersList[index].remarks ??
-                                                      'Remarks',
-                                              color: const Color.fromRGBO(
-                                                  62, 86, 126, 1),
-                                              size: MediaQuery.of(context)
-                                                          .size
-                                                          .width >
-                                                      300
-                                                  ? 20
-                                                  : 20.h,
-                                              fontFamily: AppFonts.interRegular,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                            SizedBox(height: 8.h),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                AppText(
-                                                  text: c.ordersList[index]
-                                                          .purBy!.name ??
-                                                      '',
-                                                  color: AppColors.txtColor,
-                                                  size: MediaQuery.of(context)
-                                                              .size
-                                                              .width >
-                                                          400
-                                                      ? 16
-                                                      : 16.h,
-                                                  fontFamily:
-                                                      AppFonts.interRegular,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                                SizedBox(width: 32.w),
-                                                AppText(
-                                                  text:
-                                                      'Date: ${c.ordersList[index].purTime.toString().substring(0, 10)}',
-                                                  color: AppColors.txtColor,
-                                                  size: MediaQuery.of(context)
-                                                              .size
-                                                              .width >
-                                                          400
-                                                      ? 16
-                                                      : 16.h,
-                                                  fontFamily:
-                                                      AppFonts.interRegular,
-                                                  fontWeight: FontWeight.w400,
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        //     ElevatedButton(
-                                        //       onPressed: () {
-                                        //         c.approveRequest(
-                                        //             slotId: c
-                                        //                 .materialReqList[index].slotId!,
-                                        //             context: context);
-                                        //       },
-                                        //       style: ElevatedButton.styleFrom(
-                                        //           padding: EdgeInsets.all(16),
-                                        //           elevation: 0,
-                                        //           shape: RoundedRectangleBorder(
-                                        //             borderRadius:
-                                        //                 BorderRadius.circular(10),
-                                        //           ),
-                                        //           backgroundColor: AppColors.btnColor),
-                                        //       child: Icon(Icons.check),
-                                        //     ),
-                                        //   ],
-                                        // ),
-                                        c.isExpandedForOrders[index]
-                                            ? Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 16),
-                                                child: SingleChildScrollView(
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Table(
-                                                        border: TableBorder.all(
-                                                          width: 1.0,
-                                                          color: AppColors
-                                                              .darkblue,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8),
-                                                        ),
-                                                        columnWidths: {
-                                                          0: FlexColumnWidth(3),
-                                                          1: FlexColumnWidth(1),
-                                                        },
-                                                        children: [
-                                                          TableRow(
-                                                            children: [
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        8.0),
-                                                                child: Text(
-                                                                  'Item Name',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: AppColors
-                                                                        .txtColor,
-                                                                    fontFamily:
-                                                                        AppFonts
-                                                                            .interRegular,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        8.0),
-                                                                child: Text(
-                                                                  'Qty',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: AppColors
-                                                                        .txtColor,
-                                                                    fontFamily:
-                                                                        AppFonts
-                                                                            .interRegular,
-                                                                    fontSize:
-                                                                        16,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          ...tableRowsHere,
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                            : Container(),
-                                      ],
-                                    ),
-                                  ]),
-                            ),
-                          ));
-                    },
-                  ),
-                ),
-              )
-            ],
-          ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: AppColors.txtColor,
-            onPressed: () {
-              newOrderDialog(context);
-            },
-            child: Icon(Icons.add),
+            ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: AppColors.txtColor,
+              onPressed: () {
+                newOrderDialog(context);
+              },
+              child: Icon(Icons.add),
+            ),
           ),
         ),
       );

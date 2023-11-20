@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, await_only_futures
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -71,21 +71,25 @@ class OrderView extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: c.orderList.length,
                       itemBuilder: (context, index) {
-                        List<TableRow> tableRowsHere =
-                            c.orderTableMaker(c.orderList[index].orders!);
+                        List<TableRow>? tableRowsHere;
+
                         return Padding(
                           padding: EdgeInsets.only(bottom: 8.0),
                           child: GestureDetector(
-                            onTap: () {
-                              c.toggleExpansion(index);
+                            onTap: () async {
+                              tableRowsHere = await c.orderTableMaker(c.orderList[index].orders!);
+
+                              Future.delayed(Duration(milliseconds: 500), () {
+                                debugPrint(tableRowsHere.toString());
+                                c.toggleExpansion(index);
+                              });
                             },
                             child: AnimatedContainer(
                               duration: Duration(milliseconds: 400),
                               height: c.isExpanded[index] ? 400 : 96,
                               padding: EdgeInsets.all(16.0),
                               decoration: BoxDecoration(
-                                color: AppColors
-                                    .lightBlue, // Change color when expanded
+                                color: AppColors.lightBlue, // Change color when expanded
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               child: Column(
@@ -93,16 +97,13 @@ class OrderView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           AppText(
-                                            text: c.orderList[index].remarks ??
-                                                'Remark',
+                                            text: c.orderList[index].remarks ?? 'Remark',
                                             color: AppColors.txtColor,
                                             size: 20,
                                             fontFamily: AppFonts.interRegular,
@@ -110,28 +111,22 @@ class OrderView extends StatelessWidget {
                                           ),
                                           SizedBox(height: 8),
                                           Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               AppText(
-                                                text:
-                                                    'Slot Id : ${c.orderList[index].purId}'
-                                                        .toString(),
+                                                text: 'Slot Id : ${c.orderList[index].purId}'.toString(),
                                                 color: AppColors.txtColor,
                                                 size: 16,
-                                                fontFamily:
-                                                    AppFonts.interRegular,
+                                                fontFamily: AppFonts.interRegular,
                                                 fontWeight: FontWeight.w400,
                                               ),
                                               SizedBox(width: 32),
                                               AppText(
-                                                text:
-                                                    "Date : ${c.orderList[index].purTime.toString().substring(0, 9)}",
+                                                text: "Date : ${c.orderList[index].purTime.toString().substring(0, 9)}",
                                                 color: AppColors.txtColor,
                                                 size: 16,
-                                                fontFamily:
-                                                    AppFonts.interRegular,
+                                                fontFamily: AppFonts.interRegular,
                                                 fontWeight: FontWeight.w400,
                                               )
                                             ],
@@ -142,27 +137,23 @@ class OrderView extends StatelessWidget {
                                         onPressed: () {
                                           c.approveOrder(
                                               purId: c.orderList[index].purId!,
-                                              orders:
-                                                  c.orderList[index].orders!,
+                                              orders: c.orderList[index].orders!,
                                               context: context);
                                         },
                                         style: ElevatedButton.styleFrom(
                                             padding: EdgeInsets.all(16),
                                             elevation: 0,
                                             shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
+                                              borderRadius: BorderRadius.circular(10),
                                             ),
-                                            backgroundColor:
-                                                AppColors.btnColor),
+                                            backgroundColor: AppColors.btnColor),
                                         child: Icon(Icons.check),
                                       ),
                                     ],
                                   ),
                                   c.isExpanded[index]
                                       ? Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 16),
+                                          padding: const EdgeInsets.only(top: 16),
                                           child: SingleChildScrollView(
                                             child: Column(
                                               mainAxisSize: MainAxisSize.min,
@@ -171,9 +162,7 @@ class OrderView extends StatelessWidget {
                                                   border: TableBorder.all(
                                                     width: 1.0,
                                                     color: AppColors.darkblue,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
+                                                    borderRadius: BorderRadius.circular(8),
                                                   ),
                                                   columnWidths: {
                                                     0: FlexColumnWidth(3),
@@ -183,47 +172,33 @@ class OrderView extends StatelessWidget {
                                                     TableRow(
                                                       children: [
                                                         Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
+                                                          padding: const EdgeInsets.all(8.0),
                                                           child: Text(
                                                             'Item Name',
-                                                            textAlign: TextAlign
-                                                                .center,
+                                                            textAlign: TextAlign.center,
                                                             style: TextStyle(
-                                                              color: AppColors
-                                                                  .txtColor,
-                                                              fontFamily: AppFonts
-                                                                  .interRegular,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
+                                                              color: AppColors.txtColor,
+                                                              fontFamily: AppFonts.interRegular,
+                                                              fontWeight: FontWeight.w600,
                                                             ),
                                                           ),
                                                         ),
                                                         Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
+                                                          padding: const EdgeInsets.all(8.0),
                                                           child: Text(
                                                             'Qty',
-                                                            textAlign: TextAlign
-                                                                .center,
+                                                            textAlign: TextAlign.center,
                                                             style: TextStyle(
-                                                              color: AppColors
-                                                                  .txtColor,
-                                                              fontFamily: AppFonts
-                                                                  .interRegular,
+                                                              color: AppColors.txtColor,
+                                                              fontFamily: AppFonts.interRegular,
                                                               fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
+                                                              fontWeight: FontWeight.w600,
                                                             ),
                                                           ),
                                                         ),
                                                       ],
                                                     ),
-                                                    ...tableRowsHere,
+                                                    ...tableRowsHere !,
                                                   ],
                                                 ),
                                               ],
