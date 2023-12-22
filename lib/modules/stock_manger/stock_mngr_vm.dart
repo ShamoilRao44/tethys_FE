@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, avoid_function_literals_in_foreach_calls
 
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,7 +31,8 @@ class StockMngrVM extends GetxController {
   List<TableRow> tableRows = [];
   List<String> itemNameList = [];
   List<MaterialInfo>? materials = [];
-  List<Map>? sendApiList = [];
+  List<Map> sendApiList = [];
+  List<TableRow> invntryTableRows = [];
 
   OrdersDatum ordersObj = OrdersDatum();
 
@@ -88,6 +88,58 @@ class StockMngrVM extends GetxController {
     }).onError((error, stackTrace) => null);
   }
 
+  void invntryTableMaker() {
+    invntryTableRows.clear();
+    var count = 1;
+    inventoryList.forEach((element) {
+      invntryTableRows.add(
+        TableRow(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppText(
+                textAlign: TextAlign.center,
+                text: count.toString(),
+                color: AppColors.txtColor,
+                size: 16,
+                fontFamily: AppFonts.interRegular,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppText(
+                textAlign: TextAlign.center,
+                text: element.materialId.toString(),
+                color: AppColors.txtColor,
+                size: 16,
+                fontFamily: AppFonts.interRegular,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppText(
+                text: element.matDetails!.material!,
+                color: AppColors.txtColor,
+                size: 16,
+                fontFamily: AppFonts.interRegular,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppText(
+                text: '${element.availableQty} ${element.matDetails!.umo}',
+                color: AppColors.txtColor,
+                size: 16,
+                fontFamily: AppFonts.interRegular,
+              ),
+            ),
+          ],
+        ),
+      );
+      ++count;
+    });
+  }
+
   Future<void> fetchMaterialList() async {
     await smri.getItemsList().then(
       (res) {
@@ -120,6 +172,7 @@ class StockMngrVM extends GetxController {
             }
           },
         );
+        debugPrint(materialReqList.toString());
         isExpanded = List.generate(materialReqList.length, (index) => false);
       }
     });
@@ -152,12 +205,15 @@ class StockMngrVM extends GetxController {
 
     data['slot_id'] = slotId;
 
+    debugPrint(data.toString());
+
     await smri.denyRequest(data).then((res) async {
       if (res.status == '200') {
         ScaffoldMessenger.of(context).showSnackBar(
           appSnackbar(msg: res.msg, color: AppColors.snackBarColorSuccess),
         );
         await getRequests();
+        update();
         await fetchInventory();
         update();
       } else {

@@ -3,9 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/prod_manager/models/get_items_list_model.dart';
+import 'package:tethys/modules/prod_manager/models/get_pm_Inventory_model.dart';
+import 'package:tethys/modules/prod_manager/models/get_returns_model.dart';
 import 'package:tethys/modules/prod_manager/models/requisition_list_model.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_repo/prod_mngr_repo_impl.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_views/prod_mngr_dashboard.dart';
+import 'package:tethys/modules/prod_manager/prod_mngr_views/production_handover.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_views/requisition_return.dart';
 import 'package:tethys/resources/app_colors.dart';
 import 'package:tethys/resources/app_fonts.dart';
@@ -18,18 +21,24 @@ class ProdMngrVM extends GetxController {
   String selectedOption = 'Request Material';
   ProdMngrRepoImpl pmri = ProdMngrRepoImpl();
   Widget? child = ProdMngrDashboard();
+  bool isRequests = true;
   List<TableRow> tableRows = [];
   TextEditingController itemNameCtrl = TextEditingController();
   TextEditingController itemQtyCtrl = TextEditingController();
   TextEditingController remarkCtrl = TextEditingController();
+  TextEditingController handoverTitleCtrl = TextEditingController();
 
   List<ReqListDatum> pendingRequisitionsList = [];
+  List<ReturnsDatum> returnsList = [];
+  List<PmInventoryDatum> inventoryList = [];
 
   List<String> itemNameList = [];
   List<MaterialInfo>? materials = [];
-  List<Map>? sendApiList = [];
+  List<Map> sendApiList = [];
+  List<TableRow> invntryTableRows = [];
 
   List<bool> isExpanded = [];
+  List<bool> isExpanded2 = [];
 
   late RequisitionListModel requisitions;
 
@@ -38,6 +47,8 @@ class ProdMngrVM extends GetxController {
     super.onInit();
     fetchMaterialList();
     fetchRequisitionList();
+    fetchReturns();
+    fetchPmInventory();
   }
 
   Future<void> fetchMaterialList() async {
@@ -55,6 +66,69 @@ class ProdMngrVM extends GetxController {
     );
   }
 
+  Future<void> fetchPmInventory() async {
+    await pmri.getPmInventroy().then((res) {
+      if (res.status == '200') {
+        res.data!.forEach((element) {
+          inventoryList.add(element);
+        });
+      }
+    }).onError((error, stackTrace) => null);
+  }
+
+  void invntryTableMaker() {
+    invntryTableRows.clear();
+    var count = 1;
+    inventoryList.forEach((element) {
+      invntryTableRows.add(
+        TableRow(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppText(
+                textAlign: TextAlign.center,
+                text: count.toString(),
+                color: AppColors.txtColor,
+                size: 16,
+                fontFamily: AppFonts.interRegular,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppText(
+                textAlign: TextAlign.center,
+                text: element.materialId.toString(),
+                color: AppColors.txtColor,
+                size: 16,
+                fontFamily: AppFonts.interRegular,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppText(
+                text: element.matDetails!.material!,
+                color: AppColors.txtColor,
+                size: 16,
+                fontFamily: AppFonts.interRegular,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppText(
+                text: '${element.availableQty} ${element.matDetails!.umo}',
+                color: AppColors.txtColor,
+                size: 16,
+                fontFamily: AppFonts.interRegular,
+              ),
+            ),
+          ],
+        ),
+      );
+      update();
+      ++count;
+    });
+  }
+
   void onTabChange(int index) {
     indx.value = index;
 
@@ -66,10 +140,15 @@ class ProdMngrVM extends GetxController {
         child = RequisitionReturnView();
         break;
       case 2:
-        child = ProdMngrDashboard();
+        child = ProductionHandover();
         break;
     }
 
+    update();
+  }
+
+  void toggleViews(bool value) {
+    isRequests = value;
     update();
   }
 
@@ -153,7 +232,11 @@ class ProdMngrVM extends GetxController {
   }
 
   void toggleExpansion(int index) {
-    isExpanded[index] = !isExpanded[index];
+    if (isRequests == true) {
+      isExpanded[index] = !isExpanded[index];
+    } else {
+      isExpanded2[index] = !isExpanded2[index];
+    }
     update(); // Trigger a UI update
   }
 
@@ -174,8 +257,8 @@ class ProdMngrVM extends GetxController {
               }
             },
           );
-          isExpanded =
-              List.generate(pendingRequisitionsList.length, (index) => false);
+          update();
+          isExpanded = List.generate(pendingRequisitionsList.length, (index) => false);
         } else {
           debugPrint(res.msg);
         }
@@ -184,11 +267,17 @@ class ProdMngrVM extends GetxController {
   }
 
   Future<void> returnMaterial(BuildContext context) async {
+    if (itemNameCtrl.text.isNotEmpty && itemQtyCtrl.text.isNotEmpty) {
+      addRow();
+    }
+
     var data = {};
 
     data['items'] = sendApiList;
     data['req_by'] = await SecuredStorage.readIntValue(Keys.id);
     data['remarks'] = remarkCtrl.text;
+
+    debugPrint(data.toString());
 
     await pmri.returnMaterial(data).then(
       (res) {
@@ -205,9 +294,62 @@ class ProdMngrVM extends GetxController {
           ));
         }
       },
-    ).onError((error, stackTrace) => null);
+    ).onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+        msg: 'Something went wrong',
+        color: AppColors.snackBarColorFailure,
+      ));
+    });
 
     tableRows.clear();
+  }
+
+  Future<void> fetchReturns() async {
+    returnsList.clear();
+
+    var data = {};
+
+    data['emp_id'] = 12;
+
+    await pmri.fetchReturns(data).then((res) {
+      res.data!.forEach(
+        (element) {
+          if (element.approved == false) {
+            returnsList.add(element);
+          }
+        },
+      );
+    }).onError((error, stackTrace) => null);
+    isExpanded2 = List.generate(returnsList.length, (index) => false);
+  }
+
+  List<TableRow> returnsTableMaker(List<MaterialsReturn> returnsList) {
+    List<TableRow> retMaterialTableRows = [];
+    returnsList.forEach(
+      (element) {
+        retMaterialTableRows.add(
+          TableRow(children: [
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: element.matDetails!.material.toString(),
+                  color: AppColors.txtColor,
+                  size: 16,
+                  fontFamily: AppFonts.interRegular,
+                )),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: element.qtyRet.toString(),
+                  color: AppColors.txtColor,
+                  size: 16,
+                  fontFamily: AppFonts.interRegular,
+                )),
+          ]),
+        );
+      },
+    );
+    return retMaterialTableRows;
   }
 
   List<TableRow> requestTableMaker(List<Requisition> requestList) {
@@ -237,5 +379,57 @@ class ProdMngrVM extends GetxController {
       },
     );
     return reqMaterialTableRows;
+  }
+
+  void addRowForHandover() {
+    tableRows.add(
+      TableRow(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              itemNameCtrl.text,
+              maxLines: 2,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                itemQtyCtrl.text,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+    update();
+
+    sendApiList.add({
+      'p_name': itemNameCtrl.text,
+      'qty': itemQtyCtrl.text,
+    });
+
+    debugPrint(sendApiList.toString());
+
+    itemNameCtrl.clear();
+    itemQtyCtrl.clear();
+    update();
+  }
+
+  Future<void> sendHandover(BuildContext context) async {
+    if (itemNameCtrl.text.isNotEmpty && itemQtyCtrl.text.isNotEmpty) {
+      addRowForHandover();
+    }
+
+    var data = {};
+
+    data['prods'] = sendApiList;
+    data['hand_by'] = await SecuredStorage.readIntValue(Keys.id);
+    data['remarks'] = handoverTitleCtrl.text;
+
+    debugPrint(data.toString());
   }
 }

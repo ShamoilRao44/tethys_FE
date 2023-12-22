@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_vm.dart';
 import 'package:tethys/resources/app_fonts.dart';
 import 'package:tethys/resources/app_images.dart';
+import 'package:tethys/resources/app_routes.dart';
 import 'package:tethys/utils/common.dart';
 
 import '../../resources/app_colors.dart';
@@ -87,15 +88,27 @@ class StockMngrDashboard extends StatelessWidget {
                             crossAxisSpacing: 16.w,
                             mainAxisSpacing: 16.h,
                             children: [
-                              dashboardCard(text1: 'Pending Material Requests'),
-                              dashboardCard(text1: 'Pending Return Requests'),
-                              dashboardCard(text1: 'Unverified Orders'),
+                              dashboardCard(
+                                text1: 'Pending Material Requests',
+                                text2: c.materialReqList.length.toString(),
+                              ),
+                              dashboardCard(
+                                text1: 'Pending Return Requests',
+                                text2: c.returnsList.length.toString(),
+                              ),
+                              dashboardCard(
+                                text1: 'Unverified Orders',
+                                text2: c.ordersList.length.toString(),
+                              ),
                               dashboardCard(text1: 'Unverified Consignments'),
                             ],
                           ),
                           SizedBox(height: 24),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              c.invntryTableMaker();
+                              Get.toNamed(AppRoutes.smInventory);
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.bordeColor2,
                               minimumSize: Size(160, 80),
