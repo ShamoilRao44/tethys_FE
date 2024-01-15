@@ -7,6 +7,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_vm.dart';
 import 'package:tethys/resources/app_colors.dart';
 import 'package:tethys/resources/app_fonts.dart';
+import 'package:tethys/resources/app_routes.dart';
 import 'package:tethys/utils/common.dart';
 import 'package:tethys/utils/widgets/app_text.dart';
 
@@ -178,22 +179,22 @@ class MaterialRequestView extends StatelessWidget {
                                                     ),
                                                   ],
                                                 ),
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                    c.approveRequest(
-                                                      slotId: c.materialReqList[index].slotId!,
-                                                      context: context,
-                                                    );
-                                                  },
-                                                  style: ElevatedButton.styleFrom(
-                                                      padding: EdgeInsets.all(16),
-                                                      elevation: 0,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(10),
-                                                      ),
-                                                      backgroundColor: AppColors.btnColor),
-                                                  child: Icon(Icons.check),
-                                                ),
+                                                // ElevatedButton(
+                                                //   onPressed: () {
+                                                //     c.approveRequest(
+                                                //       slotId: c.materialReqList[index].slotId!,
+                                                //       context: context,
+                                                //     );
+                                                //   },
+                                                //   style: ElevatedButton.styleFrom(
+                                                //       padding: EdgeInsets.all(16),
+                                                //       elevation: 0,
+                                                //       shape: RoundedRectangleBorder(
+                                                //         borderRadius: BorderRadius.circular(10),
+                                                //       ),
+                                                //       backgroundColor: AppColors.btnColor),
+                                                //   child: Icon(Icons.check),
+                                                // ),
                                               ],
                                             ),
                                             c.isExpanded[index]
@@ -205,6 +206,21 @@ class MaterialRequestView extends StatelessWidget {
                                                         child: Column(
                                                           mainAxisSize: MainAxisSize.min,
                                                           children: [
+                                                            ElevatedButton(
+                                                                onPressed: () {
+                                                                  c.issueMaterialsButton(
+                                                                      c.materialReqList[index].requisitions!);
+                                                                },
+                                                                style: ElevatedButton.styleFrom(
+                                                                    backgroundColor: Colors.green,
+                                                                    padding: EdgeInsets.all(8)),
+                                                                child: AppText(
+                                                                  text: 'Issue Materials',
+                                                                  size: 12,
+                                                                  color: AppColors.white,
+                                                                  fontFamily: AppFonts.interRegular,
+                                                                  fontWeight: FontWeight.w600,
+                                                                )),
                                                             Table(
                                                               border: TableBorder.all(
                                                                 width: 1.0,
@@ -214,6 +230,8 @@ class MaterialRequestView extends StatelessWidget {
                                                               columnWidths: {
                                                                 0: FlexColumnWidth(3),
                                                                 1: FlexColumnWidth(1),
+                                                                2: FlexColumnWidth(1),
+                                                                3: FlexColumnWidth(1),
                                                               },
                                                               children: [
                                                                 TableRow(
@@ -225,6 +243,7 @@ class MaterialRequestView extends StatelessWidget {
                                                                         textAlign: TextAlign.center,
                                                                         style: TextStyle(
                                                                           color: AppColors.txtColor,
+                                                                          fontSize: 14,
                                                                           fontFamily: AppFonts.interRegular,
                                                                           fontWeight: FontWeight.w600,
                                                                         ),
@@ -233,12 +252,41 @@ class MaterialRequestView extends StatelessWidget {
                                                                     Padding(
                                                                       padding: const EdgeInsets.all(8.0),
                                                                       child: Text(
-                                                                        'Qty',
+                                                                        'Qty \nrequested',
                                                                         textAlign: TextAlign.center,
+                                                                        maxLines: 2,
                                                                         style: TextStyle(
                                                                           color: AppColors.txtColor,
                                                                           fontFamily: AppFonts.interRegular,
-                                                                          fontSize: 16,
+                                                                          fontSize: 13.sp,
+                                                                          fontWeight: FontWeight.w600,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.all(8.0),
+                                                                      child: Text(
+                                                                        'Qty \nIssued',
+                                                                        textAlign: TextAlign.center,
+                                                                        maxLines: 2,
+                                                                        style: TextStyle(
+                                                                          color: AppColors.txtColor,
+                                                                          fontFamily: AppFonts.interRegular,
+                                                                          fontSize: 13.sp,
+                                                                          fontWeight: FontWeight.w600,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.all(8.0),
+                                                                      child: Text(
+                                                                        'Qty \nRemaining',
+                                                                        textAlign: TextAlign.center,
+                                                                        maxLines: 2,
+                                                                        style: TextStyle(
+                                                                          color: AppColors.txtColor,
+                                                                          fontFamily: AppFonts.interRegular,
+                                                                          fontSize: 13.sp,
                                                                           fontWeight: FontWeight.w600,
                                                                         ),
                                                                       ),

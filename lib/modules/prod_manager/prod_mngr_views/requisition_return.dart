@@ -421,6 +421,7 @@ class RequisitionReturnView extends StatelessWidget {
                                                             columnWidths: {
                                                               0: FlexColumnWidth(3),
                                                               1: FlexColumnWidth(1),
+                                                              2: FlexColumnWidth(1),
                                                             },
                                                             children: [
                                                               TableRow(
@@ -432,6 +433,7 @@ class RequisitionReturnView extends StatelessWidget {
                                                                       textAlign: TextAlign.center,
                                                                       style: TextStyle(
                                                                         color: AppColors.txtColor,
+                                                                        fontSize: 14,
                                                                         fontFamily: AppFonts.interRegular,
                                                                         fontWeight: FontWeight.w600,
                                                                       ),
@@ -440,12 +442,26 @@ class RequisitionReturnView extends StatelessWidget {
                                                                   Padding(
                                                                     padding: const EdgeInsets.all(8.0),
                                                                     child: Text(
-                                                                      'Qty',
+                                                                      'Qty \nRequested',
+                                                                      textAlign: TextAlign.center,
+                                                                      maxLines: 2,
+                                                                      style: TextStyle(
+                                                                        color: AppColors.txtColor,
+                                                                        fontFamily: AppFonts.interRegular,
+                                                                        fontSize: 12,
+                                                                        fontWeight: FontWeight.w600,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.all(8.0),
+                                                                    child: Text(
+                                                                      'Qty \nIssued',
                                                                       textAlign: TextAlign.center,
                                                                       style: TextStyle(
                                                                         color: AppColors.txtColor,
                                                                         fontFamily: AppFonts.interRegular,
-                                                                        fontSize: 16,
+                                                                        fontSize: 14,
                                                                         fontWeight: FontWeight.w600,
                                                                       ),
                                                                     ),

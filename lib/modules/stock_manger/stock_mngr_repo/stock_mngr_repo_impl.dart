@@ -37,9 +37,9 @@ class StockMngrRepoImpl extends StockMngrRepo {
   }
 
   @override
-  Future<IssueRequestModel> issueRequest(Map data) async {
-    return issueRequestModelFromJson(
-      await apiService.post(Endpoints.issueSlot, data),
+  Future<IssueRequesitionsModel> issueRequest(Map data) async {
+    return issueRequesitionsModelFromJson(
+      await apiService.post(Endpoints.issueRequesitions, data),
     );
   }
 

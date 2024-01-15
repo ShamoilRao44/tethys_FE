@@ -13,7 +13,7 @@ abstract class StockMngrRepo {
   Future<GetInventoryModel> getInventory();
   Future<GetItemsListModel> getItemsList();
   Future<MaterialRequestModel> getrequests();
-  Future<IssueRequestModel> issueRequest(Map data);
+  Future<IssueRequesitionsModel> issueRequest(Map data);
   Future<DenyRequestModel> denyRequest(Map data);
   Future<GetReturnsListModel> fetchReturns();
   Future<ApproveReturnsModel> approveReturn(Map data);

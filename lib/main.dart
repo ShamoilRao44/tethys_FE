@@ -10,6 +10,7 @@ import 'package:tethys/modules/owner/views/owner_home_view.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_views/pm_inventory.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_views/prod_mngr_home.dart';
 import 'package:tethys/modules/signup/signup_view.dart';
+import 'package:tethys/modules/stock_manger/issue_materials.dart';
 import 'package:tethys/modules/stock_manger/sm_inventory.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_home.dart';
 import 'package:tethys/utils/bindings.dart';
@@ -81,6 +82,12 @@ class MyApp extends StatelessWidget {
                 page: () => GateKeeperHome(),
                 binding: GatekeepBinding(),
               ),
+              GetPage(
+                  name: AppRoutes.issueMaterials,
+                  page: () => IssueMaterials(),
+                  binding: StockMngrBinding(),
+                  transition: Transition.zoom,
+                  transitionDuration: Duration(milliseconds: 200)),
             ]);
       },
     );

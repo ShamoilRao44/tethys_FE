@@ -4,11 +4,9 @@
 
 import 'dart:convert';
 
-MaterialRequestModel materialRequestModelFromJson(String str) =>
-    MaterialRequestModel.fromJson(json.decode(str));
+MaterialRequestModel materialRequestModelFromJson(String str) => MaterialRequestModel.fromJson(json.decode(str));
 
-String materialRequestModelToJson(MaterialRequestModel data) =>
-    json.encode(data.toJson());
+String materialRequestModelToJson(MaterialRequestModel data) => json.encode(data.toJson());
 
 class MaterialRequestModel {
   String? status;
@@ -21,22 +19,18 @@ class MaterialRequestModel {
     this.data,
   });
 
-  factory MaterialRequestModel.fromJson(Map<String, dynamic> json) =>
-      MaterialRequestModel(
+  factory MaterialRequestModel.fromJson(Map<String, dynamic> json) => MaterialRequestModel(
         status: json["status"],
         msg: json["msg"],
         data: json["data"] == null
             ? []
-            : List<MaterialReqDatum>.from(
-                json["data"]!.map((x) => MaterialReqDatum.fromJson(x))),
+            : List<MaterialReqDatum>.from(json["data"]!.map((x) => MaterialReqDatum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "msg": msg,
-        "data": data == null
-            ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -57,18 +51,15 @@ class MaterialReqDatum {
     this.requisitions,
   });
 
-  factory MaterialReqDatum.fromJson(Map<String, dynamic> json) =>
-      MaterialReqDatum(
+  factory MaterialReqDatum.fromJson(Map<String, dynamic> json) => MaterialReqDatum(
         slotId: json["slot_id"],
-        reqTime:
-            json["req_time"] == null ? null : DateTime.parse(json["req_time"]),
+        reqTime: json["req_time"] == null ? null : DateTime.parse(json["req_time"]),
         remarks: json["remarks"],
         issueStatus: json["issue_status"],
         reqBy: json["req_by"] == null ? null : ReqBy.fromJson(json["req_by"]),
         requisitions: json["requisitions"] == null
             ? []
-            : List<Requisition>.from(
-                json["requisitions"]!.map((x) => Requisition.fromJson(x))),
+            : List<Requisition>.from(json["requisitions"]!.map((x) => Requisition.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -77,9 +68,7 @@ class MaterialReqDatum {
         "remarks": remarks,
         "issue_status": issueStatus,
         "req_by": reqBy?.toJson(),
-        "requisitions": requisitions == null
-            ? []
-            : List<dynamic>.from(requisitions!.map((x) => x.toJson())),
+        "requisitions": requisitions == null ? [] : List<dynamic>.from(requisitions!.map((x) => x.toJson())),
       };
 }
 
@@ -108,9 +97,7 @@ class ReqBy {
         email: json["email"],
         role: json["role"],
         phone: json["phone"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         isActive: json["is_active"],
       );
 
@@ -128,53 +115,55 @@ class ReqBy {
 class Requisition {
   int? reqId;
   int? qtyReq;
+  int? qtyIssued;
   MatDetails? matDetails;
 
   Requisition({
     this.reqId,
     this.qtyReq,
+    this.qtyIssued,
     this.matDetails,
   });
 
   factory Requisition.fromJson(Map<String, dynamic> json) => Requisition(
         reqId: json["req_id"],
         qtyReq: json["qty_req"],
-        matDetails: json["mat_details"] == null
-            ? null
-            : MatDetails.fromJson(json["mat_details"]),
+        qtyIssued: json["qty_issued"],
+        matDetails: json["mat_details"] == null ? null : MatDetails.fromJson(json["mat_details"]),
       );
 
   Map<String, dynamic> toJson() => {
         "req_id": reqId,
         "qty_req": qtyReq,
+        "qty_issued": qtyIssued,
         "mat_details": matDetails?.toJson(),
       };
 }
 
 class MatDetails {
-  String? material;
-  int? gNo;
   int? id;
   String? umo;
+  String? material;
+  int? gNo;
 
   MatDetails({
-    this.material,
-    this.gNo,
     this.id,
     this.umo,
+    this.material,
+    this.gNo,
   });
 
   factory MatDetails.fromJson(Map<String, dynamic> json) => MatDetails(
-        material: json["material"],
-        gNo: json["g_no"],
         id: json["id"],
         umo: json["umo"],
+        material: json["material"],
+        gNo: json["g_no"],
       );
 
   Map<String, dynamic> toJson() => {
-        "material": material,
-        "g_no": gNo,
         "id": id,
         "umo": umo,
+        "material": material,
+        "g_no": gNo,
       };
 }

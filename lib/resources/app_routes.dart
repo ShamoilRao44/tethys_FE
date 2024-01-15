@@ -10,4 +10,5 @@ class AppRoutes {
   static const gateKeepHome = "/GatekeeperHome";
   static const smInventory = '/smInventory';
   static const pmInventory = '/pmInventory';
+  static const issueMaterials = '/issueMaterials';
 }

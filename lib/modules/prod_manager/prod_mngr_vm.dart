@@ -252,9 +252,7 @@ class ProdMngrVM extends GetxController {
           // RequisitionsList = res.data!;
           res.data!.forEach(
             (element) {
-              if (element.issueTime == null) {
-                pendingRequisitionsList.add(element);
-              }
+              pendingRequisitionsList.add(element);
             },
           );
           update();
@@ -370,6 +368,14 @@ class ProdMngrVM extends GetxController {
                 padding: const EdgeInsets.all(8.0),
                 child: AppText(
                   text: element.qtyReq.toString(),
+                  color: AppColors.txtColor,
+                  size: 16,
+                  fontFamily: AppFonts.interRegular,
+                )),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: element.qtyIssued.toString(),
                   color: AppColors.txtColor,
                   size: 16,
                   fontFamily: AppFonts.interRegular,

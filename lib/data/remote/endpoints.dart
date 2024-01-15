@@ -22,6 +22,7 @@ class Endpoints {
   static const getInventory = 'smanager/';
   static const getReqListForSmngr = 'smanager/reqs';
   static const issueSlot = 'smanager/reqs/issue/slot';
+  static const issueRequesitions = 'smanager/reqs/issue/req';
   static const denyRequest = 'smanager/reqs/deny/slot';
   static const getReturnsList = 'smanager/return/reqs';
   static const approveReturn = 'smanager/return/reqs/allow';

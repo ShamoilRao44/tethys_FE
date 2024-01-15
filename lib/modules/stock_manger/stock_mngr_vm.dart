@@ -14,12 +14,14 @@ import 'package:tethys/modules/stock_manger/order_consgnmnt.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_repo/stock_mngr_repo_impl.dart';
 import 'package:tethys/resources/app_colors.dart';
 import 'package:tethys/resources/app_fonts.dart';
+import 'package:tethys/resources/app_routes.dart';
 import 'package:tethys/utils/secured_storage.dart';
 import 'package:tethys/utils/widgets/app_snackbar.dart';
 import 'package:tethys/utils/widgets/app_text.dart';
 import 'stock_mngr_dashboard.dart';
 
 class StockMngrVM extends GetxController {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   StockMngrRepoImpl smri = StockMngrRepoImpl();
   RxInt indx = 0.obs;
   Widget? child = StockMngrDashboard();
@@ -33,6 +35,8 @@ class StockMngrVM extends GetxController {
   List<MaterialInfo>? materials = [];
   List<Map> sendApiList = [];
   List<TableRow> invntryTableRows = [];
+  List<Requisition> currentRequesitions = [];
+  List<Map<String?, dynamic>> issuedQtyList = [];
 
   OrdersDatum ordersObj = OrdersDatum();
 
@@ -178,24 +182,46 @@ class StockMngrVM extends GetxController {
     });
   }
 
-  Future<void> approveRequest({required int slotId, required BuildContext context}) async {
+  // Future<void> approveRequest({required int slotId, required BuildContext context}) async {
+  //   var data = {};
+  //   data['slot_id'] = slotId;
+  //   data['issue_by'] = await SecuredStorage.readIntValue(Keys.id);
+  //   await smri.issueRequest(data).then((res) async {
+  //     if (res.status == '200') {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         appSnackbar(msg: res.msg, color: AppColors.snackBarColorSuccess),
+  //       );
+  //       await getRequests();
+  //       await fetchInventory();
+  //       update();
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         appSnackbar(msg: res.msg, color: AppColors.snackBarColorFailure),
+  //       );
+  //     }
+  //   }).onError((error, stackTrace) => null);
+  // }
+
+  Future<void> issueRequesitions(BuildContext context) async {
     var data = {};
 
-    data['slot_id'] = slotId;
+    data['issue_materials'] = issuedQtyList;
     data['issue_by'] = await SecuredStorage.readIntValue(Keys.id);
 
     await smri.issueRequest(data).then((res) async {
       if (res.status == '200') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          appSnackbar(msg: res.msg, color: AppColors.snackBarColorSuccess),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+          msg: res.msg,
+          color: AppColors.snackBarColorSuccess,
+        ));
         await getRequests();
-        await fetchInventory();
         update();
+        Get.back();
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          appSnackbar(msg: res.msg, color: AppColors.snackBarColorFailure),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+          msg: res.msg,
+          color: AppColors.snackBarColorFailure,
+        ));
       }
     }).onError((error, stackTrace) => null);
   }
@@ -229,9 +255,9 @@ class StockMngrVM extends GetxController {
     bool isAvailable = false;
     requestList.forEach(
       (element) {
+        int qtyRemaining = element.qtyReq! - element.qtyIssued!;
         for (int i = 0; i < inventoryList.length; i++) {
-          if (element.matDetails!.id == inventoryList[i].materialId &&
-              element.qtyReq! < inventoryList[i].availableQty!) {
+          if (element.matDetails!.id == inventoryList[i].materialId && qtyRemaining < inventoryList[i].availableQty!) {
             isAvailable = true;
           }
         }
@@ -249,6 +275,22 @@ class StockMngrVM extends GetxController {
                 padding: const EdgeInsets.all(8.0),
                 child: AppText(
                   text: element.qtyReq.toString(),
+                  color: AppColors.txtColor,
+                  size: 16,
+                  fontFamily: AppFonts.interRegular,
+                )),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: element.qtyIssued.toString(),
+                  color: AppColors.txtColor,
+                  size: 16,
+                  fontFamily: AppFonts.interRegular,
+                )),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: qtyRemaining.toString(),
                   color: isAvailable ? AppColors.snackBarColorSuccess : AppColors.snackBarColorFailure,
                   size: 16,
                   fontFamily: AppFonts.interRegular,
@@ -486,5 +528,11 @@ class StockMngrVM extends GetxController {
 
     await fetchOrders();
     update();
+  }
+
+  void issueMaterialsButton(List<Requisition> a) {
+    issuedQtyList.clear();
+    currentRequesitions = a;
+    Get.toNamed(AppRoutes.issueMaterials);
   }
 }

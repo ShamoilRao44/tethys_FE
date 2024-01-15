@@ -1,28 +1,25 @@
 // To parse this JSON data, do
 //
-//     final issueRequestModel = issueRequestModelFromJson(jsonString);
+//     final issueRequesitionsModel = issueRequesitionsModelFromJson(jsonString);
 
 import 'dart:convert';
 
-IssueRequestModel issueRequestModelFromJson(String str) =>
-    IssueRequestModel.fromJson(json.decode(str));
+IssueRequesitionsModel issueRequesitionsModelFromJson(String str) => IssueRequesitionsModel.fromJson(json.decode(str));
 
-String issueRequestModelToJson(IssueRequestModel data) =>
-    json.encode(data.toJson());
+String issueRequesitionsModelToJson(IssueRequesitionsModel data) => json.encode(data.toJson());
 
-class IssueRequestModel {
+class IssueRequesitionsModel {
   String? status;
   String? msg;
   Data? data;
 
-  IssueRequestModel({
+  IssueRequesitionsModel({
     this.status,
     this.msg,
     this.data,
   });
 
-  factory IssueRequestModel.fromJson(Map<String, dynamic> json) =>
-      IssueRequestModel(
+  factory IssueRequesitionsModel.fromJson(Map<String, dynamic> json) => IssueRequesitionsModel(
         status: json["status"],
         msg: json["msg"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
@@ -36,44 +33,135 @@ class IssueRequestModel {
 }
 
 class Data {
-  String? remarks;
-  DateTime? reqTime;
-  int? issuedBy;
-  bool? issueStatus;
   int? slotId;
-  int? reqBy;
-  DateTime? issueTime;
+  DateTime? reqTime;
+  String? remarks;
+  bool? issueStatus;
+  IssuedBy? issuedBy;
+  List<Requisition>? requisitions;
 
   Data({
-    this.remarks,
-    this.reqTime,
-    this.issuedBy,
-    this.issueStatus,
     this.slotId,
-    this.reqBy,
-    this.issueTime,
+    this.reqTime,
+    this.remarks,
+    this.issueStatus,
+    this.issuedBy,
+    this.requisitions,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        remarks: json["remarks"],
-        reqTime:
-            json["req_time"] == null ? null : DateTime.parse(json["req_time"]),
-        issuedBy: json["issued_by"],
-        issueStatus: json["issue_status"],
         slotId: json["slot_id"],
-        reqBy: json["req_by"],
-        issueTime: json["issue_time"] == null
-            ? null
-            : DateTime.parse(json["issue_time"]),
+        reqTime: json["req_time"] == null ? null : DateTime.parse(json["req_time"]),
+        remarks: json["remarks"],
+        issueStatus: json["issue_status"],
+        issuedBy: json["issued_by"] == null ? null : IssuedBy.fromJson(json["issued_by"]),
+        requisitions: json["requisitions"] == null
+            ? []
+            : List<Requisition>.from(json["requisitions"]!.map((x) => Requisition.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "remarks": remarks,
-        "req_time": reqTime?.toIso8601String(),
-        "issued_by": issuedBy,
-        "issue_status": issueStatus,
         "slot_id": slotId,
-        "req_by": reqBy,
-        "issue_time": issueTime?.toIso8601String(),
+        "req_time": reqTime?.toIso8601String(),
+        "remarks": remarks,
+        "issue_status": issueStatus,
+        "issued_by": issuedBy?.toJson(),
+        "requisitions": requisitions == null ? [] : List<dynamic>.from(requisitions!.map((x) => x.toJson())),
+      };
+}
+
+class IssuedBy {
+  int? id;
+  String? name;
+  String? email;
+  int? role;
+  String? phone;
+  DateTime? createdAt;
+  bool? isActive;
+
+  IssuedBy({
+    this.id,
+    this.name,
+    this.email,
+    this.role,
+    this.phone,
+    this.createdAt,
+    this.isActive,
+  });
+
+  factory IssuedBy.fromJson(Map<String, dynamic> json) => IssuedBy(
+        id: json["id"],
+        name: json["name"],
+        email: json["email"],
+        role: json["role"],
+        phone: json["phone"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        isActive: json["is_active"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "email": email,
+        "role": role,
+        "phone": phone,
+        "created_at": createdAt?.toIso8601String(),
+        "is_active": isActive,
+      };
+}
+
+class Requisition {
+  int? reqId;
+  int? qtyReq;
+  int? qtyIssued;
+  MatDetails? matDetails;
+
+  Requisition({
+    this.reqId,
+    this.qtyReq,
+    this.qtyIssued,
+    this.matDetails,
+  });
+
+  factory Requisition.fromJson(Map<String, dynamic> json) => Requisition(
+        reqId: json["req_id"],
+        qtyReq: json["qty_req"],
+        qtyIssued: json["qty_issued"],
+        matDetails: json["mat_details"] == null ? null : MatDetails.fromJson(json["mat_details"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "req_id": reqId,
+        "qty_req": qtyReq,
+        "qty_issued": qtyIssued,
+        "mat_details": matDetails?.toJson(),
+      };
+}
+
+class MatDetails {
+  int? id;
+  String? umo;
+  String? material;
+  int? gNo;
+
+  MatDetails({
+    this.id,
+    this.umo,
+    this.material,
+    this.gNo,
+  });
+
+  factory MatDetails.fromJson(Map<String, dynamic> json) => MatDetails(
+        id: json["id"],
+        umo: json["umo"],
+        material: json["material"],
+        gNo: json["g_no"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "umo": umo,
+        "material": material,
+        "g_no": gNo,
       };
 }
