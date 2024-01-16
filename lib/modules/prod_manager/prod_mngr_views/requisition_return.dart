@@ -18,7 +18,7 @@ class RequisitionReturnView extends StatelessWidget {
     Get.dialog(
       AlertDialog(
         title: AppText(
-          text: 'Requisition/Return',
+          text: 'Requisition',
           textAlign: TextAlign.center,
           size: 24,
           fontWeight: FontWeight.w700,
@@ -160,7 +160,8 @@ class RequisitionReturnView extends StatelessWidget {
                                         return TextField(
                                           controller: textEditingController,
                                           focusNode: focusNode,
-                                          decoration: InputDecoration(hintText: 'Item Name'),
+                                          decoration:
+                                              InputDecoration(hintText: 'Item Name', contentPadding: EdgeInsets.all(8)),
                                         );
                                       },
                                       optionsBuilder: (TextEditingValue textEditingValue) {
@@ -232,7 +233,7 @@ class RequisitionReturnView extends StatelessWidget {
                                 if (c.selectedOption == 'Request Material') {
                                   c.sendRequest(ctx);
                                 } else {
-                                  c.returnMaterial(ctx);
+                                  // c.returnMaterial(ctx);
                                 }
                                 Get.back();
                               },
@@ -412,6 +413,24 @@ class RequisitionReturnView extends StatelessWidget {
                                                       child: Column(
                                                         mainAxisSize: MainAxisSize.min,
                                                         children: [
+                                                          ElevatedButton(
+                                                            onPressed: () {
+                                                              c.returnMaterialsButton(
+                                                                c.pendingRequisitionsList[index].requisitions!,
+                                                                c.pendingRequisitionsList[index].slotId,
+                                                              );
+                                                            },
+                                                            style: ElevatedButton.styleFrom(
+                                                                backgroundColor: Colors.green,
+                                                                padding: EdgeInsets.all(8)),
+                                                            child: AppText(
+                                                              text: 'Return Materials',
+                                                              size: 12,
+                                                              color: AppColors.white,
+                                                              fontFamily: AppFonts.interRegular,
+                                                              fontWeight: FontWeight.w600,
+                                                            ),
+                                                          ),
                                                           Table(
                                                             border: TableBorder.all(
                                                               width: 1.0,

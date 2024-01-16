@@ -207,20 +207,21 @@ class MaterialRequestView extends StatelessWidget {
                                                           mainAxisSize: MainAxisSize.min,
                                                           children: [
                                                             ElevatedButton(
-                                                                onPressed: () {
-                                                                  c.issueMaterialsButton(
-                                                                      c.materialReqList[index].requisitions!);
-                                                                },
-                                                                style: ElevatedButton.styleFrom(
-                                                                    backgroundColor: Colors.green,
-                                                                    padding: EdgeInsets.all(8)),
-                                                                child: AppText(
-                                                                  text: 'Issue Materials',
-                                                                  size: 12,
-                                                                  color: AppColors.white,
-                                                                  fontFamily: AppFonts.interRegular,
-                                                                  fontWeight: FontWeight.w600,
-                                                                )),
+                                                              onPressed: () {
+                                                                c.issueMaterialsButton(
+                                                                    c.materialReqList[index].requisitions!);
+                                                              },
+                                                              style: ElevatedButton.styleFrom(
+                                                                  backgroundColor: Colors.green,
+                                                                  padding: EdgeInsets.all(8)),
+                                                              child: AppText(
+                                                                text: 'Issue Materials',
+                                                                size: 12,
+                                                                color: AppColors.white,
+                                                                fontFamily: AppFonts.interRegular,
+                                                                fontWeight: FontWeight.w600,
+                                                              ),
+                                                            ),
                                                             Table(
                                                               border: TableBorder.all(
                                                                 width: 1.0,

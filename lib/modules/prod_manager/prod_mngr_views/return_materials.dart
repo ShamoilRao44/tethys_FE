@@ -1,0 +1,166 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:tethys/modules/prod_manager/prod_mngr_vm.dart';
+import 'package:tethys/resources/app_colors.dart';
+import 'package:tethys/resources/app_fonts.dart';
+import 'package:tethys/utils/common.dart';
+import 'package:tethys/utils/widgets/app_text.dart';
+
+class ReturnMaterials extends StatelessWidget {
+  const ReturnMaterials({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<ProdMngrVM>(
+      builder: (c) {
+        return Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: AppColors.bgGradient,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: SafeArea(
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: SingleChildScrollView(
+                child: Column(children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: AppText(
+                          text: 'Return Materials',
+                          textAlign: TextAlign.center,
+                          size: 24,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: AppFonts.interBold,
+                          color: AppColors.txtColor,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 0,
+                        child: PopupMenuButton(
+                          itemBuilder: (BuildContext context) {
+                            return [
+                              PopupMenuItem<String>(
+                                value: 'logout',
+                                child: AppText(
+                                  text: 'Logout',
+                                  color: AppColors.txtColor,
+                                ),
+                              ),
+                            ];
+                          },
+                          onSelected: (value) {
+                            if (value == 'logout') {
+                              logout();
+                            }
+                          },
+                          icon: Icon(
+                            Icons.more_vert,
+                            color: AppColors.txtColor,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  SingleChildScrollView(
+                    child: Container(
+                      height: 800.h,
+                      child: Form(
+                        key: c.formKey,
+                        child: ListView.builder(
+                          itemCount: c.currentReqMaterials.length,
+                          itemBuilder: (context, index) {
+                            final item = c.currentReqMaterials[index].matDetails!.material;
+                            c.returnedMaterialsList.add({'req_id': c.currentReqMaterials[index].reqId});
+                            c.returnedMaterialsList[index]['mat_id'] = c.currentReqMaterials[index].matDetails!.id;
+                            c.returnedMaterialsList[index]['qty'] = 0;
+
+                            return Card(
+                              elevation: 3,
+                              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              child: ListTile(
+                                title: Text(item!),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Req Id: ${c.currentReqMaterials[index].reqId.toString()}'),
+                                    Text('Issued: ${c.currentReqMaterials[index].qtyIssued.toString()}'),
+                                  ],
+                                ),
+                                trailing: SizedBox(
+                                  width: 60,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: 'Qty',
+                                    ),
+                                    onChanged: (value) {
+                                      final qty = int.tryParse(value);
+                                      c.returnedMaterialsList[index]['qty'] = qty;
+                                    },
+                                    validator: (value) {
+                                      final qty = int.parse(value ?? '0');
+                                      return qty > c.currentReqMaterials[index].qtyIssued! ? 'Invalid' : null;
+                                    },
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  if (c.formKey.currentState?.validate() ?? false) {
+                    debugPrint(c.returnedMaterialsList.toString());
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Alert !!'),
+                          content: Text('Continuing will mark this slot as completed'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                c.returnMaterial(context);
+                              },
+                              child: Text('Ok'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
+                child: Icon(Icons.save),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

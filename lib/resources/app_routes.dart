@@ -11,4 +11,5 @@ class AppRoutes {
   static const smInventory = '/smInventory';
   static const pmInventory = '/pmInventory';
   static const issueMaterials = '/issueMaterials';
+  static const returnMaterials = '/returnMaterials';
 }

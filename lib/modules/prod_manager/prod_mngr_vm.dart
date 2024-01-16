@@ -12,11 +12,13 @@ import 'package:tethys/modules/prod_manager/prod_mngr_views/production_handover.
 import 'package:tethys/modules/prod_manager/prod_mngr_views/requisition_return.dart';
 import 'package:tethys/resources/app_colors.dart';
 import 'package:tethys/resources/app_fonts.dart';
+import 'package:tethys/resources/app_routes.dart';
 import 'package:tethys/utils/secured_storage.dart';
 import 'package:tethys/utils/widgets/app_snackbar.dart';
 import 'package:tethys/utils/widgets/app_text.dart';
 
 class ProdMngrVM extends GetxController {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   RxInt indx = 0.obs;
   String selectedOption = 'Request Material';
   ProdMngrRepoImpl pmri = ProdMngrRepoImpl();
@@ -36,6 +38,9 @@ class ProdMngrVM extends GetxController {
   List<MaterialInfo>? materials = [];
   List<Map> sendApiList = [];
   List<TableRow> invntryTableRows = [];
+  List<Requisition> currentReqMaterials = [];
+  var currentReqSlotId;
+  List<Map<String?, dynamic>> returnedMaterialsList = [];
 
   List<bool> isExpanded = [];
   List<bool> isExpanded2 = [];
@@ -43,12 +48,12 @@ class ProdMngrVM extends GetxController {
   late RequisitionListModel requisitions;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    fetchMaterialList();
-    fetchRequisitionList();
-    fetchReturns();
-    fetchPmInventory();
+    await fetchMaterialList();
+    await fetchRequisitionList();
+    await fetchReturns();
+    await fetchPmInventory();
   }
 
   Future<void> fetchMaterialList() async {
@@ -265,18 +270,12 @@ class ProdMngrVM extends GetxController {
   }
 
   Future<void> returnMaterial(BuildContext context) async {
-    if (itemNameCtrl.text.isNotEmpty && itemQtyCtrl.text.isNotEmpty) {
-      addRow();
-    }
-
     var data = {};
-
-    data['items'] = sendApiList;
+    data['items'] = returnedMaterialsList;
+    data['req_slot_id'] = currentReqSlotId;
     data['req_by'] = await SecuredStorage.readIntValue(Keys.id);
     data['remarks'] = remarkCtrl.text;
-
     debugPrint(data.toString());
-
     await pmri.returnMaterial(data).then(
       (res) {
         debugPrint('success');
@@ -298,7 +297,6 @@ class ProdMngrVM extends GetxController {
         color: AppColors.snackBarColorFailure,
       ));
     });
-
     tableRows.clear();
   }
 
@@ -307,7 +305,7 @@ class ProdMngrVM extends GetxController {
 
     var data = {};
 
-    data['emp_id'] = 12;
+    data['emp_id'] = await SecuredStorage.readIntValue(Keys.id);
 
     await pmri.fetchReturns(data).then((res) {
       res.data!.forEach(
@@ -437,5 +435,12 @@ class ProdMngrVM extends GetxController {
     data['remarks'] = handoverTitleCtrl.text;
 
     debugPrint(data.toString());
+  }
+
+  void returnMaterialsButton(List<Requisition> a, var b) {
+    returnedMaterialsList.clear();
+    currentReqMaterials = a;
+    currentReqSlotId = b;
+    Get.toNamed(AppRoutes.returnMaterials);
   }
 }

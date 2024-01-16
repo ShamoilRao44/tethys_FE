@@ -9,6 +9,7 @@ import 'package:tethys/modules/login/login_views/splash_view.dart';
 import 'package:tethys/modules/owner/views/owner_home_view.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_views/pm_inventory.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_views/prod_mngr_home.dart';
+import 'package:tethys/modules/prod_manager/prod_mngr_views/return_materials.dart';
 import 'package:tethys/modules/signup/signup_view.dart';
 import 'package:tethys/modules/stock_manger/issue_materials.dart';
 import 'package:tethys/modules/stock_manger/sm_inventory.dart';
@@ -86,6 +87,12 @@ class MyApp extends StatelessWidget {
                   name: AppRoutes.issueMaterials,
                   page: () => IssueMaterials(),
                   binding: StockMngrBinding(),
+                  transition: Transition.zoom,
+                  transitionDuration: Duration(milliseconds: 200)),
+              GetPage(
+                  name: AppRoutes.returnMaterials,
+                  page: () => ReturnMaterials(),
+                  binding: ProdMngrBinding(),
                   transition: Transition.zoom,
                   transitionDuration: Duration(milliseconds: 200)),
             ]);
