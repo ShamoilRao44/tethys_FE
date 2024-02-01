@@ -43,6 +43,8 @@ class ReturnMaterials extends StatelessWidget {
                           itemCount: c.currentReqMaterials.length,
                           itemBuilder: (context, index) {
                             final item = c.currentReqMaterials[index].matDetails!.material;
+                            final remainingQty =
+                                (c.currentReqMaterials[index].qtyIssued! - c.currentReqMaterials[index].qtyConsumed!);
                             c.returnedMaterialsList.add({'req_id': c.currentReqMaterials[index].reqId});
                             c.returnedMaterialsList[index]['mat_id'] = c.currentReqMaterials[index].matDetails!.id;
                             c.returnedMaterialsList[index]['qty'] = 0;
@@ -57,6 +59,8 @@ class ReturnMaterials extends StatelessWidget {
                                   children: [
                                     Text('Req Id: ${c.currentReqMaterials[index].reqId.toString()}'),
                                     Text('Issued: ${c.currentReqMaterials[index].qtyIssued.toString()}'),
+                                    Text('Consumed: ${c.currentReqMaterials[index].qtyConsumed.toString()}'),
+                                    Text('Remaining: $remainingQty'),
                                   ],
                                 ),
                                 trailing: SizedBox(
@@ -74,7 +78,7 @@ class ReturnMaterials extends StatelessWidget {
                                     },
                                     validator: (value) {
                                       final qty = int.parse(value ?? '0');
-                                      return qty > c.currentReqMaterials[index].qtyIssued! ? 'Invalid' : null;
+                                      return qty > remainingQty ? 'Invalid' : null;
                                     },
                                   ),
                                 ),
@@ -107,6 +111,7 @@ class ReturnMaterials extends StatelessWidget {
                             TextButton(
                               onPressed: () async {
                                 await c.returnMaterial(context);
+                                Navigator.of(context).pop();
                                 Get.back();
                               },
                               child: Text('Ok'),

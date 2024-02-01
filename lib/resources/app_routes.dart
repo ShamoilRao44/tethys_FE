@@ -12,5 +12,6 @@ class AppRoutes {
   static const pmInventory = '/pmInventory';
   static const issueMaterials = '/issueMaterials';
   static const returnMaterials = '/returnMaterials';
+  static const updateConsumptions = '/updateConsumptions';
   static const infoPage = '/infoPage';
 }

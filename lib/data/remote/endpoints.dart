@@ -22,6 +22,8 @@ class Endpoints {
   static const getReturnsForPmngr = 'pmanager/return/id';
   static const postHandover = 'pmanager/create/product';
   static const getHandoversForPmngr = 'pmanager/handover/id';
+  static const markComplete = 'pmanager/complete/req';
+  static const updateConsumption = 'pmanager/update';
 
   static const getInventory = 'smanager/';
   static const getReqListForSmngr = 'smanager/reqs';

@@ -7,10 +7,12 @@ import 'package:tethys/modules/prod_manager/models/get_material_list_model.dart'
 import 'package:tethys/modules/prod_manager/models/get_pm_Inventory_model.dart';
 import 'package:tethys/modules/prod_manager/models/get_products_list_model.dart';
 import 'package:tethys/modules/prod_manager/models/get_returns_model.dart';
+import 'package:tethys/modules/prod_manager/models/mark_complete_model.dart';
 import 'package:tethys/modules/prod_manager/models/post_handover_model.dart';
 import 'package:tethys/modules/prod_manager/models/request_items_model.dart';
 import 'package:tethys/modules/prod_manager/models/get_requests_list_model.dart';
 import 'package:tethys/modules/prod_manager/models/return_material_model.dart';
+import 'package:tethys/modules/prod_manager/models/update_consumptions_model.dart';
 import 'prod_mngr_repo.dart';
 
 class ProdMngrRepoImpl extends ProdMngrRepo {
@@ -67,6 +69,18 @@ class ProdMngrRepoImpl extends ProdMngrRepo {
   Future<GetHandoversListModel> getHandoversList(Map data) async {
     return getHandoversListModelFromJson(
       await apiService.post(Endpoints.getHandoversForPmngr, data),
+    );
+  }
+
+  Future<MarkCompleteModel> markComplete(Map data) async {
+    return markCompleteModelFromJson(
+      await apiService.post(Endpoints.markComplete, data),
+    );
+  }
+
+  Future<UpdateConsumptionModel> updateConsumptions(Map data) async {
+    return updateConsumptionModelFromJson(
+      await apiService.post(Endpoints.updateConsumption, data),
     );
   }
 }

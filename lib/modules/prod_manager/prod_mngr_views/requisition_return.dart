@@ -387,16 +387,16 @@ class RequisitionReturnView extends StatelessWidget {
                                                         children: [
                                                           ElevatedButton(
                                                             onPressed: () {
-                                                              c.returnMaterialsButton(
-                                                                c.pendingRequisitionsList[index].requisitions!,
-                                                                c.pendingRequisitionsList[index].slotId,
-                                                              );
+                                                              c.updateConsumptionsButton(
+                                                                  c.pendingRequisitionsList[index].requisitions!,
+                                                                  c.pendingRequisitionsList[index].slotId);
                                                             },
                                                             style: ElevatedButton.styleFrom(
-                                                                backgroundColor: Colors.orange,
+                                                                backgroundColor: Colors.blue.shade600,
                                                                 padding: EdgeInsets.all(8)),
                                                             child: AppText(
-                                                              text: 'Return Materials',
+                                                              text: 'Update \nConsumptions',
+                                                              textAlign: TextAlign.center,
                                                               size: 12,
                                                               color: AppColors.white,
                                                               fontFamily: AppFonts.interRegular,
@@ -404,12 +404,36 @@ class RequisitionReturnView extends StatelessWidget {
                                                             ),
                                                           ),
                                                           ElevatedButton(
-                                                            onPressed: () {},
+                                                            onPressed: () {
+                                                              c.returnMaterialsButton(
+                                                                c.pendingRequisitionsList[index].requisitions!,
+                                                                c.pendingRequisitionsList[index].slotId,
+                                                              );
+                                                            },
                                                             style: ElevatedButton.styleFrom(
-                                                                backgroundColor: Colors.green,
+                                                                backgroundColor: Colors.blue.shade600,
                                                                 padding: EdgeInsets.all(8)),
                                                             child: AppText(
-                                                              text: 'Mark Completed',
+                                                              text: 'Return \nMaterials',
+                                                              textAlign: TextAlign.center,
+                                                              size: 12,
+                                                              color: AppColors.white,
+                                                              fontFamily: AppFonts.interRegular,
+                                                              fontWeight: FontWeight.w600,
+                                                            ),
+                                                          ),
+                                                          ElevatedButton(
+                                                            onPressed: () {
+                                                              c.markComplete(
+                                                                  context: context,
+                                                                  slotId: c.pendingRequisitionsList[index].slotId!);
+                                                            },
+                                                            style: ElevatedButton.styleFrom(
+                                                                backgroundColor: Colors.blue.shade600,
+                                                                padding: EdgeInsets.all(8)),
+                                                            child: AppText(
+                                                              text: 'Mark \nCompleted',
+                                                              textAlign: TextAlign.center,
                                                               size: 12,
                                                               color: AppColors.white,
                                                               fontFamily: AppFonts.interRegular,
@@ -429,6 +453,8 @@ class RequisitionReturnView extends StatelessWidget {
                                                           0: FlexColumnWidth(3),
                                                           1: FlexColumnWidth(1),
                                                           2: FlexColumnWidth(1),
+                                                          3: FlexColumnWidth(1),
+                                                          // 4: FlexColumnWidth(1),
                                                         },
                                                         children: [
                                                           TableRow(
@@ -440,7 +466,7 @@ class RequisitionReturnView extends StatelessWidget {
                                                                   textAlign: TextAlign.center,
                                                                   style: TextStyle(
                                                                     color: AppColors.txtColor,
-                                                                    fontSize: 14,
+                                                                    fontSize: 12,
                                                                     fontFamily: AppFonts.interRegular,
                                                                     fontWeight: FontWeight.w600,
                                                                   ),
@@ -468,11 +494,38 @@ class RequisitionReturnView extends StatelessWidget {
                                                                   style: TextStyle(
                                                                     color: AppColors.txtColor,
                                                                     fontFamily: AppFonts.interRegular,
-                                                                    fontSize: 14,
+                                                                    fontSize: 12,
                                                                     fontWeight: FontWeight.w600,
                                                                   ),
                                                                 ),
                                                               ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Text(
+                                                                  'Qty \nConsumed',
+                                                                  textAlign: TextAlign.center,
+                                                                  maxLines: 2,
+                                                                  style: TextStyle(
+                                                                    color: AppColors.txtColor,
+                                                                    fontFamily: AppFonts.interRegular,
+                                                                    fontSize: 12,
+                                                                    fontWeight: FontWeight.w600,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              // Padding(
+                                                              //   padding: const EdgeInsets.all(8.0),
+                                                              //   child: Text(
+                                                              //     'Qty \nRemaining',
+                                                              //     textAlign: TextAlign.center,
+                                                              //     style: TextStyle(
+                                                              //       color: AppColors.txtColor,
+                                                              //       fontFamily: AppFonts.interRegular,
+                                                              //       fontSize: 14,
+                                                              //       fontWeight: FontWeight.w600,
+                                                              //     ),
+                                                              //   ),
+                                                              // ),
                                                             ],
                                                           ),
                                                           ...tableRowsHere,
@@ -493,6 +546,7 @@ class RequisitionReturnView extends StatelessWidget {
                         ),
                       )
                     : Container(
+                        //return view
                         height: containerHeight,
                         child: ListView.builder(
                           itemCount: c.returnsList.length,

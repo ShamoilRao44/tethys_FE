@@ -49,6 +49,7 @@ class ProdMngrVM extends GetxController {
   List<Requisition> currentReqMaterials = [];
   var currentReqSlotId;
   List<Map<String?, dynamic>> returnedMaterialsList = [];
+  List<Map<String?, dynamic>> consumedMaterialsList = [];
 
   List<bool> isExpanded = [];
   List<bool> isExpanded2 = [];
@@ -309,7 +310,7 @@ class ProdMngrVM extends GetxController {
     data['items'] = returnedMaterialsList;
     data['req_slot_id'] = currentReqSlotId;
     data['req_by'] = await SecuredStorage.readIntValue(Keys.id);
-    data['remarks'] = remarkCtrl.text;
+    data['remarks'] = remarkCtrl.text ?? '';
     debugPrint(data.toString());
     await pmri.returnMaterial(data).then(
       (res) async {
@@ -334,6 +335,9 @@ class ProdMngrVM extends GetxController {
       ));
     });
     tableRows.clear();
+    await fetchRequisitionList();
+    await fetchPmInventory();
+    update();
   }
 
   Future<void> fetchReturns() async {
@@ -404,7 +408,7 @@ class ProdMngrVM extends GetxController {
                 child: AppText(
                   text: element.matDetails!.material.toString(),
                   color: AppColors.txtColor,
-                  size: 16,
+                  size: 14,
                   fontFamily: AppFonts.interRegular,
                 )),
             Padding(
@@ -412,7 +416,7 @@ class ProdMngrVM extends GetxController {
                 child: AppText(
                   text: element.qtyReq.toString(),
                   color: AppColors.txtColor,
-                  size: 16,
+                  size: 12,
                   fontFamily: AppFonts.interRegular,
                 )),
             Padding(
@@ -420,7 +424,15 @@ class ProdMngrVM extends GetxController {
                 child: AppText(
                   text: element.qtyIssued.toString(),
                   color: AppColors.txtColor,
-                  size: 16,
+                  size: 12,
+                  fontFamily: AppFonts.interRegular,
+                )),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: element.qtyConsumed.toString(),
+                  color: AppColors.txtColor,
+                  size: 12,
                   fontFamily: AppFonts.interRegular,
                 )),
           ]),
@@ -573,5 +585,72 @@ class ProdMngrVM extends GetxController {
     currentReqMaterials = a;
     currentReqSlotId = b;
     Get.toNamed(AppRoutes.returnMaterials);
+  }
+
+  Future<void> markComplete({
+    required BuildContext context,
+    required int slotId,
+  }) async {
+    var data = {};
+    data['slot_id'] = slotId;
+    data['issue_by'] = await SecuredStorage.readIntValue(Keys.id);
+
+    await pmri.markComplete(data).then((res) {
+      if (res.status == '200') {
+        ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+          msg: 'Slot Id $slotId marked as completed',
+          color: AppColors.snackBarColorSuccess,
+        ));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+          msg: res.msg,
+          color: AppColors.snackBarColorFailure,
+        ));
+      }
+    }).onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+        msg: 'Something went wrong',
+        color: AppColors.snackBarColorFailure,
+      ));
+    });
+    await fetchRequisitionList();
+    update();
+  }
+
+  void updateConsumptionsButton(List<Requisition> a, var b) {
+    consumedMaterialsList.clear();
+    currentReqMaterials = a;
+    update();
+    currentReqSlotId = b;
+    Get.toNamed(AppRoutes.updateConsumptions);
+  }
+
+  Future<void> updateConsumptionsApi({required BuildContext context}) async {
+    var data = {};
+
+    data['items'] = consumedMaterialsList;
+    data['upd_by'] = await SecuredStorage.readIntValue(Keys.id);
+
+    pmri.updateConsumptions(data).then((res) {
+      if (res.status == '200') {
+        ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+          msg: 'Inventory Updated',
+          color: AppColors.snackBarColorSuccess,
+        ));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+          msg: res.msg,
+          color: AppColors.snackBarColorFailure,
+        ));
+      }
+    }).onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+        msg: 'Something went wrong',
+        color: AppColors.snackBarColorFailure,
+      ));
+    });
+    await fetchRequisitionList();
+    await fetchPmInventory();
+    update();
   }
 }
