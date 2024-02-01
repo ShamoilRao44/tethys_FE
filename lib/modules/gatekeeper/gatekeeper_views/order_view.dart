@@ -24,46 +24,7 @@ class OrderView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 15,
-                      child: AppText(
-                        text: 'Upcoming Orders',
-                        textAlign: TextAlign.center,
-                        size: 32,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: AppFonts.interBold,
-                        color: AppColors.txtColor,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: PopupMenuButton(
-                        itemBuilder: (BuildContext context) {
-                          return [
-                            PopupMenuItem<String>(
-                              value: 'logout',
-                              child: AppText(
-                                text: 'Logout',
-                                color: AppColors.txtColor,
-                              ),
-                            ),
-                          ];
-                        },
-                        onSelected: (value) {
-                          if (value == 'logout') {
-                            logout();
-                          }
-                        },
-                        icon: Icon(
-                          Icons.more_vert,
-                          color: AppColors.txtColor,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                headerRow(headerText: 'Upcoming Orders', onRefresh: c.fetchOrdersList),
                 SizedBox(height: 24),
                 SingleChildScrollView(
                   child: Container(
@@ -71,18 +32,12 @@ class OrderView extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: c.orderList.length,
                       itemBuilder: (context, index) {
-                        List<TableRow>? tableRowsHere;
-
+                        List<TableRow> tableRowsHere = c.orderTableMaker(c.orderList[index].orders!);
                         return Padding(
                           padding: EdgeInsets.only(bottom: 8.0),
                           child: GestureDetector(
                             onTap: () async {
-                              tableRowsHere = await c.orderTableMaker(c.orderList[index].orders!);
-
-                              Future.delayed(Duration(milliseconds: 500), () {
-                                debugPrint(tableRowsHere.toString());
-                                c.toggleExpansion(index);
-                              });
+                              c.toggleExpansion(index);
                             },
                             child: AnimatedContainer(
                               duration: Duration(milliseconds: 400),
@@ -198,7 +153,7 @@ class OrderView extends StatelessWidget {
                                                         ),
                                                       ],
                                                     ),
-                                                    ...tableRowsHere !,
+                                                    ...tableRowsHere,
                                                   ],
                                                 ),
                                               ],

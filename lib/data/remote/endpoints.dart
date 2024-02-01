@@ -13,11 +13,15 @@ class Endpoints {
 
   static const getItemsList = 'material/';
 
+  static const getProductsList = 'products/';
+
   static const getPmInventory = 'pmanager/';
   static const sendRequestforItems = 'pmanager/create';
   static const getReqListForPmngr = 'pmanager/id';
   static const returnMaterial = 'pmanager/return/create';
   static const getReturnsForPmngr = 'pmanager/return/id';
+  static const postHandover = 'pmanager/create/product';
+  static const getHandoversForPmngr = 'pmanager/handover/id';
 
   static const getInventory = 'smanager/';
   static const getReqListForSmngr = 'smanager/reqs';

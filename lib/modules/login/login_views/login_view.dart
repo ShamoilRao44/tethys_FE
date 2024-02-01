@@ -29,6 +29,7 @@ class LoginView extends StatelessWidget {
           ),
         ),
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
           body: Center(
             child: Container(
@@ -72,13 +73,11 @@ class LoginView extends StatelessWidget {
                           filled: true,
                           fillColor: AppColors.white,
                           enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: AppColors.bordeColor2),
+                            borderSide: BorderSide(color: AppColors.bordeColor2),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: AppColors.bordeColor2),
+                            borderSide: BorderSide(color: AppColors.bordeColor2),
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
@@ -104,13 +103,11 @@ class LoginView extends StatelessWidget {
                           filled: true,
                           fillColor: AppColors.white,
                           enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: AppColors.bordeColor2),
+                            borderSide: BorderSide(color: AppColors.bordeColor2),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: AppColors.bordeColor2),
+                            borderSide: BorderSide(color: AppColors.bordeColor2),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           errorBorder: OutlineInputBorder(
@@ -158,8 +155,7 @@ class LoginView extends StatelessWidget {
                           minimumSize: Size(double.infinity, 48.h),
                           elevation: 5.0,
                           padding: EdgeInsets.all(0),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                         ),
                         child: Container(
                           width: double.infinity,
@@ -167,9 +163,7 @@ class LoginView extends StatelessWidget {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
-                                colors: AppColors.buttonColor,
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight),
+                                colors: AppColors.buttonColor, begin: Alignment.topLeft, end: Alignment.bottomRight),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: AppText(

@@ -4,6 +4,7 @@ import 'package:tethys/modules/login/login_vm.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_vm.dart';
 import 'package:tethys/modules/signup/signup_vm.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_vm.dart';
+import 'package:tethys/utils/pages/info_page.dart';
 
 import '../modules/owner/owner_vm.dart';
 
@@ -46,5 +47,12 @@ class GatekeepBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(GatekeeperVM());
+  }
+}
+
+class InfoPageBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(InfoPageVM());
   }
 }

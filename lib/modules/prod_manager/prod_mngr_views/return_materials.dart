@@ -32,46 +32,7 @@ class ReturnMaterials extends StatelessWidget {
               backgroundColor: Colors.transparent,
               body: SingleChildScrollView(
                 child: Column(children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: AppText(
-                          text: 'Return Materials',
-                          textAlign: TextAlign.center,
-                          size: 24,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: AppFonts.interBold,
-                          color: AppColors.txtColor,
-                        ),
-                      ),
-                      Expanded(
-                        flex: 0,
-                        child: PopupMenuButton(
-                          itemBuilder: (BuildContext context) {
-                            return [
-                              PopupMenuItem<String>(
-                                value: 'logout',
-                                child: AppText(
-                                  text: 'Logout',
-                                  color: AppColors.txtColor,
-                                ),
-                              ),
-                            ];
-                          },
-                          onSelected: (value) {
-                            if (value == 'logout') {
-                              logout();
-                            }
-                          },
-                          icon: Icon(
-                            Icons.more_vert,
-                            color: AppColors.txtColor,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                  headerRow(headerText: 'Return Materials', onRefresh: () {}),
                   SizedBox(height: 16),
                   SingleChildScrollView(
                     child: Container(
@@ -144,8 +105,9 @@ class ReturnMaterials extends StatelessWidget {
                               child: Text('Cancel'),
                             ),
                             TextButton(
-                              onPressed: () {
-                                c.returnMaterial(context);
+                              onPressed: () async {
+                                await c.returnMaterial(context);
+                                Get.back();
                               },
                               child: Text('Ok'),
                             ),

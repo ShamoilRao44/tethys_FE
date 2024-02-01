@@ -15,6 +15,7 @@ import 'package:tethys/modules/stock_manger/issue_materials.dart';
 import 'package:tethys/modules/stock_manger/sm_inventory.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_home.dart';
 import 'package:tethys/utils/bindings.dart';
+import 'package:tethys/utils/pages/info_page.dart';
 import 'package:tethys/utils/secured_storage.dart';
 import 'resources/app_routes.dart';
 
@@ -93,6 +94,12 @@ class MyApp extends StatelessWidget {
                   name: AppRoutes.returnMaterials,
                   page: () => ReturnMaterials(),
                   binding: ProdMngrBinding(),
+                  transition: Transition.zoom,
+                  transitionDuration: Duration(milliseconds: 200)),
+              GetPage(
+                  name: AppRoutes.infoPage,
+                  page: () => InfoPage(),
+                  binding: InfoPageBinding(),
                   transition: Transition.zoom,
                   transitionDuration: Duration(milliseconds: 200)),
             ]);

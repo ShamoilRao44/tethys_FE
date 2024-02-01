@@ -4,7 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tethys/modules/prod_manager/models/get_items_list_model.dart';
+import 'package:tethys/modules/prod_manager/models/get_material_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_inventory_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_orders_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_returns_list_model.dart';
@@ -83,11 +83,13 @@ class StockMngrVM extends GetxController {
   }
 
   Future<void> fetchInventory() async {
+    inventoryList.clear();
     await smri.getInventory().then((res) {
       if (res.status == '200') {
         res.data!.forEach((element) {
           inventoryList.add(element);
         });
+        update();
       }
     }).onError((error, stackTrace) => null);
   }
@@ -142,6 +144,7 @@ class StockMngrVM extends GetxController {
       );
       ++count;
     });
+    update();
   }
 
   Future<void> fetchMaterialList() async {
@@ -179,6 +182,7 @@ class StockMngrVM extends GetxController {
         debugPrint(materialReqList.toString());
         isExpanded = List.generate(materialReqList.length, (index) => false);
       }
+      update();
     });
   }
 
@@ -268,7 +272,7 @@ class StockMngrVM extends GetxController {
                 child: AppText(
                   text: element.matDetails!.material.toString(),
                   color: AppColors.txtColor,
-                  size: 16,
+                  size: 12,
                   fontFamily: AppFonts.interRegular,
                 )),
             Padding(
@@ -276,7 +280,7 @@ class StockMngrVM extends GetxController {
                 child: AppText(
                   text: element.qtyReq.toString(),
                   color: AppColors.txtColor,
-                  size: 16,
+                  size: 12,
                   fontFamily: AppFonts.interRegular,
                 )),
             Padding(
@@ -284,7 +288,7 @@ class StockMngrVM extends GetxController {
                 child: AppText(
                   text: element.qtyIssued.toString(),
                   color: AppColors.txtColor,
-                  size: 16,
+                  size: 12,
                   fontFamily: AppFonts.interRegular,
                 )),
             Padding(
@@ -292,7 +296,7 @@ class StockMngrVM extends GetxController {
                 child: AppText(
                   text: qtyRemaining.toString(),
                   color: isAvailable ? AppColors.snackBarColorSuccess : AppColors.snackBarColorFailure,
-                  size: 16,
+                  size: 12,
                   fontFamily: AppFonts.interRegular,
                 )),
           ]),
@@ -323,6 +327,7 @@ class StockMngrVM extends GetxController {
       );
     }).onError((error, stackTrace) => null);
     isExpanded2 = List.generate(returnsList.length, (index) => false);
+    update();
   }
 
   Future<void> approveReturns({required int slotId, required BuildContext context}) async {

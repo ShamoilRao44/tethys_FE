@@ -28,111 +28,70 @@ class ProdMngrDashboard extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              body: Stack(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: AppText(
-                          text: 'Dashboard',
-                          textAlign: TextAlign.center,
-                          size: 24,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: AppFonts.interBold,
-                          color: AppColors.txtColor,
-                        ),
-                      ),
-                      Expanded(
-                        flex: 0,
-                        child: PopupMenuButton(
-                          itemBuilder: (BuildContext context) {
-                            return [
-                              PopupMenuItem<String>(
-                                value: 'logout',
-                                child: AppText(
-                                  text: 'Logout',
-                                  color: AppColors.txtColor,
-                                ),
-                              ),
-                            ];
-                          },
-                          onSelected: (value) {
-                            if (value == 'logout') {
-                              logout();
-                            }
-                          },
-                          icon: Icon(
-                            Icons.more_vert,
-                            color: AppColors.txtColor,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GridView.count(
-                            shrinkWrap: true,
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 16.w,
-                            mainAxisSpacing: 16.h,
-                            children: [
-                              dashboardCard(
-                                text1: 'Pending Material Requests',
-                                text2: c.pendingRequisitionsList.length.toString(),
-                              ),
-                              dashboardCard(
-                                text1: 'Pending Return Requests',
-                                text2: c.returnsList.length.toString(),
-                              ),
-                              dashboardCard(
-                                text1: 'Unverified Handovers',
-                                // text2: c.ordersList.length.toString(),
-                              ),
-                              dashboardCard(
-                                text1: 'Approved Requests',
-                                // text2: c.ordersList.length.toString(),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 24),
-                          ElevatedButton(
-                            onPressed: () {
-                              c.invntryTableMaker();
-                              Get.toNamed(AppRoutes.pmInventory);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.bordeColor2,
-                              minimumSize: Size(160, 80),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                              ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Stack(
+              children: [
+                headerRow(headerText: 'Dashboard', onRefresh: c.onInit),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GridView.count(
+                          shrinkWrap: true,
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 16.w,
+                          mainAxisSpacing: 16.h,
+                          children: [
+                            dashboardCard(
+                              text1: 'Pending Material Requests',
+                              text2: c.pendingRequisitionsList.length.toString(),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: AppText(
-                                text: 'Show Inventory',
-                                color: AppColors.white,
-                                size: 24.sp,
-                              ),
+                            dashboardCard(
+                              text1: 'Pending Return Requests',
+                              text2: c.returnsList.length.toString(),
                             ),
-                          )
-                        ],
-                      ),
+                            dashboardCard(
+                              text1: 'Unverified Handovers',
+                              text2: c.handoversList.length.toString(),
+                            ),
+                            dashboardCard(
+                              text1: 'Approved Requests',
+                              // text2: c.ordersList.length.toString(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 24),
+                        ElevatedButton(
+                          onPressed: () {
+                            c.invntryTableMaker();
+                            Get.toNamed(AppRoutes.pmInventory);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.bordeColor2,
+                            minimumSize: Size(160, 80),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: AppText(
+                              text: 'Show Inventory',
+                              color: AppColors.white,
+                              size: 24.sp,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
           ),
         ),

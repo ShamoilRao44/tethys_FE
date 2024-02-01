@@ -2,10 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tethys/modules/prod_manager/models/get_items_list_model.dart';
+import 'package:tethys/modules/prod_manager/models/get_handovers_list_model.dart';
+import 'package:tethys/modules/prod_manager/models/get_material_list_model.dart';
 import 'package:tethys/modules/prod_manager/models/get_pm_Inventory_model.dart';
+import 'package:tethys/modules/prod_manager/models/get_products_list_model.dart';
 import 'package:tethys/modules/prod_manager/models/get_returns_model.dart';
-import 'package:tethys/modules/prod_manager/models/requisition_list_model.dart';
+import 'package:tethys/modules/prod_manager/models/get_requests_list_model.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_repo/prod_mngr_repo_impl.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_views/prod_mngr_dashboard.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_views/production_handover.dart';
@@ -19,23 +21,29 @@ import 'package:tethys/utils/widgets/app_text.dart';
 
 class ProdMngrVM extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   RxInt indx = 0.obs;
   String selectedOption = 'Request Material';
   ProdMngrRepoImpl pmri = ProdMngrRepoImpl();
   Widget? child = ProdMngrDashboard();
   bool isRequests = true;
   List<TableRow> tableRows = [];
+  double? topPadding;
   TextEditingController itemNameCtrl = TextEditingController();
   TextEditingController itemQtyCtrl = TextEditingController();
   TextEditingController remarkCtrl = TextEditingController();
   TextEditingController handoverTitleCtrl = TextEditingController();
+  // TextEditingController handoverReqIdCtrl = TextEditingController();
 
   List<ReqListDatum> pendingRequisitionsList = [];
   List<ReturnsDatum> returnsList = [];
+  List<HandoverDatum> handoversList = [];
   List<PmInventoryDatum> inventoryList = [];
 
-  List<String> itemNameList = [];
+  List<String> rawMatNameList = [];
+  List<String> prodNameList = [];
   List<MaterialInfo>? materials = [];
+  List<ProductsInfo>? products = [];
   List<Map> sendApiList = [];
   List<TableRow> invntryTableRows = [];
   List<Requisition> currentReqMaterials = [];
@@ -44,6 +52,7 @@ class ProdMngrVM extends GetxController {
 
   List<bool> isExpanded = [];
   List<bool> isExpanded2 = [];
+  List<bool> isExpandedForHandovers = [];
 
   late RequisitionListModel requisitions;
 
@@ -51,9 +60,11 @@ class ProdMngrVM extends GetxController {
   void onInit() async {
     super.onInit();
     await fetchMaterialList();
+    await fetchProductList();
+    await fetchPmInventory();
     await fetchRequisitionList();
     await fetchReturns();
-    await fetchPmInventory();
+    await fetchHandovers();
   }
 
   Future<void> fetchMaterialList() async {
@@ -61,17 +72,39 @@ class ProdMngrVM extends GetxController {
       (res) {
         if (res.status == "200") {
           res.data!.forEach((element) {
-            itemNameList.add(
+            rawMatNameList.add(
               element.material!.toLowerCase(),
             );
           });
           materials = res.data;
         }
       },
-    );
+    ).onError((error, stackTrace) {
+      debugPrint('Error in fetchMaterialList()');
+    });
+  }
+
+  Future<void> fetchProductList() async {
+    await pmri.getProductList().then(
+      (res) {
+        if (res.status == '200') {
+          res.data!.forEach(
+            (element) {
+              prodNameList.add(
+                element.product!.toLowerCase(),
+              );
+            },
+          );
+          products = res.data;
+        }
+      },
+    ).onError((error, stackTrace) {
+      debugPrint('Error in fetchProductsList()');
+    });
   }
 
   Future<void> fetchPmInventory() async {
+    inventoryList.clear();
     await pmri.getPmInventroy().then((res) {
       if (res.status == '200') {
         res.data!.forEach((element) {
@@ -79,6 +112,7 @@ class ProdMngrVM extends GetxController {
         });
       }
     }).onError((error, stackTrace) => null);
+    update();
   }
 
   void invntryTableMaker() {
@@ -129,9 +163,10 @@ class ProdMngrVM extends GetxController {
           ],
         ),
       );
-      update();
+
       ++count;
     });
+    update();
   }
 
   void onTabChange(int index) {
@@ -186,7 +221,7 @@ class ProdMngrVM extends GetxController {
     materials!.forEach(
       (element) {
         if (itemNameCtrl.text == element.material!.toLowerCase()) {
-          sendApiList!.add({
+          sendApiList.add({
             'id': element.id,
             'qty': itemQtyCtrl.text,
           });
@@ -249,7 +284,7 @@ class ProdMngrVM extends GetxController {
     pendingRequisitionsList.clear();
     var data = {};
     data['emp_id'] = await SecuredStorage.readStringValue(Keys.id);
-    debugPrint(data.toString());
+    // debugPrint(data.toString());
 
     await pmri.getRequisitionList(data).then(
       (res) {
@@ -277,16 +312,17 @@ class ProdMngrVM extends GetxController {
     data['remarks'] = remarkCtrl.text;
     debugPrint(data.toString());
     await pmri.returnMaterial(data).then(
-      (res) {
-        debugPrint('success');
+      (res) async {
         if (res.status == '200') {
           ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
             msg: 'Return Meterial Successfull',
             color: AppColors.snackBarColorSuccess,
           ));
+          await fetchReturns();
+          update();
         } else {
           ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
-            msg: 'Something went wrong',
+            msg: res.msg,
             color: AppColors.snackBarColorFailure,
           ));
         }
@@ -307,21 +343,30 @@ class ProdMngrVM extends GetxController {
 
     data['emp_id'] = await SecuredStorage.readIntValue(Keys.id);
 
-    await pmri.fetchReturns(data).then((res) {
-      res.data!.forEach(
-        (element) {
-          if (element.approved == false) {
-            returnsList.add(element);
-          }
-        },
-      );
-    }).onError((error, stackTrace) => null);
+    await pmri.fetchReturns(data).then(
+      (res) {
+        if (res.status == '200') {
+          // debugPrint('res.data: ${res.data.toString()}');
+          res.data!.forEach(
+            (element) {
+              returnsList.add(element);
+            },
+          );
+        }
+      },
+    ).onError(
+      (error, stackTrace) {
+        debugPrint('Error in fetchReturns()');
+      },
+    );
     isExpanded2 = List.generate(returnsList.length, (index) => false);
+    update();
+    // debugPrint('returnList: ${returnsList.toString()}');
   }
 
-  List<TableRow> returnsTableMaker(List<MaterialsReturn> returnsList) {
+  List<TableRow> returnsTableMaker(List<MaterialsReturn> returnsList2) {
     List<TableRow> retMaterialTableRows = [];
-    returnsList.forEach(
+    returnsList2.forEach(
       (element) {
         retMaterialTableRows.add(
           TableRow(children: [
@@ -385,6 +430,11 @@ class ProdMngrVM extends GetxController {
     return reqMaterialTableRows;
   }
 
+  void toggleExpansionForHandovers(int index) {
+    isExpandedForHandovers[index] = !isExpandedForHandovers[index];
+    update();
+  }
+
   void addRowForHandover() {
     tableRows.add(
       TableRow(
@@ -411,10 +461,19 @@ class ProdMngrVM extends GetxController {
     );
     update();
 
-    sendApiList.add({
-      'p_name': itemNameCtrl.text,
-      'qty': itemQtyCtrl.text,
-    });
+    products!.forEach(
+      (element) {
+        if (element.product!.toLowerCase() == itemNameCtrl.text) {
+          sendApiList.add(
+            {
+              'prod_id': element.id,
+              'qty': itemQtyCtrl.text,
+            },
+          );
+        }
+      },
+    );
+    update();
 
     debugPrint(sendApiList.toString());
 
@@ -430,11 +489,83 @@ class ProdMngrVM extends GetxController {
 
     var data = {};
 
+    // data['req_slot_id'] = handoverReqIdCtrl.text;
     data['prods'] = sendApiList;
     data['hand_by'] = await SecuredStorage.readIntValue(Keys.id);
     data['remarks'] = handoverTitleCtrl.text;
 
     debugPrint(data.toString());
+    await pmri.postHandover(data).then((res) {
+      if (res.status == '200') {
+        ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+          msg: 'Handover Sent Succesfully',
+          color: AppColors.snackBarColorSuccess,
+        ));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+          msg: 'Something wrong occured',
+          color: AppColors.snackBarColorFailure,
+        ));
+      }
+    }).onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+        msg: 'Something wrong occured',
+        color: AppColors.snackBarColorFailure,
+      ));
+    });
+  }
+
+  Future<void> fetchHandovers() async {
+    handoversList.clear();
+
+    var data = {};
+    data['emp_id'] = await SecuredStorage.readIntValue(Keys.id);
+    await pmri.getHandoversList(data).then(
+      (res) {
+        if (res.status == '200') {
+          res.data!.forEach((element) {
+            handoversList.add(element);
+          });
+        }
+      },
+    ).onError((error, stackTrace) {
+      debugPrint('Error in fetchHandovers()');
+    });
+    isExpandedForHandovers = List.generate(handoversList.length, (index) => false);
+    update();
+  }
+
+  List<TableRow> handoverSlotTableMaker(List<Handover> handedoverProducts) {
+    List<TableRow> handoverSlotTableRows = [];
+    handedoverProducts.forEach(
+      (element) {
+        handoverSlotTableRows.add(
+          TableRow(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(8),
+                child: AppText(
+                  text: element.product!.product!,
+                  color: AppColors.txtColor,
+                  size: 16,
+                  fontFamily: AppFonts.interRegular,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8),
+                child: AppText(
+                  text: element.qtyReq.toString(),
+                  color: AppColors.txtColor,
+                  size: 12,
+                  fontFamily: AppFonts.interRegular,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+    return handoverSlotTableRows;
   }
 
   void returnMaterialsButton(List<Requisition> a, var b) {

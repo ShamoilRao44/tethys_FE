@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/owner/owner_model.dart' as own;
 import 'package:tethys/modules/owner/owner_repo/owner_repoimpl.dart';
+import 'package:tethys/modules/owner/views/empl_requests.dart';
+import 'package:tethys/modules/owner/views/owner_dashboard_view.dart';
+import 'package:tethys/modules/owner/views/user_list_screen.dart';
 
 class OwnerHomeVM extends GetxController {
+  OwnerRepoImp ownerRepoImp = OwnerRepoImp();
+  var empRequests = <own.Datum>[].obs;
+  Widget? child = OwnerDashboard();
+  RxInt indx = 0.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -11,8 +19,23 @@ class OwnerHomeVM extends GetxController {
     getRequests();
   }
 
-  OwnerRepoImp ownerRepoImp = OwnerRepoImp();
-  var empRequests = <own.Datum>[].obs;
+  void onTabChange(int index) {
+    indx.value = index;
+
+    switch (indx.value) {
+      case 0:
+        child = OwnerDashboard();
+        break;
+      case 1:
+        child = UserListScreen();
+        break;
+      case 2:
+        child = EmplRequests();
+        break;
+    }
+
+    update();
+  }
 
   Future<void> getRequests() async {
     empRequests.clear();

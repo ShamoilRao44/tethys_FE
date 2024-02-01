@@ -107,7 +107,7 @@ class MatDetails {
         material: json["material"],
         gNo: json["g_no"],
         id: json["id"],
-        umo: umoValues.map[json["umo"]]!,
+        umo: umoValues.map[json["umo"]],
       );
 
   Map<String, dynamic> toJson() => {

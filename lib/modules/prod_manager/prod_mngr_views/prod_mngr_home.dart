@@ -15,6 +15,7 @@ class ProdMngrHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ProdMngrVM>(builder: (c) {
+      c.topPadding = MediaQuery.paddingOf(context).top;
       return Container(
         width: double.infinity,
         height: double.infinity,
@@ -25,54 +26,52 @@ class ProdMngrHome extends StatelessWidget {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Padding(
-            padding: EdgeInsets.only(top: 0),
-            child: Container(
-              child: c.child,
-            ),
-          ),
-          bottomNavigationBar: Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: AppColors.bordeColor2,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
+        child: SafeArea(
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Colors.transparent,
+            body: c.child,
+            bottomNavigationBar: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColors.bordeColor2,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
               ),
+              child: Obx(() {
+                return GNav(
+                  rippleColor: Colors.grey[300]!,
+                  hoverColor: Colors.grey[100]!,
+                  gap: 8.w,
+                  activeColor: Colors.black,
+                  iconSize: 24,
+                  padding: EdgeInsets.all(12),
+                  duration: Duration(milliseconds: 400),
+                  tabBackgroundColor: Colors.grey[100]!,
+                  color: Colors.black,
+                  tabs: [
+                    GButton(
+                      icon: Icons.dashboard,
+                      text: 'Dashboard',
+                    ),
+                    GButton(
+                      icon: Icons.rate_review_rounded,
+                      text: 'Requisition/Return',
+                    ),
+                    GButton(
+                      icon: CupertinoIcons.doc,
+                      text: 'Production Handover',
+                    ),
+                  ],
+                  selectedIndex: c.indx.value,
+                  onTabChange: (index) {
+                    c.onTabChange(index);
+                  },
+                );
+              }),
             ),
-            child: Obx(() {
-              return GNav(
-                rippleColor: Colors.grey[300]!,
-                hoverColor: Colors.grey[100]!,
-                gap: 8.w,
-                activeColor: Colors.black,
-                iconSize: 24,
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-                duration: Duration(milliseconds: 400),
-                tabBackgroundColor: Colors.grey[100]!,
-                color: Colors.black,
-                tabs: [
-                  GButton(
-                    icon: Icons.dashboard,
-                    text: 'Dashboard',
-                  ),
-                  GButton(
-                    icon: Icons.rate_review_rounded,
-                    text: 'Requisition/Return',
-                  ),
-                  GButton(
-                    icon: CupertinoIcons.doc,
-                    text: 'Production Handover',
-                  ),
-                ],
-                selectedIndex: c.indx.value,
-                onTabChange: (index) {
-                  c.onTabChange(index);
-                },
-              );
-            }),
           ),
         ),
       );

@@ -32,8 +32,7 @@ class EmplRequests extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(
-                    0 * fem, 50 * fem, 1 * fem, 0), // Adjust margin
+                margin: EdgeInsets.fromLTRB(0 * fem, 50 * fem, 1 * fem, 0), // Adjust margin
                 child: Text(
                   "Request",
                   textAlign: TextAlign.center,

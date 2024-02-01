@@ -1,4 +1,4 @@
-import 'package:tethys/modules/prod_manager/models/get_items_list_model.dart';
+import 'package:tethys/modules/prod_manager/models/get_material_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/approve_returns_model.dart';
 import 'package:tethys/modules/stock_manger/models/deny_request_model.dart';
 import 'package:tethys/modules/stock_manger/models/deny_returns_model.dart';

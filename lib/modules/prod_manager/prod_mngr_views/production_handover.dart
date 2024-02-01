@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +43,10 @@ class ProductionHandover extends StatelessWidget {
                       labelText: 'Title',
                       controller: c.handoverTitleCtrl,
                     ),
+                    // AppTextFormField(
+                    //   labelText: 'Slot Id',
+                    //   controller: c.handoverReqIdCtrl,
+                    // ),
                     SizedBox(height: 8),
                     c.tableRows.isNotEmpty
                         ? Table(
@@ -91,16 +95,30 @@ class ProductionHandover extends StatelessWidget {
                       children: [
                         Expanded(
                           flex: 2,
-                          child: TextField(
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 14,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: 'Item Name',
-                              focusColor: Colors.transparent,
-                            ),
-                            controller: c.itemNameCtrl,
+                          child: Autocomplete<String>(
+                            fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                              textEditingController.clear();
+                              return TextField(
+                                controller: textEditingController,
+                                focusNode: focusNode,
+                                decoration: InputDecoration(hintText: 'Item Name', contentPadding: EdgeInsets.all(8)),
+                              );
+                            },
+                            optionsBuilder: (TextEditingValue textEditingValue) {
+                              if (textEditingValue.text == '') {
+                                return c.prodNameList;
+                              }
+                              return c.prodNameList.where(
+                                (String option) {
+                                  return option.contains(
+                                    textEditingValue.text.toLowerCase(),
+                                  );
+                                },
+                              );
+                            },
+                            onSelected: (option) {
+                              c.itemNameCtrl.text = option;
+                            },
                           ),
                         ),
                         Expanded(
@@ -126,7 +144,9 @@ class ProductionHandover extends StatelessWidget {
                           flex: 1,
                           child: ElevatedButton(
                             onPressed: () {
-                              c.addRowForHandover();
+                              if (c.itemNameCtrl.text.isNotEmpty && c.itemQtyCtrl.text.isNotEmpty) {
+                                c.addRowForHandover();
+                              }
                             },
                             child: Icon(Icons.add),
                           ),
@@ -142,7 +162,9 @@ class ProductionHandover extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 c.itemNameCtrl.clear();
-                c.itemNameCtrl.clear();
+                c.itemQtyCtrl.clear();
+                // c.handoverReqIdCtrl.clear();
+                c.handoverTitleCtrl.clear();
                 c.tableRows.clear();
                 c.sendApiList.clear();
                 c.update();
@@ -168,71 +190,205 @@ class ProductionHandover extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ProdMngrVM>(
       builder: (c) {
-        return SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: AppText(
-                          text: 'Production Handover',
-                          textAlign: TextAlign.center,
-                          size: 32.sp,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: AppFonts.interBold,
-                          color: AppColors.txtColor,
-                        ),
-                      ),
-                      Expanded(
-                        flex: 0,
-                        child: PopupMenuButton(
-                          itemBuilder: (BuildContext context) {
-                            return [
-                              PopupMenuItem<String>(
-                                value: 'logout',
-                                child: AppText(
-                                  text: 'Logout',
-                                  color: AppColors.txtColor,
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              headerRow(headerText: 'Production Handover', onRefresh: () {}),
+              SizedBox(height: 24),
+              Builder(
+                builder: (context) {
+                  double containerHeight = MediaQuery.of(context).size.height - 64 - 72 - c.topPadding!;
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 16),
+                    child: Container(
+                      height: containerHeight,
+                      child: ListView.builder(
+                        itemCount: c.handoversList.length,
+                        itemBuilder: (context, index) {
+                          List<TableRow> tableRowsHere = c.handoverSlotTableMaker(c.handoversList[index].handovers!);
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 8.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                c.toggleExpansionForHandovers(index);
+                              },
+                              child: AnimatedContainer(
+                                duration: Duration(milliseconds: 400),
+                                height: c.isExpandedForHandovers[index] ? 400 : 96,
+                                padding: EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
+                                  color: AppColors.lightBlue, // Change color when expanded
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  children: [
+                                    AppText(
+                                      text: c.handoversList[index].remarks ?? 'Title',
+                                      color: AppColors.txtColor,
+                                      size: 20,
+                                      fontFamily: AppFonts.interRegular,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    SizedBox(height: 8),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        AppText(
+                                          text: 'Batch Id : ${c.handoversList[index].batchId}',
+                                          color: AppColors.txtColor,
+                                          size: 16,
+                                          fontFamily: AppFonts.interRegular,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        SizedBox(width: 32),
+                                        AppText(
+                                          text: "Date : ${c.handoversList[index].mfg.toString().substring(0, 10)}",
+                                          color: AppColors.txtColor,
+                                          size: 16,
+                                          fontFamily: AppFonts.interRegular,
+                                          fontWeight: FontWeight.w400,
+                                        )
+                                      ],
+                                    ),
+                                    c.isExpandedForHandovers[index]
+                                        ? Container(
+                                            height: 300,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(top: 16),
+                                              child: SingleChildScrollView(
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    // Row(
+                                                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                    //   children: [
+                                                    //     ElevatedButton(
+                                                    //       onPressed: () {
+                                                    //         c.returnMaterialsButton(
+                                                    //           c.pendingRequisitionsList[index].requisitions!,
+                                                    //           c.pendingRequisitionsList[index].slotId,
+                                                    //         );
+                                                    //       },
+                                                    //       style: ElevatedButton.styleFrom(
+                                                    //           backgroundColor: Colors.orange,
+                                                    //           padding: EdgeInsets.all(8)),
+                                                    //       child: AppText(
+                                                    //         text: 'Return Materials',
+                                                    //         size: 12,
+                                                    //         color: AppColors.white,
+                                                    //         fontFamily: AppFonts.interRegular,
+                                                    //         fontWeight: FontWeight.w600,
+                                                    //       ),
+                                                    //     ),
+                                                    //     ElevatedButton(
+                                                    //       onPressed: () {},
+                                                    //       style: ElevatedButton.styleFrom(
+                                                    //           backgroundColor: Colors.green,
+                                                    //           padding: EdgeInsets.all(8)),
+                                                    //       child: AppText(
+                                                    //         text: 'Mark Completed',
+                                                    //         size: 12,
+                                                    //         color: AppColors.white,
+                                                    //         fontFamily: AppFonts.interRegular,
+                                                    //         fontWeight: FontWeight.w600,
+                                                    //       ),
+                                                    //     ),
+                                                    //   ],
+                                                    // ),
+                                                    // SizedBox(height: 8),
+                                                    Table(
+                                                      border: TableBorder.all(
+                                                        width: 1.0,
+                                                        color: AppColors.darkblue,
+                                                        borderRadius: BorderRadius.circular(8),
+                                                      ),
+                                                      columnWidths: {
+                                                        0: FlexColumnWidth(3),
+                                                        1: FlexColumnWidth(1),
+                                                      },
+                                                      children: [
+                                                        TableRow(
+                                                          children: [
+                                                            Padding(
+                                                              padding: const EdgeInsets.all(8.0),
+                                                              child: Text(
+                                                                'Product Name',
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(
+                                                                  color: AppColors.txtColor,
+                                                                  fontSize: 14,
+                                                                  fontFamily: AppFonts.interRegular,
+                                                                  fontWeight: FontWeight.w600,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.all(8.0),
+                                                              child: Text(
+                                                                'Quantity',
+                                                                textAlign: TextAlign.center,
+                                                                maxLines: 2,
+                                                                style: TextStyle(
+                                                                  color: AppColors.txtColor,
+                                                                  fontFamily: AppFonts.interRegular,
+                                                                  fontSize: 14,
+                                                                  fontWeight: FontWeight.w600,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            // Padding(
+                                                            //   padding: const EdgeInsets.all(8.0),
+                                                            //   child: Text(
+                                                            //     'Qty \nIssued',
+                                                            //     textAlign: TextAlign.center,
+                                                            //     style: TextStyle(
+                                                            //       color: AppColors.txtColor,
+                                                            //       fontFamily: AppFonts.interRegular,
+                                                            //       fontSize: 14,
+                                                            //       fontWeight: FontWeight.w600,
+                                                            //     ),
+                                                            //   ),
+                                                            // ),
+                                                          ],
+                                                        ),
+                                                        ...tableRowsHere,
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : Container(),
+                                  ],
                                 ),
                               ),
-                            ];
-                          },
-                          onSelected: (value) {
-                            if (value == 'logout') {
-                              logout();
-                            }
-                          },
-                          icon: Icon(
-                            Icons.more_vert,
-                            color: AppColors.txtColor,
-                            size: 32.sp,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 24),
-                ],
-              ),
-            ),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: AppColors.txtColor,
-              onPressed: () {
-                c.tableRows.clear();
-                c.sendApiList.clear();
-                createHandoverDialog(context);
-              },
-              child: Icon(Icons.add),
-            ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                },
+              )
+            ],
           ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: AppColors.txtColor,
+            onPressed: () {
+              c.tableRows.clear();
+              c.sendApiList.clear();
+              createHandoverDialog(context);
+            },
+            child: Icon(Icons.add),
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         );
       },
     );

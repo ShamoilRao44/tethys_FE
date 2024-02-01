@@ -42,6 +42,7 @@ class OrderConsgnmnt extends StatelessWidget {
                     AppTextFormField(
                       labelText: 'Supplier Name',
                       controller: c.suppNameCtrl,
+                      textCapitalization: TextCapitalization.words,
                     ),
                     SizedBox(height: 8),
                     AppTextFormField(
@@ -52,6 +53,7 @@ class OrderConsgnmnt extends StatelessWidget {
                     AppTextFormField(
                       labelText: 'Vehicle No.',
                       controller: c.vehicleCtrl,
+                      textCapitalization: TextCapitalization.characters,
                     ),
                     SizedBox(height: 8),
                     AppTextFormField(
@@ -113,6 +115,7 @@ class OrderConsgnmnt extends StatelessWidget {
                           flex: 2,
                           child: Autocomplete<String>(
                             fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                              textEditingController.clear();
                               return TextField(
                                 controller: textEditingController,
                                 focusNode: focusNode,
@@ -174,10 +177,6 @@ class OrderConsgnmnt extends StatelessWidget {
           actions: [
             ElevatedButton(
               onPressed: () {
-                c.itemNameCtrl.clear();
-                c.itemNameCtrl.clear();
-                c.tableRows.clear();
-                c.sendApiList.clear();
                 Get.back();
               },
               child: Text('Cancel'),
@@ -210,46 +209,7 @@ class OrderConsgnmnt extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: AppText(
-                          text: 'Orders & Consignment',
-                          textAlign: TextAlign.center,
-                          size: 24,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: AppFonts.interBold,
-                          color: AppColors.txtColor,
-                        ),
-                      ),
-                      Expanded(
-                        flex: 0,
-                        child: PopupMenuButton(
-                          itemBuilder: (BuildContext context) {
-                            return [
-                              PopupMenuItem<String>(
-                                value: 'logout',
-                                child: AppText(
-                                  text: 'Logout',
-                                  color: AppColors.txtColor,
-                                ),
-                              ),
-                            ];
-                          },
-                          onSelected: (value) {
-                            if (value == 'logout') {
-                              logout();
-                            }
-                          },
-                          icon: Icon(
-                            Icons.more_vert,
-                            color: AppColors.txtColor,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                  headerRow(headerText: 'Orders and Consignments', onRefresh: () {}),
                   SizedBox(height: 16),
                   SingleChildScrollView(
                     child: Container(
@@ -390,6 +350,10 @@ class OrderConsgnmnt extends StatelessWidget {
             floatingActionButton: FloatingActionButton(
               backgroundColor: AppColors.txtColor,
               onPressed: () {
+                c.itemNameCtrl.clear();
+                c.itemNameCtrl.clear();
+                c.tableRows.clear();
+                c.sendApiList.clear();
                 newOrderDialog(context);
               },
               child: Icon(Icons.add),

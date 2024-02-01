@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -66,6 +67,7 @@ class SignupView extends StatelessWidget {
                         AppTextFormField(
                           controller: c.nameCtrl,
                           labelText: 'Enter Name',
+                          textCapitalization: TextCapitalization.words,
                         ),
                         SizedBox(
                           height: 8,
@@ -118,6 +120,8 @@ class SignupView extends StatelessWidget {
                           controller: c.phoneCtrl,
                           labelText: 'Enter Phone',
                           keyboardType: TextInputType.phone,
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                          maxLength: 10,
                         ),
                         SizedBox(
                           height: 8,
@@ -133,15 +137,14 @@ class SignupView extends StatelessWidget {
                         ElevatedButton(
                           onPressed: () {
                             if (signupFormkey.currentState!.validate()) {
-                              c.signup();
+                              c.signup(context);
                             }
                           },
                           style: ElevatedButton.styleFrom(
                             minimumSize: Size(double.infinity, 48.h),
                             elevation: 5.0,
                             padding: EdgeInsets.all(0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16)),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                           ),
                           child: Container(
                             width: double.infinity,
@@ -149,9 +152,7 @@ class SignupView extends StatelessWidget {
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                  colors: AppColors.buttonColor,
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight),
+                                  colors: AppColors.buttonColor, begin: Alignment.topLeft, end: Alignment.bottomRight),
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: AppText(
@@ -178,7 +179,7 @@ class SignupView extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.toNamed(AppRoutes.loginView);
+                                Get.offNamed(AppRoutes.loginView);
                               },
                               child: AppText(
                                 text: 'Login',

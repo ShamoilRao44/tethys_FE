@@ -2,11 +2,14 @@
 
 import 'package:tethys/data/remote/api_service.dart';
 import 'package:tethys/data/remote/endpoints.dart';
-import 'package:tethys/modules/prod_manager/models/get_items_list_model.dart';
+import 'package:tethys/modules/prod_manager/models/get_handovers_list_model.dart';
+import 'package:tethys/modules/prod_manager/models/get_material_list_model.dart';
 import 'package:tethys/modules/prod_manager/models/get_pm_Inventory_model.dart';
+import 'package:tethys/modules/prod_manager/models/get_products_list_model.dart';
 import 'package:tethys/modules/prod_manager/models/get_returns_model.dart';
+import 'package:tethys/modules/prod_manager/models/post_handover_model.dart';
 import 'package:tethys/modules/prod_manager/models/request_items_model.dart';
-import 'package:tethys/modules/prod_manager/models/requisition_list_model.dart';
+import 'package:tethys/modules/prod_manager/models/get_requests_list_model.dart';
 import 'package:tethys/modules/prod_manager/models/return_material_model.dart';
 import 'prod_mngr_repo.dart';
 
@@ -22,6 +25,12 @@ class ProdMngrRepoImpl extends ProdMngrRepo {
   Future<GetItemsListModel> getItemsList() async {
     return getItemsListModelFromJson(
       await apiService.get(Endpoints.getItemsList),
+    );
+  }
+
+  Future<GetProductsList> getProductList() async {
+    return getProductsListFromJson(
+      await apiService.get(Endpoints.getProductsList),
     );
   }
 
@@ -46,6 +55,18 @@ class ProdMngrRepoImpl extends ProdMngrRepo {
   Future<GetReturnsModel> fetchReturns(Map data) async {
     return getReturnsModelFromJson(
       await apiService.post(Endpoints.getReturnsForPmngr, data),
+    );
+  }
+
+  Future<PostHandoverModel> postHandover(Map data) async {
+    return postHandoverModelFromJson(
+      await apiService.post(Endpoints.postHandover, data),
+    );
+  }
+
+  Future<GetHandoversListModel> getHandoversList(Map data) async {
+    return getHandoversListModelFromJson(
+      await apiService.post(Endpoints.getHandoversForPmngr, data),
     );
   }
 }

@@ -31,46 +31,7 @@ class IssueMaterials extends StatelessWidget {
             backgroundColor: Colors.transparent,
             body: SingleChildScrollView(
               child: Column(children: [
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: AppText(
-                        text: 'Issue Materials',
-                        textAlign: TextAlign.center,
-                        size: 24,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: AppFonts.interBold,
-                        color: AppColors.txtColor,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 0,
-                      child: PopupMenuButton(
-                        itemBuilder: (BuildContext context) {
-                          return [
-                            PopupMenuItem<String>(
-                              value: 'logout',
-                              child: AppText(
-                                text: 'Logout',
-                                color: AppColors.txtColor,
-                              ),
-                            ),
-                          ];
-                        },
-                        onSelected: (value) {
-                          if (value == 'logout') {
-                            logout();
-                          }
-                        },
-                        icon: Icon(
-                          Icons.more_vert,
-                          color: AppColors.txtColor,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                headerRow(headerText: 'Issue Materials', onRefresh: () {}),
                 SizedBox(height: 16),
                 SingleChildScrollView(
                   child: Container(
@@ -128,6 +89,7 @@ class IssueMaterials extends StatelessWidget {
               ]),
             ),
             floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.save),
               onPressed: () {
                 if (c.formKey.currentState?.validate() ?? false) {
                   debugPrint(c.issuedQtyList.toString());
