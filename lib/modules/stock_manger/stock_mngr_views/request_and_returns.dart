@@ -315,7 +315,7 @@ class MaterialRequestView extends StatelessWidget {
                                             SlidableAction(
                                               onPressed: (ctx) async {
                                                 await c.denyReturns(
-                                                    slotId: c.returnsList[index].slotId!, context: context);
+                                                    slotId: c.returnsList[index].retSlotId!, context: context);
                                               },
                                               icon: Icons.delete,
                                               backgroundColor: AppColors.errorColor,
@@ -373,7 +373,7 @@ class MaterialRequestView extends StatelessWidget {
                                                   ElevatedButton(
                                                     onPressed: () {
                                                       c.approveReturns(
-                                                        slotId: c.returnsList[index].slotId!,
+                                                        slotId: c.returnsList[index].retSlotId!,
                                                         context: context,
                                                       );
                                                     },

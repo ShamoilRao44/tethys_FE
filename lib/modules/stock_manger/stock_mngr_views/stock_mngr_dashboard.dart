@@ -9,8 +9,8 @@ import 'package:tethys/resources/app_images.dart';
 import 'package:tethys/resources/app_routes.dart';
 import 'package:tethys/utils/common.dart';
 
-import '../../resources/app_colors.dart';
-import '../../utils/widgets/app_text.dart';
+import '../../../resources/app_colors.dart';
+import '../../../utils/widgets/app_text.dart';
 
 class StockMngrDashboard extends StatelessWidget {
   const StockMngrDashboard({super.key});

@@ -12,9 +12,9 @@ import 'package:tethys/modules/prod_manager/prod_mngr_views/prod_mngr_home.dart'
 import 'package:tethys/modules/prod_manager/prod_mngr_views/return_materials.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_views/update_consumptions_view.dart';
 import 'package:tethys/modules/signup/signup_view.dart';
-import 'package:tethys/modules/stock_manger/issue_materials.dart';
-import 'package:tethys/modules/stock_manger/sm_inventory.dart';
-import 'package:tethys/modules/stock_manger/stock_mngr_home.dart';
+import 'package:tethys/modules/stock_manger/stock_mngr_views/issue_materials.dart';
+import 'package:tethys/modules/stock_manger/stock_mngr_views/sm_inventory.dart';
+import 'package:tethys/modules/stock_manger/stock_mngr_views/stock_mngr_home.dart';
 import 'package:tethys/utils/bindings.dart';
 import 'package:tethys/utils/pages/info_page.dart';
 import 'package:tethys/utils/secured_storage.dart';

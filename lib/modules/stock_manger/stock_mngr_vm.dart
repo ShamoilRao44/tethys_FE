@@ -8,9 +8,9 @@ import 'package:tethys/modules/prod_manager/models/get_material_list_model.dart'
 import 'package:tethys/modules/stock_manger/models/get_inventory_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_orders_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_returns_list_model.dart';
-import 'package:tethys/modules/stock_manger/request_and_returns.dart';
+import 'package:tethys/modules/stock_manger/stock_mngr_views/request_and_returns.dart';
 import 'package:tethys/modules/stock_manger/models/get_request_list_model.dart';
-import 'package:tethys/modules/stock_manger/order_consgnmnt.dart';
+import 'package:tethys/modules/stock_manger/stock_mngr_views/order_consgnmnt.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_repo/stock_mngr_repo_impl.dart';
 import 'package:tethys/resources/app_colors.dart';
 import 'package:tethys/resources/app_fonts.dart';
@@ -18,11 +18,12 @@ import 'package:tethys/resources/app_routes.dart';
 import 'package:tethys/utils/secured_storage.dart';
 import 'package:tethys/utils/widgets/app_snackbar.dart';
 import 'package:tethys/utils/widgets/app_text.dart';
-import 'stock_mngr_dashboard.dart';
+import 'stock_mngr_views/stock_mngr_dashboard.dart';
 
 class StockMngrVM extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   StockMngrRepoImpl smri = StockMngrRepoImpl();
+  double? topPadding;
   RxInt indx = 0.obs;
   Widget? child = StockMngrDashboard();
   bool isApproved = false;

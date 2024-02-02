@@ -73,17 +73,48 @@ class ProdMngrDashboard extends StatelessWidget {
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.bordeColor2,
-                            minimumSize: Size(160, 80),
+                            minimumSize: Size(120, 70),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40),
                             ),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
-                            child: AppText(
-                              text: 'Show Inventory',
-                              color: AppColors.white,
-                              size: 24.sp,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.inventory),
+                                AppText(
+                                  text: '   Show Inventory',
+                                  color: AppColors.white,
+                                  size: 20.sp,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.bordeColor2,
+                            minimumSize: Size(120, 70),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.archive),
+                                AppText(
+                                  text: '  Show Archives',
+                                  color: AppColors.white,
+                                  size: 20.sp,
+                                ),
+                              ],
                             ),
                           ),
                         )

@@ -525,6 +525,8 @@ class ProdMngrVM extends GetxController {
         color: AppColors.snackBarColorFailure,
       ));
     });
+    await fetchHandovers();
+    update();
   }
 
   Future<void> fetchHandovers() async {
