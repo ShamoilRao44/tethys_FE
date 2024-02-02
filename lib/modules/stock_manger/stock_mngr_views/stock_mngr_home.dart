@@ -1,20 +1,19 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-import 'package:tethys/modules/prod_manager/prod_mngr_vm.dart';
-import 'package:tethys/resources/app_colors.dart';
+import '../../../resources/app_colors.dart';
+import '../stock_mngr_vm.dart';
 
-class ProdMngrHome extends StatelessWidget {
-  ProdMngrHome({super.key});
+class StockMngrHome extends StatelessWidget {
+  StockMngrHome({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ProdMngrVM>(builder: (c) {
+    return GetBuilder<StockMngrVM>(builder: (c) {
       c.topPadding = MediaQuery.paddingOf(context).top;
       return Container(
         width: double.infinity,
@@ -30,7 +29,9 @@ class ProdMngrHome extends StatelessWidget {
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.transparent,
-            body: c.child,
+            body: Container(
+              child: c.child,
+            ),
             bottomNavigationBar: Container(
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
@@ -58,11 +59,15 @@ class ProdMngrHome extends StatelessWidget {
                     ),
                     GButton(
                       icon: Icons.rate_review_rounded,
-                      text: 'Requisition/Return',
+                      text: 'Requests & returns',
+                    ),
+                    GButton(
+                      icon: Icons.fire_truck,
+                      text: 'Order & Consignment',
                     ),
                     GButton(
                       icon: CupertinoIcons.cube_box,
-                      text: 'Production Handover',
+                      text: 'Handovers',
                     ),
                   ],
                   selectedIndex: c.indx.value,

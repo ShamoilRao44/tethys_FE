@@ -8,4 +8,10 @@ class AppRoutes {
   static const stockMngrHome = "/StockMngrDashboard";
   static const prodMngrHome = "/prodMngrHome";
   static const gateKeepHome = "/GatekeeperHome";
+  static const smInventory = '/smInventory';
+  static const pmInventory = '/pmInventory';
+  static const issueMaterials = '/issueMaterials';
+  static const returnMaterials = '/returnMaterials';
+  static const updateConsumptions = '/updateConsumptions';
+  static const infoPage = '/infoPage';
 }

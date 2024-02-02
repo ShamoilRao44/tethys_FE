@@ -63,7 +63,14 @@ class LoginVM extends GetxController {
           );
         }
       },
-    );
+    ).onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        appSnackbar(
+          msg: 'Something wrong occured',
+          color: AppColors.snackBarColorFailure,
+        ),
+      );
+    });
   }
 
   Future<void> storeInSecuredStorage(LoginModel res) async {

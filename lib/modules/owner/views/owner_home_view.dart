@@ -1,101 +1,79 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, sized_box_for_whitespace, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:tethys/modules/owner/views/requestlist_view.dart';
-import 'package:tethys/modules/owner/views/userlist_view.dart';
+import 'package:tethys/modules/owner/owner_vm.dart';
 import 'package:tethys/resources/app_colors.dart';
 
-import 'owner_dashboard_view.dart';
-
-// ignore: must_be_immutable
-class OwnerHome extends StatefulWidget {
-  OwnerHome({super.key});
-
-  @override
-  State<OwnerHome> createState() => _OwnerHomeState();
-}
-
-class _OwnerHomeState extends State<OwnerHome> {
-  int _index = 0;
+class OwnerHome extends StatelessWidget {
+  const OwnerHome({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Widget? child = OwnerDashboard();
-    switch (_index) {
-      case 0:
-        child = OwnerDashboard();
-        break;
-      case 1:
-        child = UserListScreen();
-        break;
-      case 2:
-        child = EmplRequests();
-        break;
-    }
-    return Container(
-      width: double.infinity,
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          // borderRadius: BorderRadius.circular(18),
-          gradient: LinearGradient(
-            begin: Alignment(0, -1),
-            end: Alignment(0, 1),
-            colors: <Color>[Color(0xfff4faff), Color(0xffacd2e3)],
-            stops: <double>[0, 1],
+    return GetBuilder<OwnerHomeVM>(
+      builder: (c) {
+        return Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: AppColors.bgGradient,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
           ),
-        ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Container(
-            child: child,
-          ),
-          bottomNavigationBar: Container(
-            margin: EdgeInsets.all(16),
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: AppColors.boxShadow,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
+          child: SafeArea(
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: c.child,
+              bottomNavigationBar: Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppColors.bordeColor2,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
+                ),
+                child: Obx(() {
+                  return GNav(
+                    rippleColor: Colors.grey[300]!,
+                    hoverColor: Colors.grey[100]!,
+                    gap: 8.w,
+                    activeColor: Colors.black,
+                    iconSize: 24,
+                    padding: EdgeInsets.all(12),
+                    duration: Duration(milliseconds: 400),
+                    tabBackgroundColor: Colors.grey[100]!,
+                    color: Colors.black,
+                    tabs: [
+                      GButton(
+                        icon: Icons.dashboard,
+                        text: 'Dashboard',
+                      ),
+                      GButton(
+                        icon: Icons.rate_review_rounded,
+                        text: 'User List',
+                      ),
+                      GButton(
+                        icon: CupertinoIcons.doc,
+                        text: 'Requests',
+                      ),
+                    ],
+                    selectedIndex: c.indx.value,
+                    onTabChange: (index) {
+                      c.onTabChange(index);
+                    },
+                  );
+                }),
               ),
             ),
-            child: GNav(
-              rippleColor: Colors.grey[300]!,
-              hoverColor: Colors.grey[100]!,
-              gap: 8,
-              activeColor: Colors.black,
-              iconSize: 24,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              duration: Duration(milliseconds: 400),
-              tabBackgroundColor: Colors.grey[100]!,
-              color: Colors.black,
-              tabs: [
-                GButton(
-                  icon: Icons.dashboard,
-                  text: 'Dashboard',
-                ),
-                GButton(
-                  icon: Icons.list_sharp,
-                  text: 'User List',
-                ),
-                GButton(
-                  icon: Icons.rate_review,
-                  text: 'Request',
-                ),
-              ],
-              selectedIndex: _index,
-              onTabChange: (index) {
-                setState(() {
-                  _index = index;
-                });
-              },
-            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tethys/resources/app_colors.dart';
 
 class AppTextFormField extends StatelessWidget {
@@ -8,19 +9,29 @@ class AppTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final bool? obscureText;
+  final List<TextInputFormatter>? inputFormatters;
+  final int? maxLength;
+  final TextCapitalization? textCapitalization;
+
   const AppTextFormField({
     this.labelText,
     this.controller,
     this.obscureText,
     this.keyboardType,
+    this.inputFormatters,
+    this.maxLength,
+    this.textCapitalization,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textCapitalization: textCapitalization ?? TextCapitalization.none,
+      maxLength: maxLength,
       obscureText: obscureText ?? false,
       keyboardType: keyboardType ?? TextInputType.name,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         label: Text(
           labelText ?? 'label',
