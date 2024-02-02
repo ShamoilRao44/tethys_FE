@@ -44,6 +44,7 @@ class ProdMngrVM extends GetxController {
   List<String> prodNameList = [];
   List<MaterialInfo>? materials = [];
   List<ProductsInfo>? products = [];
+
   List<Map> sendApiList = [];
   List<TableRow> invntryTableRows = [];
   List<Requisition> currentReqMaterials = [];

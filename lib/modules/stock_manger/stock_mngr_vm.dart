@@ -5,9 +5,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/prod_manager/models/get_material_list_model.dart';
+import 'package:tethys/modules/prod_manager/models/get_products_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_inventory_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_orders_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_returns_list_model.dart';
+import 'package:tethys/modules/stock_manger/stock_mngr_views/handover.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_views/request_and_returns.dart';
 import 'package:tethys/modules/stock_manger/models/get_request_list_model.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_views/order_consgnmnt.dart';
@@ -23,19 +25,26 @@ import 'stock_mngr_views/stock_mngr_dashboard.dart';
 class StockMngrVM extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   StockMngrRepoImpl smri = StockMngrRepoImpl();
+  String selectedOptionForOC = 'Order';
   double? topPadding;
   RxInt indx = 0.obs;
   Widget? child = StockMngrDashboard();
   bool isApproved = false;
   bool isRequests = true;
+  bool isOrders = true;
   List<bool> isExpanded = [];
   List<bool> isExpanded2 = [];
   List<bool> isExpandedForOrders = [];
+
   List<TableRow> tableRows = [];
-  List<String> itemNameList = [];
-  List<MaterialInfo>? materials = [];
-  List<Map> sendApiList = [];
   List<TableRow> invntryTableRows = [];
+
+  List<String> itemNameList = [];
+  List<String> prodNameList = [];
+  List<MaterialInfo>? materials = [];
+  List<ProductsInfo>? products = [];
+
+  List<Map> sendApiList = [];
   List<Requisition> currentRequesitions = [];
   List<Map<String?, dynamic>> issuedQtyList = [];
 
@@ -45,11 +54,23 @@ class StockMngrVM extends GetxController {
   List<ReturnsDatum> returnsList = [];
   List<OrdersDatum> ordersList = [];
   List<InventoryDatum> inventoryList = [];
+  //create Order Controllers
   TextEditingController suppNameCtrl = TextEditingController();
   TextEditingController totalAmtCtrl = TextEditingController();
   TextEditingController invoiceCtrl = TextEditingController();
   TextEditingController vehicleCtrl = TextEditingController();
   TextEditingController remarksCtrl = TextEditingController();
+  //create consignment Controller
+  TextEditingController buyerCtrl = TextEditingController();
+  TextEditingController amountCtrl = TextEditingController();
+  TextEditingController cInvoiceCtrl = TextEditingController();
+  TextEditingController cVehNoCtrl = TextEditingController();
+  TextEditingController transportCtrl = TextEditingController();
+  TextEditingController drivNameCtrl = TextEditingController();
+  TextEditingController drivPhoneCtrl = TextEditingController();
+  TextEditingController drivLicCtrl = TextEditingController();
+  TextEditingController cRemarkCtrl = TextEditingController();
+
   TextEditingController itemNameCtrl = TextEditingController();
   TextEditingController itemQtyCtrl = TextEditingController();
 
@@ -61,6 +82,7 @@ class StockMngrVM extends GetxController {
     super.onInit();
     getRequests();
     fetchMaterialList();
+    fetchProductList();
     fetchReturns();
     fetchOrders();
     fetchInventory();
@@ -78,6 +100,9 @@ class StockMngrVM extends GetxController {
         break;
       case 2:
         child = OrderConsgnmnt();
+        break;
+      case 3:
+        child = SMHandovers();
         break;
     }
     update();
@@ -163,8 +188,33 @@ class StockMngrVM extends GetxController {
     );
   }
 
+  Future<void> fetchProductList() async {
+    await smri.getProductList().then(
+      (res) {
+        if (res.status == '200') {
+          res.data!.forEach(
+            (element) {
+              prodNameList.add(
+                element.product!.toLowerCase(),
+              );
+            },
+          );
+          products = res.data;
+        }
+      },
+    ).onError((error, stackTrace) {
+      debugPrint('Error in fetchProductsList()');
+    });
+    debugPrint(prodNameList.toString());
+  }
+
   void toggleViews(bool value) {
     isRequests = value;
+    update();
+  }
+
+  void toggleViewsforOC(bool value) {
+    isOrders = value;
     update();
   }
 
@@ -486,16 +536,27 @@ class StockMngrVM extends GetxController {
     );
     update();
 
-    materials!.forEach(
-      (element) {
-        if (itemNameCtrl.text == element.material!.toLowerCase()) {
-          sendApiList!.add({
-            'm_id': element.id,
-            'ord_qty': itemQtyCtrl.text,
-          });
-        }
-      },
-    );
+    selectedOptionForOC == 'Order'
+        ? materials!.forEach(
+            (element) {
+              if (itemNameCtrl.text == element.material!.toLowerCase()) {
+                sendApiList.add({
+                  'm_id': element.id,
+                  'ord_qty': itemQtyCtrl.text,
+                });
+              }
+            },
+          )
+        : products!.forEach(
+            (element) {
+              if (itemNameCtrl.text == element.product!.toLowerCase()) {
+                sendApiList.add({
+                  'prod_id': element.id,
+                  'qty': itemQtyCtrl.text,
+                });
+              }
+            },
+          );
     update();
 
     // debugPrint(sendApiList.toString());
@@ -540,5 +601,44 @@ class StockMngrVM extends GetxController {
     issuedQtyList.clear();
     currentRequesitions = a;
     Get.toNamed(AppRoutes.issueMaterials);
+  }
+
+  Future<void> sendConsignment(BuildContext context) async {
+    if (itemNameCtrl.text.isNotEmpty && itemQtyCtrl.text.isNotEmpty) {
+      addRow();
+    }
+
+    var data = {};
+
+    data['buyer'] = buyerCtrl.text;
+    data['invoice_value'] = amountCtrl.text;
+    data['invoice'] = cInvoiceCtrl.text;
+    data['veh_no'] = cVehNoCtrl.text;
+    data['transport_name'] = transportCtrl.text;
+    data['driv_name'] = drivNameCtrl;
+    data['driv_phone'] = drivPhoneCtrl;
+    data['driv_license'] = drivLicCtrl;
+    data['remarks'] = cRemarkCtrl;
+    data['dis_by'] = await SecuredStorage.readStringValue(Keys.id);
+    data['consigns'] = sendApiList;
+
+    await smri.sendConsignment(data).then(
+      (res) {
+        if (res.status == '200') {
+          ScaffoldMessenger.of(context).showSnackBar(
+              appSnackbar(msg: 'Succesfully Uploaded Consignment', color: AppColors.snackBarColorSuccess));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(appSnackbar(msg: res.msg, color: AppColors.snackBarColorFailure));
+        }
+      },
+    ).onError(
+      (error, stackTrace) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(appSnackbar(msg: 'Some Error', color: AppColors.snackBarColorFailure));
+      },
+    );
+
+    await fetchOrders();
+    update();
   }
 }

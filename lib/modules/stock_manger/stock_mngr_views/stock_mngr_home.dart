@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -65,8 +66,8 @@ class StockMngrHome extends StatelessWidget {
                       text: 'Order & Consignment',
                     ),
                     GButton(
-                      icon: Icons.history,
-                      text: 'History',
+                      icon: CupertinoIcons.cube_box,
+                      text: 'Handovers',
                     ),
                   ],
                   selectedIndex: c.indx.value,

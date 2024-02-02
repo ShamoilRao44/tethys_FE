@@ -61,7 +61,7 @@ class ProdMngrHome extends StatelessWidget {
                       text: 'Requisition/Return',
                     ),
                     GButton(
-                      icon: CupertinoIcons.doc,
+                      icon: CupertinoIcons.cube_box,
                       text: 'Production Handover',
                     ),
                   ],

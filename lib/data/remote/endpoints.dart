@@ -34,6 +34,7 @@ class Endpoints {
   static const approveReturn = 'smanager/return/reqs/allow';
   static const denyReturns = 'smanager/return/reqs/deny';
   static const sendOrder = 'smanager/orders/create';
+  static const sendConsignment = 'smanager/consignments/create';
 
   static const getOrderList = 'gkeep/';
   static const verifyOrders = 'gkeep/orders/check';

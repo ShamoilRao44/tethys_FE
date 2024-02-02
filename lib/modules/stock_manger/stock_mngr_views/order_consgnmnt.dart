@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,34 +38,135 @@ class OrderConsgnmnt extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(height: 8),
-                    AppTextFormField(
-                      labelText: 'Supplier Name',
-                      controller: c.suppNameCtrl,
-                      textCapitalization: TextCapitalization.words,
+                    DropdownButtonFormField(
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: AppColors.bordeColor2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: AppColors.bordeColor2),
+                        ),
+                      ),
+                      value: c.selectedOptionForOC,
+                      items: ['Order', 'Consignment'].map(
+                        (item) {
+                          return DropdownMenuItem(
+                            child: Text(item),
+                            value: item,
+                          );
+                        },
+                      ).toList(),
+                      onChanged: (value) {
+                        c.sendApiList.clear();
+                        c.tableRows.clear();
+                        c.itemNameCtrl.clear();
+                        c.itemQtyCtrl.clear();
+                        c.selectedOptionForOC = value!;
+                        c.update();
+                      },
                     ),
                     SizedBox(height: 8),
-                    AppTextFormField(
-                      labelText: 'Invoice No.',
-                      controller: c.invoiceCtrl,
-                    ),
-                    SizedBox(height: 8),
-                    AppTextFormField(
-                      labelText: 'Vehicle No.',
-                      controller: c.vehicleCtrl,
-                      textCapitalization: TextCapitalization.characters,
-                    ),
-                    SizedBox(height: 8),
-                    AppTextFormField(
-                      labelText: 'Total Amount',
-                      controller: c.totalAmtCtrl,
-                    ),
-                    SizedBox(height: 8),
-                    AppTextFormField(
-                      labelText: 'Remarks',
-                      controller: c.remarksCtrl,
-                    ),
-                    SizedBox(height: 16),
+                    c.selectedOptionForOC == 'Order'
+                        ? Column(
+                            //create Order
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AppTextFormField(
+                                labelText: 'Supplier Name',
+                                controller: c.suppNameCtrl,
+                                textCapitalization: TextCapitalization.words,
+                              ),
+                              SizedBox(height: 8),
+                              AppTextFormField(
+                                labelText: 'Invoice No.',
+                                controller: c.invoiceCtrl,
+                              ),
+                              SizedBox(height: 8),
+                              AppTextFormField(
+                                labelText: 'Vehicle No.',
+                                controller: c.vehicleCtrl,
+                                textCapitalization: TextCapitalization.characters,
+                              ),
+                              SizedBox(height: 8),
+                              AppTextFormField(
+                                labelText: 'Total Amount',
+                                controller: c.totalAmtCtrl,
+                              ),
+                              SizedBox(height: 8),
+                              AppTextFormField(
+                                labelText: 'Remarks',
+                                controller: c.remarksCtrl,
+                              ),
+                              SizedBox(height: 16),
+                            ],
+                          )
+                        : Column(
+                            //create Consignment
+
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AppTextFormField(
+                                labelText: 'Buyer',
+                                controller: c.buyerCtrl,
+                                textCapitalization: TextCapitalization.words,
+                              ),
+                              SizedBox(height: 8),
+                              AppTextFormField(
+                                labelText: 'Amount',
+                                controller: c.amountCtrl,
+                                textCapitalization: TextCapitalization.words,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              ),
+                              SizedBox(height: 8),
+                              AppTextFormField(
+                                labelText: 'Invoice',
+                                controller: c.cInvoiceCtrl,
+                                textCapitalization: TextCapitalization.words,
+                              ),
+                              SizedBox(height: 8),
+                              AppTextFormField(
+                                labelText: 'Vehicle No.',
+                                controller: c.cVehNoCtrl,
+                                textCapitalization: TextCapitalization.characters,
+                              ),
+                              SizedBox(height: 8),
+                              AppTextFormField(
+                                labelText: 'Transport Name',
+                                controller: c.transportCtrl,
+                                textCapitalization: TextCapitalization.words,
+                              ),
+                              SizedBox(height: 8),
+                              AppTextFormField(
+                                labelText: 'Driver Name',
+                                controller: c.drivNameCtrl,
+                                textCapitalization: TextCapitalization.words,
+                              ),
+                              SizedBox(height: 8),
+                              AppTextFormField(
+                                labelText: 'Driver Phone',
+                                controller: c.drivPhoneCtrl,
+                                textCapitalization: TextCapitalization.words,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              ),
+                              SizedBox(height: 8),
+                              AppTextFormField(
+                                labelText: 'Driver License',
+                                controller: c.drivLicCtrl,
+                                textCapitalization: TextCapitalization.characters,
+                              ),
+                              SizedBox(height: 8),
+                              AppTextFormField(
+                                labelText: 'Remark',
+                                controller: c.cRemarkCtrl,
+                                textCapitalization: TextCapitalization.words,
+                              ),
+                              SizedBox(height: 8),
+                            ],
+                          ),
                     c.tableRows.isNotEmpty
                         ? Table(
                             border: TableBorder.all(
@@ -109,66 +210,127 @@ class OrderConsgnmnt extends StatelessWidget {
                             ],
                           )
                         : Container(),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Autocomplete<String>(
-                            fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
-                              textEditingController.clear();
-                              return TextField(
-                                controller: textEditingController,
-                                focusNode: focusNode,
-                                decoration: InputDecoration(hintText: 'Item Name'),
-                              );
-                            },
-                            optionsBuilder: (TextEditingValue textEditingValue) {
-                              if (textEditingValue.text == '') {
-                                return c.itemNameList;
-                              }
-                              return c.itemNameList.where(
-                                (String option) {
-                                  return option.contains(
-                                    textEditingValue.text.toLowerCase(),
-                                  );
-                                },
-                              );
-                            },
-                            onSelected: (option) {
-                              c.itemNameCtrl.text = option;
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextField(
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 14,
+                    c.selectedOptionForOC == 'Order'
+                        ? Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Autocomplete<String>(
+                                  fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                                    textEditingController.clear();
+                                    return TextField(
+                                      controller: textEditingController,
+                                      focusNode: focusNode,
+                                      decoration: InputDecoration(hintText: 'Item Name'),
+                                    );
+                                  },
+                                  optionsBuilder: (TextEditingValue textEditingValue) {
+                                    if (textEditingValue.text == '') {
+                                      return c.itemNameList;
+                                    }
+                                    return c.itemNameList.where(
+                                      (String option) {
+                                        return option.contains(
+                                          textEditingValue.text.toLowerCase(),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  onSelected: (option) {
+                                    c.itemNameCtrl.text = option;
+                                  },
+                                ),
                               ),
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                              decoration: InputDecoration(
-                                hintText: 'Qty',
-                                focusColor: Colors.transparent,
+                              Expanded(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextField(
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                    decoration: InputDecoration(
+                                      hintText: 'Qty',
+                                      focusColor: Colors.transparent,
+                                    ),
+                                    controller: c.itemQtyCtrl,
+                                  ),
+                                ),
                               ),
-                              controller: c.itemQtyCtrl,
-                            ),
+                              Expanded(
+                                flex: 1,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    c.addRow();
+                                  },
+                                  child: Icon(Icons.add),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Autocomplete<String>(
+                                  fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                                    textEditingController.clear();
+                                    return TextField(
+                                      controller: textEditingController,
+                                      focusNode: focusNode,
+                                      decoration: InputDecoration(hintText: 'Item Name'),
+                                    );
+                                  },
+                                  optionsBuilder: (TextEditingValue textEditingValue) {
+                                    if (textEditingValue.text == '') {
+                                      return c.prodNameList;
+                                    }
+                                    return c.prodNameList.where(
+                                      (String option) {
+                                        return option.contains(
+                                          textEditingValue.text.toLowerCase(),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  onSelected: (option) {
+                                    c.itemNameCtrl.text = option;
+                                  },
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextField(
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                    decoration: InputDecoration(
+                                      hintText: 'Qty',
+                                      focusColor: Colors.transparent,
+                                    ),
+                                    controller: c.itemQtyCtrl,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    c.addRow();
+                                  },
+                                  child: Icon(Icons.add),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              c.addRow();
-                            },
-                            child: Icon(Icons.add),
-                          ),
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ),
@@ -184,7 +346,7 @@ class OrderConsgnmnt extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Get.back();
-                c.sendOrder(ctx);
+                c.selectedOptionForOC == 'Order' ? c.sendOrder(ctx) : c.sendConsignment(ctx);
               },
               child: Text('Submit'),
             ),
@@ -216,7 +378,7 @@ class OrderConsgnmnt extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      c.toggleViews(true);
+                      c.toggleViewsforOC(true);
                     },
                     child: Text('Orders'),
                     style: ElevatedButton.styleFrom(
@@ -227,150 +389,289 @@ class OrderConsgnmnt extends StatelessWidget {
                   SizedBox(width: 8),
                   ElevatedButton(
                     onPressed: () {
-                      c.toggleViews(false);
+                      c.toggleViewsforOC(false);
                     },
-                    child: Text('Consignments'),
                     style: ElevatedButton.styleFrom(
                       elevation: c.isRequests ? 0 : 2,
                       backgroundColor: c.isRequests ? Colors.amber.shade400.withOpacity(0.6) : Colors.amber.shade400,
                     ),
+                    child: Text('Consignments'),
                   )
                 ],
               ),
               SizedBox(height: 16),
-              Builder(builder: (context) {
-                double containerHeight = MediaQuery.of(context).size.height - 64 - 146 - c.topPadding!;
-                return Container(
-                  height: containerHeight,
-                  child: ListView.builder(
-                    itemCount: c.ordersList.length,
-                    itemBuilder: (context, index) {
-                      List<TableRow> tableRowsHere = c.ordersTableMaker(c.ordersList[index].orders!);
-                      return Padding(
-                          padding: EdgeInsets.only(bottom: 8.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              c.toggleExpansionForOrders(index);
-                            },
-                            child: AnimatedContainer(
-                              duration: Duration(milliseconds: 400),
-                              height: c.isExpandedForOrders[index] ? 400 : 96,
-                              padding: EdgeInsets.all(16.0),
-                              decoration: BoxDecoration(
-                                color: c.isExpandedForOrders[index] ? AppColors.lightBlue : AppColors.lightBlue,
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    AppText(
-                                      text: c.ordersList[index].remarks ?? 'Remarks',
-                                      color: const Color.fromRGBO(62, 86, 126, 1),
-                                      size: MediaQuery.of(context).size.width > 300 ? 20 : 20.h,
-                                      fontFamily: AppFonts.interRegular,
-                                      fontWeight: FontWeight.w600,
+              Builder(
+                builder: (context) {
+                  double containerHeight = MediaQuery.of(context).size.height - 64 - 146 - c.topPadding!;
+                  return c.isOrders
+                      ? Container(
+                          //Ordersview
+                          height: containerHeight,
+                          child: ListView.builder(
+                            itemCount: c.ordersList.length,
+                            itemBuilder: (context, index) {
+                              List<TableRow> tableRowsHere = c.ordersTableMaker(c.ordersList[index].orders!);
+                              return Padding(
+                                padding: EdgeInsets.only(bottom: 8.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    c.toggleExpansionForOrders(index);
+                                  },
+                                  child: AnimatedContainer(
+                                    duration: Duration(milliseconds: 400),
+                                    height: c.isExpandedForOrders[index] ? 400 : 96,
+                                    padding: EdgeInsets.all(16.0),
+                                    decoration: BoxDecoration(
+                                      color: c.isExpandedForOrders[index] ? AppColors.lightBlue : AppColors.lightBlue,
+                                      borderRadius: BorderRadius.circular(10.0),
                                     ),
-                                    SizedBox(height: 8.h),
-                                    Row(
+                                    child: Column(
                                       mainAxisAlignment: MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         AppText(
-                                          text: 'Name: ${c.ordersList[index].purBy!.name ?? ''}',
-                                          color: AppColors.txtColor,
-                                          size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
+                                          text: c.ordersList[index].remarks ?? 'Remarks',
+                                          color: const Color.fromRGBO(62, 86, 126, 1),
+                                          size: MediaQuery.of(context).size.width > 300 ? 20 : 20.h,
                                           fontFamily: AppFonts.interRegular,
-                                          fontWeight: FontWeight.w400,
-                                          maxLines: 2,
+                                          fontWeight: FontWeight.w600,
                                         ),
-                                        SizedBox(width: 32.w),
-                                        AppText(
-                                          text: 'Date: ${c.ordersList[index].purTime.toString().substring(0, 10)}',
-                                          color: AppColors.txtColor,
-                                          size: MediaQuery.of(context).size.width > 400 ? 16 : 16.w,
-                                          fontFamily: AppFonts.interRegular,
-                                          fontWeight: FontWeight.w400,
-                                        )
-                                      ],
-                                    ),
-                                    c.isExpandedForOrders[index]
-                                        ? SingleChildScrollView(
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(height: 8),
-                                                AppText(
-                                                  text: 'Invoice: ${c.ordersList[index].invoice ?? ''}',
-                                                  color: AppColors.txtColor,
-                                                  size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
-                                                  fontFamily: AppFonts.interRegular,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                                SizedBox(height: 8),
-                                                AppText(
-                                                  text: 'Vehicle No.: ${c.ordersList[index].vehicle ?? ''}',
-                                                  color: AppColors.txtColor,
-                                                  size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
-                                                  fontFamily: AppFonts.interRegular,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                                SizedBox(height: 8),
-                                                Table(
-                                                  border: TableBorder.all(
-                                                    width: 1.0,
-                                                    color: AppColors.darkblue,
-                                                    borderRadius: BorderRadius.circular(8),
-                                                  ),
-                                                  columnWidths: {
-                                                    0: FlexColumnWidth(3),
-                                                    1: FlexColumnWidth(1),
-                                                  },
+                                        SizedBox(height: 8.h),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            AppText(
+                                              text: 'Name: ${c.ordersList[index].purBy!.name ?? ''}',
+                                              color: AppColors.txtColor,
+                                              size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
+                                              fontFamily: AppFonts.interRegular,
+                                              fontWeight: FontWeight.w400,
+                                              maxLines: 2,
+                                            ),
+                                            SizedBox(width: 32.w),
+                                            AppText(
+                                              text: 'Date: ${c.ordersList[index].purTime.toString().substring(0, 10)}',
+                                              color: AppColors.txtColor,
+                                              size: MediaQuery.of(context).size.width > 400 ? 16 : 16.w,
+                                              fontFamily: AppFonts.interRegular,
+                                              fontWeight: FontWeight.w400,
+                                            )
+                                          ],
+                                        ),
+                                        c.isExpandedForOrders[index]
+                                            ? SingleChildScrollView(
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
-                                                    TableRow(
+                                                    SizedBox(height: 8),
+                                                    AppText(
+                                                      text: 'Invoice: ${c.ordersList[index].invoice ?? ''}',
+                                                      color: AppColors.txtColor,
+                                                      size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
+                                                      fontFamily: AppFonts.interRegular,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                    SizedBox(height: 8),
+                                                    AppText(
+                                                      text: 'Vehicle No.: ${c.ordersList[index].vehicle ?? ''}',
+                                                      color: AppColors.txtColor,
+                                                      size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
+                                                      fontFamily: AppFonts.interRegular,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                    SizedBox(height: 8),
+                                                    Table(
+                                                      border: TableBorder.all(
+                                                        width: 1.0,
+                                                        color: AppColors.darkblue,
+                                                        borderRadius: BorderRadius.circular(8),
+                                                      ),
+                                                      columnWidths: {
+                                                        0: FlexColumnWidth(3),
+                                                        1: FlexColumnWidth(1),
+                                                      },
                                                       children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.all(8.0),
-                                                          child: Text(
-                                                            'Item Name',
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                              color: AppColors.txtColor,
-                                                              fontFamily: AppFonts.interRegular,
-                                                              fontWeight: FontWeight.w600,
+                                                        TableRow(
+                                                          children: [
+                                                            Padding(
+                                                              padding: const EdgeInsets.all(8.0),
+                                                              child: Text(
+                                                                'Item Name',
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(
+                                                                  color: AppColors.txtColor,
+                                                                  fontFamily: AppFonts.interRegular,
+                                                                  fontWeight: FontWeight.w600,
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.all(8.0),
-                                                          child: Text(
-                                                            'Qty',
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                              color: AppColors.txtColor,
-                                                              fontFamily: AppFonts.interRegular,
-                                                              fontSize: 16,
-                                                              fontWeight: FontWeight.w600,
+                                                            Padding(
+                                                              padding: const EdgeInsets.all(8.0),
+                                                              child: Text(
+                                                                'Qty',
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(
+                                                                  color: AppColors.txtColor,
+                                                                  fontFamily: AppFonts.interRegular,
+                                                                  fontSize: 16,
+                                                                  fontWeight: FontWeight.w600,
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),
+                                                          ],
                                                         ),
+                                                        ...tableRowsHere,
                                                       ],
                                                     ),
-                                                    ...tableRowsHere,
                                                   ],
                                                 ),
-                                              ],
+                                              )
+                                            : Container(),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                      : Container(
+                          //Consignment view
+                          height: containerHeight,
+                          child: ListView.builder(
+                            itemCount: c.ordersList.length,
+                            itemBuilder: (context, index) {
+                              List<TableRow> tableRowsHere = c.ordersTableMaker(c.ordersList[index].orders!);
+                              return Padding(
+                                padding: EdgeInsets.only(bottom: 8.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    c.toggleExpansionForOrders(index);
+                                  },
+                                  child: AnimatedContainer(
+                                    duration: Duration(milliseconds: 400),
+                                    height: c.isExpandedForOrders[index] ? 400 : 96,
+                                    padding: EdgeInsets.all(16.0),
+                                    decoration: BoxDecoration(
+                                      color: c.isExpandedForOrders[index] ? AppColors.lightBlue : AppColors.lightBlue,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        AppText(
+                                          text: c.ordersList[index].remarks ?? 'Remarks',
+                                          color: const Color.fromRGBO(62, 86, 126, 1),
+                                          size: MediaQuery.of(context).size.width > 300 ? 20 : 20.h,
+                                          fontFamily: AppFonts.interRegular,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        SizedBox(height: 8.h),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            AppText(
+                                              text: 'Name: ${c.ordersList[index].purBy!.name ?? ''}',
+                                              color: AppColors.txtColor,
+                                              size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
+                                              fontFamily: AppFonts.interRegular,
+                                              fontWeight: FontWeight.w400,
+                                              maxLines: 2,
                                             ),
-                                          )
-                                        : Container(),
-                                  ]),
-                            ),
-                          ));
-                    },
-                  ),
-                );
-              })
+                                            SizedBox(width: 32.w),
+                                            AppText(
+                                              text: 'Date: ${c.ordersList[index].purTime.toString().substring(0, 10)}',
+                                              color: AppColors.txtColor,
+                                              size: MediaQuery.of(context).size.width > 400 ? 16 : 16.w,
+                                              fontFamily: AppFonts.interRegular,
+                                              fontWeight: FontWeight.w400,
+                                            )
+                                          ],
+                                        ),
+                                        c.isExpandedForOrders[index]
+                                            ? SingleChildScrollView(
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(height: 8),
+                                                    AppText(
+                                                      text: 'Invoice: ${c.ordersList[index].invoice ?? ''}',
+                                                      color: AppColors.txtColor,
+                                                      size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
+                                                      fontFamily: AppFonts.interRegular,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                    SizedBox(height: 8),
+                                                    AppText(
+                                                      text: 'Vehicle No.: ${c.ordersList[index].vehicle ?? ''}',
+                                                      color: AppColors.txtColor,
+                                                      size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
+                                                      fontFamily: AppFonts.interRegular,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                    SizedBox(height: 8),
+                                                    Table(
+                                                      border: TableBorder.all(
+                                                        width: 1.0,
+                                                        color: AppColors.darkblue,
+                                                        borderRadius: BorderRadius.circular(8),
+                                                      ),
+                                                      columnWidths: {
+                                                        0: FlexColumnWidth(3),
+                                                        1: FlexColumnWidth(1),
+                                                      },
+                                                      children: [
+                                                        TableRow(
+                                                          children: [
+                                                            Padding(
+                                                              padding: const EdgeInsets.all(8.0),
+                                                              child: Text(
+                                                                'Item Name',
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(
+                                                                  color: AppColors.txtColor,
+                                                                  fontFamily: AppFonts.interRegular,
+                                                                  fontWeight: FontWeight.w600,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.all(8.0),
+                                                              child: Text(
+                                                                'Qty',
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(
+                                                                  color: AppColors.txtColor,
+                                                                  fontFamily: AppFonts.interRegular,
+                                                                  fontSize: 16,
+                                                                  fontWeight: FontWeight.w600,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        ...tableRowsHere,
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            : Container(),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                },
+              )
             ],
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

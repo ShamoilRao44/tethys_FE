@@ -1,6 +1,7 @@
 import 'package:tethys/data/remote/api_service.dart';
 import 'package:tethys/data/remote/endpoints.dart';
 import 'package:tethys/modules/prod_manager/models/get_material_list_model.dart';
+import 'package:tethys/modules/prod_manager/models/get_products_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/approve_returns_model.dart';
 import 'package:tethys/modules/stock_manger/models/deny_request_model.dart';
 import 'package:tethys/modules/stock_manger/models/deny_returns_model.dart';
@@ -9,6 +10,7 @@ import 'package:tethys/modules/stock_manger/models/get_orders_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_request_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_returns_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/issue_request_model.dart.dart';
+import 'package:tethys/modules/stock_manger/models/send_consignments_model.dart';
 import 'package:tethys/modules/stock_manger/models/send_order_model.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_repo/stock_mngr_repo.dart';
 
@@ -26,6 +28,12 @@ class StockMngrRepoImpl extends StockMngrRepo {
   Future<GetItemsListModel> getItemsList() async {
     return getItemsListModelFromJson(
       await apiService.get(Endpoints.getItemsList),
+    );
+  }
+
+  Future<GetProductsList> getProductList() async {
+    return getProductsListFromJson(
+      await apiService.get(Endpoints.getProductsList),
     );
   }
 
@@ -81,6 +89,13 @@ class StockMngrRepoImpl extends StockMngrRepo {
   Future<SendOrderModel> sendOrder(Map data) async {
     return sendOrderModelFromJson(
       await apiService.post(Endpoints.sendOrder, data),
+    );
+  }
+
+  @override
+  Future<SendConsignmentsModel> sendConsignment(Map data) async {
+    return sendConsignmentsModelFromJson(
+      await apiService.post(Endpoints.sendConsignment, data),
     );
   }
 }
