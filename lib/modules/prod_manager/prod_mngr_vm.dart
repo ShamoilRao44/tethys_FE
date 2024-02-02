@@ -174,8 +174,7 @@ class ProdMngrVM extends GetxController {
               }
             },
           );
-          isExpanded =
-              List.generate(pendingRequisitionsList.length, (index) => false);
+          isExpanded = List.generate(pendingRequisitionsList.length, (index) => false);
         } else {
           debugPrint(res.msg);
         }
