@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_vm.dart';
 import 'package:tethys/resources/app_colors.dart';
-import 'package:tethys/resources/app_fonts.dart';
 import 'package:tethys/resources/app_images.dart';
 import 'package:tethys/resources/app_routes.dart';
 import 'package:tethys/utils/common.dart';

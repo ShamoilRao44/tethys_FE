@@ -6,9 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_vm.dart';
 import 'package:tethys/resources/app_colors.dart';
-import 'package:tethys/resources/app_fonts.dart';
 import 'package:tethys/utils/common.dart';
-import 'package:tethys/utils/widgets/app_text.dart';
 
 class ReturnMaterials extends StatelessWidget {
   const ReturnMaterials({super.key});
@@ -110,9 +108,9 @@ class ReturnMaterials extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: () async {
-                                await c.returnMaterial(context);
                                 Navigator.of(context).pop();
                                 Get.back();
+                                await c.returnMaterial(context);
                               },
                               child: Text('Ok'),
                             ),

@@ -1,7 +1,7 @@
+// ignore: file_names
 import 'dart:convert';
 
-OrdersList ordersListFromJson(String str) =>
-    OrdersList.fromJson(json.decode(str));
+OrdersList ordersListFromJson(String str) => OrdersList.fromJson(json.decode(str));
 
 String ordersListToJson(OrdersList data) => json.encode(data.toJson());
 
@@ -19,17 +19,13 @@ class OrdersList {
   factory OrdersList.fromJson(Map<String, dynamic> json) => OrdersList(
         status: json["status"],
         msg: json["msg"],
-        data: json["data"] == null
-            ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+        data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "msg": msg,
-        "data": data == null
-            ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -58,18 +54,14 @@ class Datum {
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         purId: json["pur_id"],
-        purTime:
-            json["pur_time"] == null ? null : DateTime.parse(json["pur_time"]),
+        purTime: json["pur_time"] == null ? null : DateTime.parse(json["pur_time"]),
         remarks: json["remarks"],
         recieved: json["recieved"],
         invoice: json["invoice"],
         vehicle: json["vehicle"],
-        expDate:
-            json["exp_date"] == null ? null : DateTime.parse(json["exp_date"]),
+        expDate: json["exp_date"] == null ? null : DateTime.parse(json["exp_date"]),
         purBy: json["pur_by"] == null ? null : PurBy.fromJson(json["pur_by"]),
-        orders: json["orders"] == null
-            ? []
-            : List<Order>.from(json["orders"]!.map((x) => Order.fromJson(x))),
+        orders: json["orders"] == null ? [] : List<Order>.from(json["orders"]!.map((x) => Order.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -81,9 +73,7 @@ class Datum {
         "vehicle": vehicle,
         "exp_date": expDate?.toIso8601String(),
         "pur_by": purBy?.toJson(),
-        "orders": orders == null
-            ? []
-            : List<dynamic>.from(orders!.map((x) => x.toJson())),
+        "orders": orders == null ? [] : List<dynamic>.from(orders!.map((x) => x.toJson())),
       };
 }
 
@@ -101,9 +91,7 @@ class Order {
   factory Order.fromJson(Map<String, dynamic> json) => Order(
         orderId: json["order_id"],
         qtyReq: json["qty_req"],
-        matDetails: json["mat_details"] == null
-            ? null
-            : MatDetails.fromJson(json["mat_details"]),
+        matDetails: json["mat_details"] == null ? null : MatDetails.fromJson(json["mat_details"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -166,9 +154,7 @@ class PurBy {
         email: json["email"],
         role: json["role"],
         phone: json["phone"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         isActive: json["is_active"],
       );
 

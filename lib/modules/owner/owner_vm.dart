@@ -9,7 +9,7 @@ import 'package:tethys/modules/owner/views/user_list_screen.dart';
 class OwnerHomeVM extends GetxController {
   OwnerRepoImp ownerRepoImp = OwnerRepoImp();
   var empRequests = <own.Datum>[].obs;
-  Widget? child = OwnerDashboard();
+  Widget? child = const OwnerDashboard();
   RxInt indx = 0.obs;
 
   @override
@@ -24,10 +24,10 @@ class OwnerHomeVM extends GetxController {
 
     switch (indx.value) {
       case 0:
-        child = OwnerDashboard();
+        child = const OwnerDashboard();
         break;
       case 1:
-        child = UserListScreen();
+        child = const UserListScreen();
         break;
       case 2:
         child = EmplRequests();

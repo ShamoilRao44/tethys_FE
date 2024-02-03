@@ -1,9 +1,11 @@
 import 'package:tethys/modules/prod_manager/models/get_material_list_model.dart';
 import 'package:tethys/modules/prod_manager/models/get_products_list_model.dart';
+import 'package:tethys/modules/stock_manger/models/approve_handovers_model.dart';
 import 'package:tethys/modules/stock_manger/models/approve_returns_model.dart';
 import 'package:tethys/modules/stock_manger/models/deny_request_model.dart';
 import 'package:tethys/modules/stock_manger/models/deny_returns_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_consignments_list_model.dart';
+import 'package:tethys/modules/stock_manger/models/get_handovers_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_inventory_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_orders_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_request_list_model.dart';
@@ -26,4 +28,6 @@ abstract class StockMngrRepo {
   Future<SendOrderModel> sendOrder(Map data);
   Future<GetConsignmentListModel> getConsignments();
   Future<SendConsignmentsModel> sendConsignment(Map data);
+  Future<GetHandoversListModel> getHandovers();
+  Future<ApproveHandoversModel> approveHandover(Map data);
 }

@@ -7,7 +7,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_vm.dart';
 import 'package:tethys/resources/app_colors.dart';
 import 'package:tethys/resources/app_fonts.dart';
-import 'package:tethys/resources/app_routes.dart';
 import 'package:tethys/utils/common.dart';
 import 'package:tethys/utils/widgets/app_text.dart';
 
@@ -131,35 +130,10 @@ class MaterialRequestView extends StatelessWidget {
                                                       fontFamily: AppFonts.interRegular,
                                                       fontWeight: FontWeight.w400,
                                                     ),
-                                                    // SizedBox(width: 32.w),
-                                                    // AppText(
-                                                    //   text:
-                                                    //       'Date: ${c.materialReqList[index].reqTime.toString().substring(0, 10)}',
-                                                    //   color: AppColors.txtColor,
-                                                    //   size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
-                                                    //   fontFamily: AppFonts.interRegular,
-                                                    //   fontWeight: FontWeight.w400,
-                                                    // )
                                                   ],
                                                 ),
                                               ],
                                             ),
-                                            // ElevatedButton(
-                                            //   onPressed: () {
-                                            //     c.approveRequest(
-                                            //       slotId: c.materialReqList[index].slotId!,
-                                            //       context: context,
-                                            //     );
-                                            //   },
-                                            //   style: ElevatedButton.styleFrom(
-                                            //       padding: EdgeInsets.all(16),
-                                            //       elevation: 0,
-                                            //       shape: RoundedRectangleBorder(
-                                            //         borderRadius: BorderRadius.circular(10),
-                                            //       ),
-                                            //       backgroundColor: AppColors.btnColor),
-                                            //   child: Icon(Icons.check),
-                                            // ),
                                           ],
                                         ),
                                         c.isExpanded[index]

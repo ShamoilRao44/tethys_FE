@@ -311,7 +311,7 @@ class ProdMngrVM extends GetxController {
     data['items'] = returnedMaterialsList;
     data['req_slot_id'] = currentReqSlotId;
     data['req_by'] = await SecuredStorage.readIntValue(Keys.id);
-    data['remarks'] = remarkCtrl.text ?? '';
+    data['remarks'] = remarkCtrl.text;
     debugPrint(data.toString());
     await pmri.returnMaterial(data).then(
       (res) async {
