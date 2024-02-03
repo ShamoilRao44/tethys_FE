@@ -41,4 +41,7 @@ class Endpoints {
   static const getOrderList = 'gkeep/';
   static const verifyOrders = 'gkeep/orders/check';
   static const getConsignmentList = 'gkeep/consignments';
+
+  static const requestsArchived = 'history/reqs';
+  static const returnsArchived = 'history/returns';
 }

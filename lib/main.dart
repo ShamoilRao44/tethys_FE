@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:tethys/modules/archive/archive_views/archive_view.dart';
 import 'package:tethys/modules/gatekeeper/gatekeeper_views/gatekeeper_home.dart';
 import 'package:tethys/modules/login/login_views/login_view.dart';
 import 'package:tethys/modules/login/login_views/splash_view.dart';
@@ -101,6 +102,12 @@ class MyApp extends StatelessWidget {
                   name: AppRoutes.updateConsumptions,
                   page: () => UpdateConsumtionView(),
                   binding: ProdMngrBinding(),
+                  transition: Transition.zoom,
+                  transitionDuration: Duration(milliseconds: 200)),
+              GetPage(
+                  name: AppRoutes.requestsArechived,
+                  page: () => ArchiveView(),
+                  binding: ArchiveBinding(),
                   transition: Transition.zoom,
                   transitionDuration: Duration(milliseconds: 200)),
               GetPage(

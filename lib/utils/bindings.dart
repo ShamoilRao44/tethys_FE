@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:tethys/modules/archive/archive_vm.dart';
 import 'package:tethys/modules/gatekeeper/gatekeeper_vm.dart';
 import 'package:tethys/modules/login/login_vm.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_vm.dart';
@@ -47,6 +48,13 @@ class GatekeepBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(GatekeeperVM());
+  }
+}
+
+class ArchiveBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(ArchiveVM());
   }
 }
 
