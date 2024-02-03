@@ -3,6 +3,7 @@ import 'package:tethys/modules/prod_manager/models/get_products_list_model.dart'
 import 'package:tethys/modules/stock_manger/models/approve_returns_model.dart';
 import 'package:tethys/modules/stock_manger/models/deny_request_model.dart';
 import 'package:tethys/modules/stock_manger/models/deny_returns_model.dart';
+import 'package:tethys/modules/stock_manger/models/get_consignments_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_inventory_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_orders_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_request_list_model.dart';
@@ -23,5 +24,6 @@ abstract class StockMngrRepo {
   Future<DenyReturnsModel> denyReturns(Map data);
   Future<OrdersListForSMngr> getOrders();
   Future<SendOrderModel> sendOrder(Map data);
+  Future<GetConsignmentListModel> getConsignments();
   Future<SendConsignmentsModel> sendConsignment(Map data);
 }

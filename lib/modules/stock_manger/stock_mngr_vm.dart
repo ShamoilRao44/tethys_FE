@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/prod_manager/models/get_material_list_model.dart';
 import 'package:tethys/modules/prod_manager/models/get_products_list_model.dart';
+import 'package:tethys/modules/stock_manger/models/get_consignments_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_inventory_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_orders_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_returns_list_model.dart';
@@ -35,6 +36,7 @@ class StockMngrVM extends GetxController {
   List<bool> isExpanded = [];
   List<bool> isExpanded2 = [];
   List<bool> isExpandedForOrders = [];
+  List<bool> isExpandedForConsignments = [];
 
   List<TableRow> tableRows = [];
   List<TableRow> invntryTableRows = [];
@@ -53,6 +55,7 @@ class StockMngrVM extends GetxController {
   List<MaterialReqDatum> materialReqList = [];
   List<ReturnsDatum> returnsList = [];
   List<OrdersDatum> ordersList = [];
+  List<ConsignmentDatum> consignmentsList = [];
   List<InventoryDatum> inventoryList = [];
   //create Order Controllers
   TextEditingController suppNameCtrl = TextEditingController();
@@ -85,6 +88,7 @@ class StockMngrVM extends GetxController {
     fetchProductList();
     fetchReturns();
     fetchOrders();
+    fetchConsignments();
     fetchInventory();
   }
 
@@ -603,6 +607,25 @@ class StockMngrVM extends GetxController {
     Get.toNamed(AppRoutes.issueMaterials);
   }
 
+  Future<void> fetchConsignments() async {
+    await smri.getConsignments().then(
+      (res) {
+        if (res.status == '200') {
+          consignmentsList = res.data!;
+        } else {
+          debugPrint('fetchConsignment msg: ${res.msg}');
+        }
+      },
+    ).onError(
+      (error, stackTrace) {
+        debugPrint('Error in fetchConsignment()');
+      },
+    );
+
+    isExpandedForConsignments = List.generate(consignmentsList.length, (index) => false);
+    debugPrint(isExpandedForConsignments.toString());
+  }
+
   Future<void> sendConsignment(BuildContext context) async {
     if (itemNameCtrl.text.isNotEmpty && itemQtyCtrl.text.isNotEmpty) {
       addRow();
@@ -615,10 +638,10 @@ class StockMngrVM extends GetxController {
     data['invoice'] = cInvoiceCtrl.text;
     data['veh_no'] = cVehNoCtrl.text;
     data['transport_name'] = transportCtrl.text;
-    data['driv_name'] = drivNameCtrl;
-    data['driv_phone'] = drivPhoneCtrl;
-    data['driv_license'] = drivLicCtrl;
-    data['remarks'] = cRemarkCtrl;
+    data['driv_name'] = drivNameCtrl.text;
+    data['driv_phone'] = drivPhoneCtrl.text;
+    data['driv_license'] = drivLicCtrl.text;
+    data['remarks'] = cRemarkCtrl.text;
     data['dis_by'] = await SecuredStorage.readStringValue(Keys.id);
     data['consigns'] = sendApiList;
 
@@ -638,7 +661,44 @@ class StockMngrVM extends GetxController {
       },
     );
 
-    await fetchOrders();
+    await fetchConsignments();
     update();
+  }
+
+  void toggleExpansionForConsignments(int index) {
+    isExpandedForConsignments[index] = !isExpandedForConsignments[index];
+    update(); // Trigger a UI update
+  }
+
+  List<TableRow> consignmentsTableMaker(List<Consignment> consignmentsListFromUi) {
+    List<TableRow> consignmentsListForTableMaker = [];
+    consignmentsListFromUi.forEach(
+      (element) {
+        consignmentsListForTableMaker.add(
+          TableRow(
+            children: [
+              Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: AppText(
+                    text: element.product!.product!,
+                    color: AppColors.txtColor,
+                    size: 16,
+                    fontFamily: AppFonts.interRegular,
+                  )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: element.qty.toString(),
+                  color: AppColors.txtColor,
+                  size: 16,
+                  fontFamily: AppFonts.interRegular,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+    return consignmentsListForTableMaker;
   }
 }

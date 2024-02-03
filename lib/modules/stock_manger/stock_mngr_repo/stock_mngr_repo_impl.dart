@@ -5,6 +5,7 @@ import 'package:tethys/modules/prod_manager/models/get_products_list_model.dart'
 import 'package:tethys/modules/stock_manger/models/approve_returns_model.dart';
 import 'package:tethys/modules/stock_manger/models/deny_request_model.dart';
 import 'package:tethys/modules/stock_manger/models/deny_returns_model.dart';
+import 'package:tethys/modules/stock_manger/models/get_consignments_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_inventory_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_orders_list_model.dart';
 import 'package:tethys/modules/stock_manger/models/get_request_list_model.dart';
@@ -89,6 +90,13 @@ class StockMngrRepoImpl extends StockMngrRepo {
   Future<SendOrderModel> sendOrder(Map data) async {
     return sendOrderModelFromJson(
       await apiService.post(Endpoints.sendOrder, data),
+    );
+  }
+
+  @override
+  Future<GetConsignmentListModel> getConsignments() async {
+    return getConsignmentListModelFromJson(
+      await apiService.get(Endpoints.getConsignmentList),
     );
   }
 

@@ -15,6 +15,7 @@ class StockMngrHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<StockMngrVM>(builder: (c) {
       c.topPadding = MediaQuery.paddingOf(context).top;
+      debugPrint('topPadding: ${c.topPadding}');
       return Container(
         width: double.infinity,
         height: double.infinity,

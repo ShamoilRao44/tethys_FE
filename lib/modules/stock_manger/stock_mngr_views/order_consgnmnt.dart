@@ -100,7 +100,7 @@ class OrderConsgnmnt extends StatelessWidget {
                                 labelText: 'Remarks',
                                 controller: c.remarksCtrl,
                               ),
-                              SizedBox(height: 16),
+                              SizedBox(height: 14),
                             ],
                           )
                         : Column(
@@ -119,6 +119,7 @@ class OrderConsgnmnt extends StatelessWidget {
                                 labelText: 'Amount',
                                 controller: c.amountCtrl,
                                 textCapitalization: TextCapitalization.words,
+                                keyboardType: TextInputType.number,
                                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                               ),
                               SizedBox(height: 8),
@@ -199,7 +200,7 @@ class OrderConsgnmnt extends StatelessWidget {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontFamily: AppFonts.interRegular,
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
@@ -362,7 +363,7 @@ class OrderConsgnmnt extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<StockMngrVM>(builder: (c) {
       return Padding(
-        padding: const EdgeInsets.only(left: 16.0, right: 16),
+        padding: const EdgeInsets.only(left: 14.0, right: 14),
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
@@ -370,7 +371,12 @@ class OrderConsgnmnt extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              headerRow(headerText: 'Orders and Consignments', onRefresh: () {}),
+              headerRow(
+                  headerText: 'Orders and Consignments',
+                  onRefresh: () async {
+                    await c.fetchOrders();
+                    await c.fetchConsignments();
+                  }),
               SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -383,7 +389,7 @@ class OrderConsgnmnt extends StatelessWidget {
                     child: Text('Orders'),
                     style: ElevatedButton.styleFrom(
                       elevation: c.isRequests ? 2 : 0,
-                      backgroundColor: c.isRequests ? Colors.amber.shade400 : Colors.amber.shade400.withOpacity(0.6),
+                      backgroundColor: c.isOrders ? Colors.amber.shade400 : Colors.amber.shade400.withOpacity(0.6),
                     ),
                   ),
                   SizedBox(width: 8),
@@ -393,19 +399,18 @@ class OrderConsgnmnt extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: c.isRequests ? 0 : 2,
-                      backgroundColor: c.isRequests ? Colors.amber.shade400.withOpacity(0.6) : Colors.amber.shade400,
+                      backgroundColor: c.isOrders ? Colors.amber.shade400.withOpacity(0.6) : Colors.amber.shade400,
                     ),
                     child: Text('Consignments'),
                   )
                 ],
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 14),
               Builder(
                 builder: (context) {
-                  double containerHeight = MediaQuery.of(context).size.height - 64 - 146 - c.topPadding!;
+                  double containerHeight = MediaQuery.of(context).size.height - 64 - 152 - c.topPadding!;
                   return c.isOrders
-                      ? Container(
-                          //Ordersview
+                      /*Orders view*/ ? Container(
                           height: containerHeight,
                           child: ListView.builder(
                             itemCount: c.ordersList.length,
@@ -420,7 +425,7 @@ class OrderConsgnmnt extends StatelessWidget {
                                   child: AnimatedContainer(
                                     duration: Duration(milliseconds: 400),
                                     height: c.isExpandedForOrders[index] ? 400 : 96,
-                                    padding: EdgeInsets.all(16.0),
+                                    padding: EdgeInsets.all(14.0),
                                     decoration: BoxDecoration(
                                       color: c.isExpandedForOrders[index] ? AppColors.lightBlue : AppColors.lightBlue,
                                       borderRadius: BorderRadius.circular(10.0),
@@ -444,19 +449,19 @@ class OrderConsgnmnt extends StatelessWidget {
                                             AppText(
                                               text: 'Name: ${c.ordersList[index].purBy!.name ?? ''}',
                                               color: AppColors.txtColor,
-                                              size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
+                                              size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
                                               fontFamily: AppFonts.interRegular,
                                               fontWeight: FontWeight.w400,
                                               maxLines: 2,
                                             ),
-                                            SizedBox(width: 32.w),
-                                            AppText(
-                                              text: 'Date: ${c.ordersList[index].purTime.toString().substring(0, 10)}',
-                                              color: AppColors.txtColor,
-                                              size: MediaQuery.of(context).size.width > 400 ? 16 : 16.w,
-                                              fontFamily: AppFonts.interRegular,
-                                              fontWeight: FontWeight.w400,
-                                            )
+                                            // SizedBox(width: 32.w),
+                                            // AppText(
+                                            //   text: 'Date: ${c.ordersList[index].purTime.toString().substring(0, 10)}',
+                                            //   color: AppColors.txtColor,
+                                            //   size: MediaQuery.of(context).size.width > 400 ? 14 : 14.w,
+                                            //   fontFamily: AppFonts.interRegular,
+                                            //   fontWeight: FontWeight.w400,
+                                            // )
                                           ],
                                         ),
                                         c.isExpandedForOrders[index]
@@ -469,7 +474,7 @@ class OrderConsgnmnt extends StatelessWidget {
                                                     AppText(
                                                       text: 'Invoice: ${c.ordersList[index].invoice ?? ''}',
                                                       color: AppColors.txtColor,
-                                                      size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
+                                                      size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
                                                       fontFamily: AppFonts.interRegular,
                                                       fontWeight: FontWeight.w400,
                                                     ),
@@ -477,7 +482,7 @@ class OrderConsgnmnt extends StatelessWidget {
                                                     AppText(
                                                       text: 'Vehicle No.: ${c.ordersList[index].vehicle ?? ''}',
                                                       color: AppColors.txtColor,
-                                                      size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
+                                                      size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
                                                       fontFamily: AppFonts.interRegular,
                                                       fontWeight: FontWeight.w400,
                                                     ),
@@ -515,7 +520,7 @@ class OrderConsgnmnt extends StatelessWidget {
                                                                 style: TextStyle(
                                                                   color: AppColors.txtColor,
                                                                   fontFamily: AppFonts.interRegular,
-                                                                  fontSize: 16,
+                                                                  fontSize: 14,
                                                                   fontWeight: FontWeight.w600,
                                                                 ),
                                                               ),
@@ -537,25 +542,27 @@ class OrderConsgnmnt extends StatelessWidget {
                             },
                           ),
                         )
-                      : Container(
-                          //Consignment view
+                      /*Consignment view*/ : Container(
                           height: containerHeight,
                           child: ListView.builder(
-                            itemCount: c.ordersList.length,
+                            itemCount: c.consignmentsList.length,
                             itemBuilder: (context, index) {
-                              List<TableRow> tableRowsHere = c.ordersTableMaker(c.ordersList[index].orders!);
+                              List<TableRow> tableRowsHere =
+                                  c.consignmentsTableMaker(c.consignmentsList[index].consignments!);
                               return Padding(
                                 padding: EdgeInsets.only(bottom: 8.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    c.toggleExpansionForOrders(index);
+                                    c.toggleExpansionForConsignments(index);
                                   },
                                   child: AnimatedContainer(
                                     duration: Duration(milliseconds: 400),
-                                    height: c.isExpandedForOrders[index] ? 400 : 96,
-                                    padding: EdgeInsets.all(16.0),
+                                    height: c.isExpandedForConsignments[index] ? 400 : 96,
+                                    padding: EdgeInsets.all(14.0),
                                     decoration: BoxDecoration(
-                                      color: c.isExpandedForOrders[index] ? AppColors.lightBlue : AppColors.lightBlue,
+                                      color: c.isExpandedForConsignments[index]
+                                          ? AppColors.lightBlue
+                                          : AppColors.lightBlue,
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                     child: Column(
@@ -563,36 +570,22 @@ class OrderConsgnmnt extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         AppText(
-                                          text: c.ordersList[index].remarks ?? 'Remarks',
+                                          text: 'Remarks',
                                           color: const Color.fromRGBO(62, 86, 126, 1),
                                           size: MediaQuery.of(context).size.width > 300 ? 20 : 20.h,
                                           fontFamily: AppFonts.interRegular,
                                           fontWeight: FontWeight.w600,
                                         ),
                                         SizedBox(height: 8.h),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            AppText(
-                                              text: 'Name: ${c.ordersList[index].purBy!.name ?? ''}',
-                                              color: AppColors.txtColor,
-                                              size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
-                                              fontFamily: AppFonts.interRegular,
-                                              fontWeight: FontWeight.w400,
-                                              maxLines: 2,
-                                            ),
-                                            SizedBox(width: 32.w),
-                                            AppText(
-                                              text: 'Date: ${c.ordersList[index].purTime.toString().substring(0, 10)}',
-                                              color: AppColors.txtColor,
-                                              size: MediaQuery.of(context).size.width > 400 ? 16 : 16.w,
-                                              fontFamily: AppFonts.interRegular,
-                                              fontWeight: FontWeight.w400,
-                                            )
-                                          ],
+                                        AppText(
+                                          text: 'Name: ${c.consignmentsList[index].disBy!.name ?? ''}',
+                                          color: AppColors.txtColor,
+                                          size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
+                                          fontFamily: AppFonts.interRegular,
+                                          fontWeight: FontWeight.w400,
+                                          maxLines: 2,
                                         ),
-                                        c.isExpandedForOrders[index]
+                                        c.isExpandedForConsignments[index]
                                             ? SingleChildScrollView(
                                                 child: Column(
                                                   mainAxisSize: MainAxisSize.min,
@@ -600,19 +593,86 @@ class OrderConsgnmnt extends StatelessWidget {
                                                   children: [
                                                     SizedBox(height: 8),
                                                     AppText(
-                                                      text: 'Invoice: ${c.ordersList[index].invoice ?? ''}',
+                                                      text: 'Buyer: ${c.consignmentsList[index].buyer ?? ''}',
                                                       color: AppColors.txtColor,
-                                                      size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
+                                                      size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
                                                       fontFamily: AppFonts.interRegular,
                                                       fontWeight: FontWeight.w400,
                                                     ),
                                                     SizedBox(height: 8),
+                                                    Row(
+                                                      children: [
+                                                        AppText(
+                                                          text:
+                                                              'Invoice No.: ${c.consignmentsList[index].invoice ?? ''}',
+                                                          color: AppColors.txtColor,
+                                                          size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
+                                                          fontFamily: AppFonts.interRegular,
+                                                          fontWeight: FontWeight.w400,
+                                                        ),
+                                                        SizedBox(width: 24),
+                                                        AppText(
+                                                          text:
+                                                              'Total Amount: ${c.consignmentsList[index].invValue ?? ''}',
+                                                          color: AppColors.txtColor,
+                                                          size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
+                                                          fontFamily: AppFonts.interRegular,
+                                                          fontWeight: FontWeight.w400,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 8),
                                                     AppText(
-                                                      text: 'Vehicle No.: ${c.ordersList[index].vehicle ?? ''}',
+                                                      text:
+                                                          'Driver Name: ${c.consignmentsList[index].driverDetails!.name ?? ''}',
                                                       color: AppColors.txtColor,
-                                                      size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
+                                                      size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
                                                       fontFamily: AppFonts.interRegular,
                                                       fontWeight: FontWeight.w400,
+                                                    ),
+                                                    SizedBox(height: 8),
+                                                    Row(
+                                                      children: [
+                                                        AppText(
+                                                          text:
+                                                              'D. Phone : ${c.consignmentsList[index].driverDetails!.phone ?? ''}',
+                                                          color: AppColors.txtColor,
+                                                          size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
+                                                          fontFamily: AppFonts.interRegular,
+                                                          fontWeight: FontWeight.w400,
+                                                        ),
+                                                        SizedBox(width: 24),
+                                                        AppText(
+                                                          text:
+                                                              'D. Lic.: ${c.consignmentsList[index].driverDetails!.licenseNo ?? ''}',
+                                                          color: AppColors.txtColor,
+                                                          size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
+                                                          fontFamily: AppFonts.interRegular,
+                                                          fontWeight: FontWeight.w400,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 8),
+                                                    Row(
+                                                      children: [
+                                                        AppText(
+                                                          text:
+                                                              'Vehicle no. : ${c.consignmentsList[index].vehicle!.vehNo ?? ''}',
+                                                          color: AppColors.txtColor,
+                                                          size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
+                                                          fontFamily: AppFonts.interRegular,
+                                                          fontWeight: FontWeight.w400,
+                                                        ),
+                                                        SizedBox(width: 24),
+                                                        AppText(
+                                                          text:
+                                                              'Vehicle Name: ${c.consignmentsList[index].vehicle!.name ?? ''}',
+                                                          color: AppColors.txtColor,
+                                                          size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
+                                                          fontFamily: AppFonts.interRegular,
+                                                          fontWeight: FontWeight.w400,
+                                                        ),
+                                                      ],
                                                     ),
                                                     SizedBox(height: 8),
                                                     Table(
@@ -648,7 +708,7 @@ class OrderConsgnmnt extends StatelessWidget {
                                                                 style: TextStyle(
                                                                   color: AppColors.txtColor,
                                                                   fontFamily: AppFonts.interRegular,
-                                                                  fontSize: 16,
+                                                                  fontSize: 14,
                                                                   fontWeight: FontWeight.w600,
                                                                 ),
                                                               ),
