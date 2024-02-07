@@ -16,8 +16,9 @@ class RequestsContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ArchiveVM>(builder: (c) {
+      double containerHeight = MediaQuery.of(context).size.height - c.topPadding! - 48 - 16 - 64 - 16;
       return Container(
-        height: 716.5,
+        height: containerHeight,
         child: ListView.builder(
           itemCount: c.archivedReqList.length + 1,
           itemBuilder: (context, index) {

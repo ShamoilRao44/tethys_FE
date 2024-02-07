@@ -97,7 +97,7 @@ class StockMngrDashboard extends StatelessWidget {
                           SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: () {
-                              Get.toNamed(AppRoutes.requestsArechived);
+                              Get.toNamed(AppRoutes.archives);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.bordeColor2,

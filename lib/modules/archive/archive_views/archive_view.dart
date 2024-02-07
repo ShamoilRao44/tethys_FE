@@ -13,6 +13,7 @@ class ArchiveView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ArchiveVM>(
       builder: (c) {
+        c.topPadding = MediaQuery.paddingOf(context).top;
         c.context = context;
         return Container(
           width: double.infinity,

@@ -105,7 +105,7 @@ class MyApp extends StatelessWidget {
                   transition: Transition.zoom,
                   transitionDuration: Duration(milliseconds: 200)),
               GetPage(
-                  name: AppRoutes.requestsArechived,
+                  name: AppRoutes.archives,
                   page: () => ArchiveView(),
                   binding: ArchiveBinding(),
                   transition: Transition.zoom,

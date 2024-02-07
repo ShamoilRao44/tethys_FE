@@ -18,6 +18,7 @@ class ArchiveVM extends GetxController {
 
   var empid = SecuredStorage.readIntValue(Keys.id);
   int PageCounter = -1;
+  double? topPadding;
   bool isloading = true;
   String selectedOption = 'Requests';
   Widget? lVContainer = RequestsContainer();

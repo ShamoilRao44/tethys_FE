@@ -94,7 +94,9 @@ class ProdMngrDashboard extends StatelessWidget {
                         ),
                         SizedBox(height: 16),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(AppRoutes.archives);
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.bordeColor2,
                             minimumSize: Size(120, 70),
