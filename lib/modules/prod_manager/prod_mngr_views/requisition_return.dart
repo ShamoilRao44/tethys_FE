@@ -1,11 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, avoid_unnecessary_containers, sized_box_for_whitespace
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_vm.dart';
 import 'package:tethys/resources/app_colors.dart';
@@ -695,7 +692,7 @@ class RequisitionReturnView extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             backgroundColor: AppColors.txtColor,
             onPressed: () {
-              c.sendApiList!.clear();
+              c.sendApiList.clear();
               newRequestDialog(context);
             },
             child: Icon(Icons.add),

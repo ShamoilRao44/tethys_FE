@@ -5,9 +5,9 @@ class Endpoints {
   static const owner = 'owner/';
   static const create = 'create';
 
-  static const request = "requests/";
-  static const permit = "permit";
-  static const delete = "delete";
+  static const getEmpRequests = "requests/";
+  static const acceptEmpReq = "requests/permit";
+  static const denyEmpReq = "requests/delete";
 
   static const employee = 'employees/';
 
@@ -35,7 +35,13 @@ class Endpoints {
   static const denyReturns = 'smanager/return/reqs/deny';
   static const sendOrder = 'smanager/orders/create';
   static const sendConsignment = 'smanager/consignments/create';
+  static const getHandoversListForSmngr = 'smanager/handovers';
+  static const approveHandovers = 'smanager/handovers/recieve/batch';
 
   static const getOrderList = 'gkeep/';
   static const verifyOrders = 'gkeep/orders/check';
+  static const getConsignmentList = 'gkeep/consignments';
+
+  static const requestsArchived = 'history/reqs';
+  static const returnsArchived = 'history/returns';
 }

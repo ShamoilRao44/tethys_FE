@@ -265,43 +265,6 @@ class ProductionHandover extends StatelessWidget {
                                                 child: Column(
                                                   mainAxisSize: MainAxisSize.min,
                                                   children: [
-                                                    // Row(
-                                                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                    //   children: [
-                                                    //     ElevatedButton(
-                                                    //       onPressed: () {
-                                                    //         c.returnMaterialsButton(
-                                                    //           c.pendingRequisitionsList[index].requisitions!,
-                                                    //           c.pendingRequisitionsList[index].slotId,
-                                                    //         );
-                                                    //       },
-                                                    //       style: ElevatedButton.styleFrom(
-                                                    //           backgroundColor: Colors.orange,
-                                                    //           padding: EdgeInsets.all(8)),
-                                                    //       child: AppText(
-                                                    //         text: 'Return Materials',
-                                                    //         size: 12,
-                                                    //         color: AppColors.white,
-                                                    //         fontFamily: AppFonts.interRegular,
-                                                    //         fontWeight: FontWeight.w600,
-                                                    //       ),
-                                                    //     ),
-                                                    //     ElevatedButton(
-                                                    //       onPressed: () {},
-                                                    //       style: ElevatedButton.styleFrom(
-                                                    //           backgroundColor: Colors.green,
-                                                    //           padding: EdgeInsets.all(8)),
-                                                    //       child: AppText(
-                                                    //         text: 'Mark Completed',
-                                                    //         size: 12,
-                                                    //         color: AppColors.white,
-                                                    //         fontFamily: AppFonts.interRegular,
-                                                    //         fontWeight: FontWeight.w600,
-                                                    //       ),
-                                                    //     ),
-                                                    //   ],
-                                                    // ),
-                                                    // SizedBox(height: 8),
                                                     Table(
                                                       border: TableBorder.all(
                                                         width: 1.0,
@@ -342,19 +305,6 @@ class ProductionHandover extends StatelessWidget {
                                                                 ),
                                                               ),
                                                             ),
-                                                            // Padding(
-                                                            //   padding: const EdgeInsets.all(8.0),
-                                                            //   child: Text(
-                                                            //     'Qty \nIssued',
-                                                            //     textAlign: TextAlign.center,
-                                                            //     style: TextStyle(
-                                                            //       color: AppColors.txtColor,
-                                                            //       fontFamily: AppFonts.interRegular,
-                                                            //       fontSize: 14,
-                                                            //       fontWeight: FontWeight.w600,
-                                                            //     ),
-                                                            //   ),
-                                                            // ),
                                                           ],
                                                         ),
                                                         ...tableRowsHere,

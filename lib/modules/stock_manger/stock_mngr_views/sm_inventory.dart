@@ -7,7 +7,6 @@ import 'package:tethys/modules/stock_manger/stock_mngr_vm.dart';
 import 'package:tethys/resources/app_colors.dart';
 import 'package:tethys/resources/app_fonts.dart';
 import 'package:tethys/utils/common.dart';
-import 'package:tethys/utils/widgets/app_text.dart';
 
 class SmInventory extends StatelessWidget {
   const SmInventory({super.key});

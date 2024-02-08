@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/prod_manager/prod_mngr_vm.dart';
 import 'package:tethys/resources/app_colors.dart';
-import 'package:tethys/resources/app_fonts.dart';
 import 'package:tethys/resources/app_images.dart';
 import 'package:tethys/resources/app_routes.dart';
 import 'package:tethys/utils/common.dart';
@@ -95,7 +94,9 @@ class ProdMngrDashboard extends StatelessWidget {
                         ),
                         SizedBox(height: 16),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(AppRoutes.archives);
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.bordeColor2,
                             minimumSize: Size(120, 70),

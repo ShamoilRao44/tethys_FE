@@ -13,5 +13,6 @@ class AppRoutes {
   static const issueMaterials = '/issueMaterials';
   static const returnMaterials = '/returnMaterials';
   static const updateConsumptions = '/updateConsumptions';
+  static const archives = '/archives';
   static const infoPage = '/infoPage';
 }

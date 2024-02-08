@@ -14,8 +14,8 @@ class GateKeepRepoImpl extends GateKeepRepo {
     );
   }
 
+  @override
   Future<VerifyOrdersModel> verifyOrders(Map data) async {
-    return verifyOrdersModelFromJson(
-        await apiService.post(Endpoints.verifyOrders, data));
+    return verifyOrdersModelFromJson(await apiService.post(Endpoints.verifyOrders, data));
   }
 }

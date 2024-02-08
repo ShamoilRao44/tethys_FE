@@ -13,8 +13,9 @@ class OwnerHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<OwnerHomeVM>(
+    return GetBuilder<OwnerVM>(
       builder: (c) {
+        c.topPadding = MediaQuery.paddingOf(context).top;
         return Container(
           width: double.infinity,
           height: double.infinity,
@@ -27,6 +28,7 @@ class OwnerHome extends StatelessWidget {
           ),
           child: SafeArea(
             child: Scaffold(
+              resizeToAvoidBottomInset: false,
               backgroundColor: Colors.transparent,
               body: c.child,
               bottomNavigationBar: Container(
@@ -63,7 +65,7 @@ class OwnerHome extends StatelessWidget {
                         text: 'Requests',
                       ),
                     ],
-                    selectedIndex: c.indx.value,
+                    selectedIndex: c.indx,
                     onTabChange: (index) {
                       c.onTabChange(index);
                     },

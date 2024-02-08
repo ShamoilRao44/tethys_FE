@@ -27,7 +27,7 @@ class OrderView extends StatelessWidget {
                 headerRow(headerText: 'Upcoming Orders', onRefresh: c.fetchOrdersList),
                 SizedBox(height: 24),
                 SingleChildScrollView(
-                  child: Container(
+                  child: SizedBox(
                     height: 728.h,
                     child: ListView.builder(
                       itemCount: c.orderList.length,
@@ -176,7 +176,7 @@ class OrderView extends StatelessWidget {
           // floatingActionButton: FloatingActionButton(
           //   backgroundColor: AppColors.txtColor,
           //   onPressed: () {
-              // newRequestDialog(context);
+          // newRequestDialog(context);
           //   },
           //   child: Icon(Icons.add),
           // ),

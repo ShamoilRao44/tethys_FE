@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/stock_manger/stock_mngr_vm.dart';
-import 'package:tethys/resources/app_fonts.dart';
 import 'package:tethys/resources/app_images.dart';
 import 'package:tethys/resources/app_routes.dart';
 import 'package:tethys/utils/common.dart';
@@ -61,7 +60,10 @@ class StockMngrDashboard extends StatelessWidget {
                                 text1: 'Unverified Orders',
                                 text2: c.ordersList.length.toString(),
                               ),
-                              dashboardCard(text1: 'Unverified Consignments'),
+                              dashboardCard(
+                                text1: 'Unverified Consignments',
+                                text2: c.consignmentsList.length.toString(),
+                              ),
                             ],
                           ),
                           SizedBox(height: 24),
@@ -72,24 +74,64 @@ class StockMngrDashboard extends StatelessWidget {
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.bordeColor2,
-                              minimumSize: Size(160, 80),
+                              minimumSize: Size(120, 70),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40),
                               ),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
-                              child: AppText(
-                                text: 'Show Inventory',
-                                color: AppColors.white,
-                                size: 24.sp,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.inventory),
+                                  AppText(
+                                    text: '   Show Inventory',
+                                    color: AppColors.white,
+                                    size: 20.sp,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () {
+                              Get.toNamed(AppRoutes.archives);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.bordeColor2,
+                              minimumSize: Size(120, 70),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.archive),
+                                  AppText(
+                                    text: '  Show Archives',
+                                    color: AppColors.white,
+                                    size: 20.sp,
+                                  ),
+                                ],
                               ),
                             ),
                           )
                         ],
                       ),
                     ),
-                  )
+                  ),
+                  c.isloading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.white,
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
             ),
