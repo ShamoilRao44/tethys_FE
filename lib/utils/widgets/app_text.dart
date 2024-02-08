@@ -6,7 +6,7 @@ import 'package:tethys/resources/app_fonts.dart';
 class AppText extends StatelessWidget {
   final String text;
   final Color? color;
-  final double? size;00
+  final double? size;
   final String? fontFamily;
   final FontWeight? fontWeight;
   final TextAlign? textAlign;
