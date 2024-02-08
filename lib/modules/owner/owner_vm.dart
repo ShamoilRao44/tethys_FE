@@ -1,93 +1,142 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tethys/modules/owner/owner_model.dart' as own;
-import 'package:tethys/modules/owner/owner_repo/owner_repoimpl.dart';
-import 'package:tethys/modules/owner/views/empl_requests.dart';
+import 'package:tethys/modules/owner/models/get_emp_req_model.dart';
+import 'package:tethys/modules/owner/owner_repo/owner_repo_impl.dart';
+import 'package:tethys/modules/owner/views/employee_requests.dart';
 import 'package:tethys/modules/owner/views/owner_dashboard_view.dart';
 import 'package:tethys/modules/owner/views/user_list_screen.dart';
+import 'package:tethys/resources/app_colors.dart';
+import 'package:tethys/utils/widgets/app_snackbar.dart';
 
-class OwnerHomeVM extends GetxController {
-  OwnerRepoImp ownerRepoImp = OwnerRepoImp();
-  var empRequests = <own.Datum>[].obs;
+class OwnerVM extends GetxController {
+  OwnerRepoImpl ori = OwnerRepoImpl();
   Widget? child = const OwnerDashboard();
-  RxInt indx = 0.obs;
+  int indx = 0;
+  double? topPadding;
+  bool? isloading = true;
+
+  List<EmpReqDatum> empReqList = [];
+
+  List<bool> isExpandedForEmpReq = [];
 
   @override
-  void onInit() {
+  void onInit() async {
+    isloading = true;
+    update();
     super.onInit();
-    debugPrint('called');
-    getRequests();
+    await Future.wait([
+      fetchEmpReq(),
+    ]);
+    isloading = false;
+    update();
   }
 
   void onTabChange(int index) {
-    indx.value = index;
+    indx = index;
 
-    switch (indx.value) {
+    switch (indx) {
       case 0:
-        child = const OwnerDashboard();
+        child = OwnerDashboard();
         break;
       case 1:
-        child = const UserListScreen();
+        child = UserListScreen();
         break;
       case 2:
-        child = EmplRequests();
+        child = EmployeeRequests();
         break;
     }
 
     update();
   }
 
-  Future<void> getRequests() async {
-    empRequests.clear();
+  Future<void> fetchEmpReq() async {
+    empReqList.clear();
 
-    await ownerRepoImp.getEmpReq().then((res) {
+    await ori.getEmpReq().then((res) {
       if (res.status == '200') {
-        for (var request in res.data!) {
-          empRequests.add(request);
-          update();
-        }
+        res.data!.forEach((element) {
+          empReqList.add(element);
+        });
+        isExpandedForEmpReq = List.generate(empReqList.length, (index) => false);
+        update();
+      } else {
+        debugPrint(res.status);
       }
     }).onError((error, stackTrace) {
       debugPrint(error.toString());
     });
   }
 
-  Future<void> acceptRequest(int id) async {
+  Future<void> acceptRequest({required BuildContext context, required int id}) async {
     //implement permiting request api here and pass id as 'req_id'
     var data = {};
+
     data['req_id'] = id;
+
     debugPrint(data.toString());
-    await ownerRepoImp.postEmpReq(data).then((val) {
-      if (val.status == '200') {
-        debugPrint('success');
-        getRequests();
+
+    await ori.acceptEmpReq(data).then((res) async {
+      if (res.status == '200') {
+        ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+          msg: 'Employee Request Accepted',
+          color: AppColors.snackBarColorSuccess,
+        ));
+        await fetchEmpReq();
+        update();
       } else {
-        debugPrint('failed');
+        ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+          msg: 'Some error occured!',
+          color: AppColors.snackBarColorFailure,
+        ));
       }
-    }).onError((error, stackTrace) => null);
+    }).onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+        msg: 'Something went Wrong!',
+        color: AppColors.snackBarColorFailure,
+      ));
+    });
   }
 
-  Future<void> deleteRequest(int id) async {
+  Future<void> denyRequest({required BuildContext context, required int id}) async {
     //implement deleteing request api here and pass id as 'req_id'
     var data = {};
+
     data['req_id'] = id.toString();
+
     debugPrint(data.toString());
-    await ownerRepoImp.deleteReq(data).then((res) {
+
+    await ori.denyEmpReq(data).then((res) async {
       if (res.status == '200') {
-        debugPrint('success');
-        getRequests();
+        ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+          msg: 'Employee Request Accepted',
+          color: AppColors.snackBarColorSuccess,
+        ));
+        await fetchEmpReq();
+        update();
       } else {
-        debugPrint('failed');
+        ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+          msg: 'Some error occured!',
+          color: AppColors.snackBarColorFailure,
+        ));
       }
-    }).onError((error, stackTrace) => null);
-    // var data2 = {
-    //   "req_id" : id.toString()
-    // }
+    }).onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(appSnackbar(
+        msg: 'Something went Wrong',
+        color: AppColors.snackBarColorFailure,
+      ));
+    });
+  }
+
+  void toggleExpansionForEmpReq(int index) {
+    isExpandedForEmpReq[index] = !isExpandedForEmpReq[index];
+    update();
   }
 
   @override
   void dispose() {
     super.dispose();
-    empRequests.clear();
+    empReqList.clear();
   }
 }

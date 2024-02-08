@@ -26,7 +26,7 @@ class SignupBinding extends Bindings {
 class OwnerBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(OwnerHomeVM());
+    Get.put(OwnerVM());
   }
 }
 

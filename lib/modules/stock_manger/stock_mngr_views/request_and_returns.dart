@@ -326,15 +326,6 @@ class MaterialRequestView extends StatelessWidget {
                                                   fontWeight: FontWeight.w400,
                                                   maxLines: 2,
                                                 ),
-                                                // SizedBox(height: 8.h,),
-                                                // AppText(
-                                                //   text:
-                                                //       'Date: ${c.returnsList[index].retTime.toString().substring(0, 10)}',
-                                                //   color: AppColors.txtColor,
-                                                //   size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
-                                                //   fontFamily: AppFonts.interRegular,
-                                                //   fontWeight: FontWeight.w400,
-                                                // ),
                                               ],
                                             ),
                                             ElevatedButton(

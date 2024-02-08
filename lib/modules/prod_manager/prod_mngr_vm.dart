@@ -42,8 +42,8 @@ class ProdMngrVM extends GetxController {
 
   List<String> rawMatNameList = [];
   List<String> prodNameList = [];
-  List<MaterialInfo>? materials = [];
-  List<ProductsInfo>? products = [];
+  List<MaterialInfo> materials = [];
+  List<ProductsInfo> products = [];
 
   List<Map> sendApiList = [];
   List<TableRow> invntryTableRows = [];
@@ -70,6 +70,7 @@ class ProdMngrVM extends GetxController {
   }
 
   Future<void> fetchMaterialList() async {
+    materials.clear();
     await pmri.getItemsList().then(
       (res) {
         if (res.status == "200") {
@@ -78,7 +79,7 @@ class ProdMngrVM extends GetxController {
               element.material!.toLowerCase(),
             );
           });
-          materials = res.data;
+          materials = res.data!;
         }
       },
     ).onError((error, stackTrace) {
@@ -87,6 +88,7 @@ class ProdMngrVM extends GetxController {
   }
 
   Future<void> fetchProductList() async {
+    products.clear();
     await pmri.getProductList().then(
       (res) {
         if (res.status == '200') {
@@ -97,7 +99,7 @@ class ProdMngrVM extends GetxController {
               );
             },
           );
-          products = res.data;
+          products = res.data!;
         }
       },
     ).onError((error, stackTrace) {

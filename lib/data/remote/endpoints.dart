@@ -5,9 +5,9 @@ class Endpoints {
   static const owner = 'owner/';
   static const create = 'create';
 
-  static const request = "requests/";
-  static const permit = "permit";
-  static const delete = "delete";
+  static const getEmpRequests = "requests/";
+  static const acceptEmpReq = "requests/permit";
+  static const denyEmpReq = "requests/delete";
 
   static const employee = 'employees/';
 

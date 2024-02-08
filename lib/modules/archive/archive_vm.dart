@@ -138,7 +138,7 @@ class ArchiveVM extends GetxController {
     var data = {};
 
     data['emp_id'] = await empid;
-    data['limit'] = 2;
+    data['limit'] = 10;
     data['offset'] = PageCounter;
 
     await ari.getArchivedReturn(data).then((res) {
