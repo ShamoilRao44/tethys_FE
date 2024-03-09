@@ -84,62 +84,79 @@ class ReturnsContainer extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(height: 8),
-                                    Table(
-                                      border: TableBorder.all(
-                                        width: 1.0,
-                                        color: AppColors.darkblue,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      columnWidths: {
-                                        0: FlexColumnWidth(3),
-                                        1: FlexColumnWidth(1),
-                                        2: FlexColumnWidth(1),
-                                      },
-                                      children: [
-                                        TableRow(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                'Item Name',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: AppColors.txtColor,
-                                                  fontFamily: AppFonts.interRegular,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                'Qty\nIssued',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: AppColors.txtColor,
-                                                  fontFamily: AppFonts.interRegular,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                'Qty\nReturned',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: AppColors.txtColor,
-                                                  fontFamily: AppFonts.interRegular,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                    SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Table(
+                                        border: TableBorder.all(
+                                          width: 1.0,
+                                          color: AppColors.darkblue,
+                                          borderRadius: BorderRadius.circular(8),
                                         ),
-                                        ...tableRowsHere,
-                                      ],
+                                        columnWidths: {
+                                          0: FixedColumnWidth(150),
+                                          1: FixedColumnWidth(100),
+                                          2: FixedColumnWidth(100),
+                                          3: FixedColumnWidth(100),
+                                        },
+                                        children: [
+                                          TableRow(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Item Name',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: AppColors.txtColor,
+                                                    fontFamily: AppFonts.interRegular,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Qty\nRequested',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: AppColors.txtColor,
+                                                    fontFamily: AppFonts.interRegular,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Qty\nIssued',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: AppColors.txtColor,
+                                                    fontFamily: AppFonts.interRegular,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Qty\nReturned',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: AppColors.txtColor,
+                                                    fontFamily: AppFonts.interRegular,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          ...tableRowsHere,
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

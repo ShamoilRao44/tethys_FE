@@ -19,7 +19,7 @@ class ArchiveVM extends GetxController {
   var empid = SecuredStorage.readIntValue(Keys.id);
   int PageCounter = -1;
   double? topPadding;
-  bool isloading = true;
+  bool? isloading = true;
   String selectedOption = 'Requests';
   Widget? lVContainer = RequestsContainer();
   BuildContext? context;
@@ -33,8 +33,14 @@ class ArchiveVM extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    isloading = true;
+    update();
     await Future.delayed(Duration(seconds: 1));
-    await fetchArchRequests(context: context!);
+    await Future.wait([
+      fetchArchRequests(context: context!),
+    ]);
+    isloading = false;
+    update();
   }
 
   void onSelectedOptionChange() async {
@@ -60,7 +66,7 @@ class ArchiveVM extends GetxController {
     var data = {};
 
     data['emp_id'] = await empid;
-    data['limit'] = 2;
+    data['limit'] = 10;
     data['offset'] = PageCounter;
 
     await ari.getArchivedRequest(data).then((res) {
@@ -120,6 +126,15 @@ class ArchiveVM extends GetxController {
                 padding: const EdgeInsets.all(8.0),
                 child: AppText(
                   text: element.qtyIssued.toString(),
+                  color: AppColors.txtColor,
+                  size: 14,
+                  fontFamily: AppFonts.interRegular,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: element.qtyConsumed.toString(),
                   color: AppColors.txtColor,
                   size: 14,
                   fontFamily: AppFonts.interRegular,
@@ -185,6 +200,15 @@ class ArchiveVM extends GetxController {
                     size: 14,
                     fontFamily: AppFonts.interRegular,
                   )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: element.qtyReq.toString(),
+                  color: AppColors.txtColor,
+                  size: 14,
+                  fontFamily: AppFonts.interRegular,
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppText(

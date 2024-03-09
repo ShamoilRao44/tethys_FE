@@ -64,19 +64,13 @@ class RequestsContainer extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                         SizedBox(height: 8.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            AppText(
-                              text: 'Name: ${c.archivedReqList[index].reqBy!.name ?? ''}',
-                              color: AppColors.txtColor,
-                              size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
-                              fontFamily: AppFonts.interRegular,
-                              fontWeight: FontWeight.w400,
-                              maxLines: 2,
-                            ),
-                          ],
+                        AppText(
+                          text: 'Requested by: ${c.archivedReqList[index].reqBy!.name ?? ''}',
+                          color: AppColors.txtColor,
+                          size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
+                          fontFamily: AppFonts.interRegular,
+                          fontWeight: FontWeight.w400,
+                          maxLines: 2,
                         ),
                         c.isExpandedForArchRequests[index]
                             ? SingleChildScrollView(
@@ -84,63 +78,109 @@ class RequestsContainer extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    SizedBox(height: 8.h),
+                                    AppText(
+                                      text: 'Issued by: ${c.archivedReqList[index].issuedBy!.name ?? ''}',
+                                      color: AppColors.txtColor,
+                                      size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
+                                      fontFamily: AppFonts.interRegular,
+                                      fontWeight: FontWeight.w400,
+                                      maxLines: 2,
+                                    ),
+                                    SizedBox(height: 8.h),
+                                    AppText(
+                                      text:
+                                          'Date of request: ${c.archivedReqList[index].reqTime.toString().substring(0, 10) ?? ''}',
+                                      color: AppColors.txtColor,
+                                      size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
+                                      fontFamily: AppFonts.interRegular,
+                                      fontWeight: FontWeight.w400,
+                                      maxLines: 2,
+                                    ),
                                     SizedBox(height: 8),
-                                    Table(
-                                      border: TableBorder.all(
-                                        width: 1.0,
-                                        color: AppColors.darkblue,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      columnWidths: {
-                                        0: FlexColumnWidth(3),
-                                        1: FlexColumnWidth(1),
-                                        2: FlexColumnWidth(1),
-                                      },
-                                      children: [
-                                        TableRow(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                'Item Name',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: AppColors.txtColor,
-                                                  fontFamily: AppFonts.interRegular,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                'Qty\nRequested',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: AppColors.txtColor,
-                                                  fontFamily: AppFonts.interRegular,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                'Qty\nIssued',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: AppColors.txtColor,
-                                                  fontFamily: AppFonts.interRegular,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                    AppText(
+                                      text:
+                                          'Date of completion: ${c.archivedReqList[index].compTime.toString().substring(0, 10) ?? ''}',
+                                      color: AppColors.txtColor,
+                                      size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
+                                      fontFamily: AppFonts.interRegular,
+                                      fontWeight: FontWeight.w400,
+                                      maxLines: 2,
+                                    ),
+                                    SizedBox(height: 8),
+                                    SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Table(
+                                        border: TableBorder.all(
+                                          width: 1.0,
+                                          color: AppColors.darkblue,
+                                          borderRadius: BorderRadius.circular(8),
                                         ),
-                                        ...tableRowsHere,
-                                      ],
+                                        columnWidths: {
+                                          0: FixedColumnWidth(150),
+                                          1: FixedColumnWidth(100),
+                                          2: FixedColumnWidth(100),
+                                          3: FixedColumnWidth(100)
+                                        },
+                                        children: [
+                                          TableRow(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Item Name',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: AppColors.txtColor,
+                                                    fontFamily: AppFonts.interRegular,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Qty\nRequested',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: AppColors.txtColor,
+                                                    fontFamily: AppFonts.interRegular,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Qty\nIssued',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: AppColors.txtColor,
+                                                    fontFamily: AppFonts.interRegular,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Qty\nConsumed',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: AppColors.txtColor,
+                                                    fontFamily: AppFonts.interRegular,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          ...tableRowsHere,
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

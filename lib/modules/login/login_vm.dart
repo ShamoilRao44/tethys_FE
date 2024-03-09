@@ -21,9 +21,9 @@ class LoginVM extends GetxController {
     debugPrint(data.toString());
 
     await lri.login(data).then(
-      (res) {
+      (res) async {
         if (res.status == '200') {
-          storeInSecuredStorage(res);
+          await storeInSecuredStorage(res);
           if (res.user!.role == 0) {
             ScaffoldMessenger.of(context).showSnackBar(
               appSnackbar(
