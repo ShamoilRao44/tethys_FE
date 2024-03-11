@@ -21,8 +21,6 @@ class GatekeeperVM extends GetxController {
   List<TextEditingController> controllersList = [];
   List<Map<String, String>> qtyReceivedById = [];
 
-  a
-
   void onTabChange(int index) {
     indx.value = index;
 
