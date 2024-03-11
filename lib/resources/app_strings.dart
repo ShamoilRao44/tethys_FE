@@ -14,5 +14,9 @@ class AppStrings {
    static const stockManager = "Stock Manager"; 
    static const prodManager = "Production Manager"; 
    static const gateKeeper = "Gate Keeper";
+   static const email = "Enter Email";
+   static const otp = "Enter OTP";
+   static const getotp = "Get Otp";
+  //  static const  = "Get Otp";
 
 }

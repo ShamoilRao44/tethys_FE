@@ -1,27 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/signup/signup_repo/signup_repo_impl.dart';
+import 'package:tethys/resources/app_colors.dart';
+import 'package:tethys/resources/app_routes.dart';
+import 'package:tethys/utils/widgets/app_snackbar.dart';
 
 class SignupVM extends GetxController {
-  SignupRepoImpl sri = SignupRepoImpl();
+  SignupRepoImpl suri = SignupRepoImpl();
+  TextEditingController nameCtrl = TextEditingController();
   TextEditingController emailCtrl = TextEditingController();
+  TextEditingController roleCtrl = TextEditingController();
+  TextEditingController phoneCtrl = TextEditingController();
   TextEditingController passwordCtrl = TextEditingController();
-  TextEditingController secCodeCtrl = TextEditingController();
 
-  Future<void> ownerCreate() async {
+  Future<void> signup(BuildContext context) async {
     var data = {};
-    data['name'] = "";
-    data['phone'] = "";
-    data['email'] = emailCtrl.text.trim();
-    data['password'] = passwordCtrl.text;
-    data['secret_key'] = secCodeCtrl.text;
 
-    await sri.ownerCreate(data).then(
+    data['name'] = nameCtrl.text;
+    data['email'] = emailCtrl.text;
+    debugPrint(emailCtrl.text);
+    data['role'] = roleCtrl.text == 'Stock Manager'
+        ? 1
+        : roleCtrl.text == 'Product Manager'
+            ? 2
+            : 3;
+    data['phone'] = phoneCtrl.text;
+    data['password'] = passwordCtrl.text;
+
+    debugPrint(data.toString());
+
+    await suri.signup(data).then(
       (res) {
-        if (res.id != null) {
-          debugPrint("success");
+        if (res.status == "200") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            appSnackbar(
+              msg: 'Signup request sent successfully',
+              color: AppColors.snackBarColorSuccess,
+            ),
+          );
+          Get.offNamed(AppRoutes.loginView);
         } else {
-          debugPrint("failure");
+          debugPrint(res.detail);
+          ScaffoldMessenger.of(context).showSnackBar(
+            appSnackbar(
+              msg: res.detail,
+              color: AppColors.snackBarColorFailure,
+            ),
+          );
         }
       },
     );
