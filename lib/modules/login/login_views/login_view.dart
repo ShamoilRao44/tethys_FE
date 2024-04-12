@@ -147,7 +147,7 @@ class LoginView extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {
                           if (loginFormkey.currentState!.validate()) {
-                            FocusManager.instance.primaryFocus?.unfocus();
+                            // FocusManager.instance.primaryFocus?.unfocus();
                             c.login(context: context);
                           }
                         },

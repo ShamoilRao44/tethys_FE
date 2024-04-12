@@ -386,10 +386,18 @@ class OrderConsgnmnt extends StatelessWidget {
                     onPressed: () {
                       c.toggleViewsforOC(true);
                     },
-                    child: Text('Orders'),
+                    child: Text(
+                      'Orders',
+                      style: TextStyle(
+                        color: AppColors.white,
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
-                      elevation: c.isRequests ? 2 : 0,
+                      elevation: c.isOrders ? 2 : 0,
                       backgroundColor: c.isOrders ? Colors.amber.shade400 : Colors.amber.shade400.withOpacity(0.6),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
                   ),
                   SizedBox(width: 8),
@@ -398,17 +406,25 @@ class OrderConsgnmnt extends StatelessWidget {
                       c.toggleViewsforOC(false);
                     },
                     style: ElevatedButton.styleFrom(
-                      elevation: c.isRequests ? 0 : 2,
+                      elevation: c.isOrders ? 0 : 2,
                       backgroundColor: c.isOrders ? Colors.amber.shade400.withOpacity(0.6) : Colors.amber.shade400,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
-                    child: Text('Consignments'),
+                    child: Text(
+                      'Consignments',
+                      style: TextStyle(
+                        color: AppColors.white,
+                      ),
+                    ),
                   )
                 ],
               ),
               SizedBox(height: 14),
               Builder(
                 builder: (context) {
-                  double containerHeight = MediaQuery.of(context).size.height - 64 - 152 - c.topPadding!;
+                  double containerHeight = MediaQuery.of(context).size.height - 64 - 154 - c.topPadding!;
                   return c.isOrders
                       /*Orders view*/ ? Container(
                           height: containerHeight,
@@ -737,6 +753,7 @@ class OrderConsgnmnt extends StatelessWidget {
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           floatingActionButton: FloatingActionButton(
             backgroundColor: AppColors.txtColor,
+            shape: CircleBorder(),
             onPressed: () {
               c.itemNameCtrl.clear();
               c.itemNameCtrl.clear();
@@ -744,7 +761,10 @@ class OrderConsgnmnt extends StatelessWidget {
               c.sendApiList.clear();
               newOrderDialog(context);
             },
-            child: Icon(Icons.add),
+            child: Icon(
+              Icons.add,
+              color: AppColors.white,
+            ),
           ),
         ),
       );

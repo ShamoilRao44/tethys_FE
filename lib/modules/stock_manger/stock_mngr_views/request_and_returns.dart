@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_function_literals_in_foreach_calls, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_function_literals_in_foreach_calls, sized_box_for_whitespace, sort_child_properties_last
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,10 +40,18 @@ class MaterialRequestView extends StatelessWidget {
                     onPressed: () {
                       c.toggleViews(true);
                     },
-                    child: Text('Requests'),
+                    child: Text(
+                      'Requests',
+                      style: TextStyle(
+                        color: AppColors.white,
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
-                      elevation: c.isRequests ? 0 : 2,
+                      elevation: c.isRequests ? 2 : 0,
                       backgroundColor: c.isRequests ? Colors.amber.shade400 : Colors.amber.shade400.withOpacity(0.6),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
                   ),
                   SizedBox(width: 8),
@@ -51,10 +59,18 @@ class MaterialRequestView extends StatelessWidget {
                     onPressed: () {
                       c.toggleViews(false);
                     },
-                    child: Text('Returns'),
+                    child: Text(
+                      'Returns',
+                      style: TextStyle(
+                        color: AppColors.white,
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
-                      elevation: c.isRequests ? 2 : 0,
+                      elevation: c.isRequests ? 0 : 2,
                       backgroundColor: c.isRequests ? Colors.amber.shade400.withOpacity(0.6) : Colors.amber.shade400,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
                   )
                 ],
@@ -151,8 +167,11 @@ class MaterialRequestView extends StatelessWidget {
                                                                 c.materialReqList[index].requisitions!);
                                                           },
                                                           style: ElevatedButton.styleFrom(
-                                                              backgroundColor: Colors.green,
-                                                              padding: EdgeInsets.all(8)),
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(5)),
+                                                            backgroundColor: Colors.green,
+                                                            padding: EdgeInsets.all(8),
+                                                          ),
                                                           child: AppText(
                                                             text: 'Issue Materials',
                                                             size: 12,
@@ -161,6 +180,7 @@ class MaterialRequestView extends StatelessWidget {
                                                             fontWeight: FontWeight.w600,
                                                           ),
                                                         ),
+                                                        SizedBox(height: 16),
                                                         Table(
                                                           border: TableBorder.all(
                                                             width: 1.0,
