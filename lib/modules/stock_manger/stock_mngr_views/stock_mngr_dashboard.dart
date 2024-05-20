@@ -84,7 +84,10 @@ class StockMngrDashboard extends StatelessWidget {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(Icons.inventory),
+                                  Icon(
+                                    Icons.inventory,
+                                    color: AppColors.white,
+                                  ),
                                   AppText(
                                     text: '   Show Inventory',
                                     color: AppColors.white,
@@ -111,7 +114,10 @@ class StockMngrDashboard extends StatelessWidget {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(Icons.archive),
+                                  Icon(
+                                    Icons.archive,
+                                    color: AppColors.white,
+                                  ),
                                   AppText(
                                     text: '  Show Archives',
                                     color: AppColors.white,

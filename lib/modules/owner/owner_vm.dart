@@ -8,12 +8,13 @@ import 'package:tethys/modules/owner/views/employee_requests.dart';
 import 'package:tethys/modules/owner/views/owner_dashboard_view.dart';
 import 'package:tethys/modules/owner/views/user_list_screen.dart';
 import 'package:tethys/resources/app_colors.dart';
+import 'package:tethys/utils/secured_storage.dart';
 import 'package:tethys/utils/widgets/app_snackbar.dart';
 
 class OwnerVM extends GetxController {
   OwnerRepoImpl ori = OwnerRepoImpl();
   Widget? child = const OwnerDashboard();
-  int indx = 0;
+  RxInt indx = 0.obs;
   double? topPadding;
   bool? isloading = true;
 
@@ -23,6 +24,7 @@ class OwnerVM extends GetxController {
 
   @override
   void onInit() async {
+    // debugPrint(await SecuredStorage.readIntValue(Keys.id).toString());
     isloading = true;
     update();
     super.onInit();
@@ -34,9 +36,9 @@ class OwnerVM extends GetxController {
   }
 
   void onTabChange(int index) {
-    indx = index;
+    indx.value = index;
 
-    switch (indx) {
+    switch (indx.value) {
       case 0:
         child = OwnerDashboard();
         break;

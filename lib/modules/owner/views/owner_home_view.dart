@@ -65,7 +65,7 @@ class OwnerHome extends StatelessWidget {
                         text: 'Requests',
                       ),
                     ],
-                    selectedIndex: c.indx,
+                    selectedIndex: c.indx.value,
                     onTabChange: (index) {
                       c.onTabChange(index);
                     },
