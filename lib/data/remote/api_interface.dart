@@ -1,5 +1,5 @@
 abstract class ApiInterface {
-  static const baseUrl = "https://web-production-434b.up.railway.app/";
+  static const baseUrl = "https://web-production-ef306.up.railway.app/";
 
   Future post(url, data);
   Future delete(url, data);
