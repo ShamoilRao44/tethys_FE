@@ -76,11 +76,7 @@ class MyApp extends StatelessWidget {
                 binding: ProdMngrBinding(),
               ),
               GetPage(
-                  name: AppRoutes.pmInventory,
-                  page: () => PmInventory(),
-                  binding: ProdMngrBinding(),
-                  transition: Transition.zoom,
-                  transitionDuration: Duration(milliseconds: 200)),
+                  name: AppRoutes.pmInventory, page: () => PmInventory(), binding: ProdMngrBinding(), transition: Transition.zoom, transitionDuration: Duration(milliseconds: 200)),
               GetPage(
                 name: AppRoutes.gateKeepHome,
                 page: () => GateKeeperHome(),
@@ -104,18 +100,8 @@ class MyApp extends StatelessWidget {
                   binding: ProdMngrBinding(),
                   transition: Transition.zoom,
                   transitionDuration: Duration(milliseconds: 200)),
-              GetPage(
-                  name: AppRoutes.archives,
-                  page: () => ArchiveView(),
-                  binding: ArchiveBinding(),
-                  transition: Transition.zoom,
-                  transitionDuration: Duration(milliseconds: 200)),
-              GetPage(
-                  name: AppRoutes.infoPage,
-                  page: () => InfoPage(),
-                  binding: InfoPageBinding(),
-                  transition: Transition.zoom,
-                  transitionDuration: Duration(milliseconds: 200)),
+              GetPage(name: AppRoutes.archives, page: () => ArchiveView(), binding: ArchiveBinding(), transition: Transition.zoom, transitionDuration: Duration(milliseconds: 200)),
+              GetPage(name: AppRoutes.infoPage, page: () => InfoPage(), binding: InfoPageBinding(), transition: Transition.zoom, transitionDuration: Duration(milliseconds: 200)),
             ]);
       },
     );

@@ -44,7 +44,11 @@ class RequisitionReturnView extends StatelessWidget {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        backgroundColor: AppColors.txtColor,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         mainAxisSize: MainAxisSize.min,
@@ -158,8 +162,7 @@ class RequisitionReturnView extends StatelessWidget {
                                     return TextField(
                                       controller: textEditingController,
                                       focusNode: focusNode,
-                                      decoration:
-                                          InputDecoration(hintText: 'Item Name', contentPadding: EdgeInsets.all(8)),
+                                      decoration: InputDecoration(hintText: 'Item Name', contentPadding: EdgeInsets.all(8)),
                                     );
                                   },
                                   optionsBuilder: (TextEditingValue textEditingValue) {
@@ -226,10 +229,10 @@ class RequisitionReturnView extends StatelessWidget {
                 Get.back();
               },
               style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  backgroundColor: AppColors.txtColor),
               child: AppText(
                 text: 'Cancel',
                 size: 16,
@@ -249,10 +252,10 @@ class RequisitionReturnView extends StatelessWidget {
                 Get.back();
               },
               style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  backgroundColor: AppColors.txtColor),
               child: AppText(
                 text: 'Submit',
                 size: 16,
@@ -292,7 +295,10 @@ class RequisitionReturnView extends StatelessWidget {
                     onPressed: () {
                       c.toggleViews(true);
                     },
-                    child: Text('Requests'),
+                    child: Text(
+                      'Requests',
+                      style: TextStyle(color: AppColors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       elevation: c.isRequests ? 2 : 0,
                       backgroundColor: c.isRequests ? Colors.amber.shade400 : Colors.amber.shade400.withOpacity(0.6),
@@ -303,7 +309,10 @@ class RequisitionReturnView extends StatelessWidget {
                     onPressed: () {
                       c.toggleViews(false);
                     },
-                    child: Text('Returns'),
+                    child: Text(
+                      'Returns',
+                      style: TextStyle(color: AppColors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       elevation: c.isRequests ? 0 : 2,
                       backgroundColor: c.isRequests ? Colors.amber.shade400.withOpacity(0.6) : Colors.amber.shade400,
@@ -320,8 +329,7 @@ class RequisitionReturnView extends StatelessWidget {
                         child: ListView.builder(
                           itemCount: c.pendingRequisitionsList.length,
                           itemBuilder: (context, index) {
-                            List<TableRow> tableRowsHere =
-                                c.requestTableMaker(c.pendingRequisitionsList[index].requisitions!);
+                            List<TableRow> tableRowsHere = c.requestTableMaker(c.pendingRequisitionsList[index].requisitions!);
                             return Padding(
                               padding: EdgeInsets.only(bottom: 8.0),
                               child: GestureDetector(
@@ -361,8 +369,7 @@ class RequisitionReturnView extends StatelessWidget {
                                           ),
                                           SizedBox(width: 32),
                                           AppText(
-                                            text:
-                                                "Date : ${c.pendingRequisitionsList[index].reqTime.toString().substring(0, 10)}",
+                                            text: "Date : ${c.pendingRequisitionsList[index].reqTime.toString().substring(0, 10)}",
                                             color: AppColors.txtColor,
                                             size: 16,
                                             fontFamily: AppFonts.interRegular,
@@ -384,13 +391,9 @@ class RequisitionReturnView extends StatelessWidget {
                                                         children: [
                                                           ElevatedButton(
                                                             onPressed: () {
-                                                              c.updateConsumptionsButton(
-                                                                  c.pendingRequisitionsList[index].requisitions!,
-                                                                  c.pendingRequisitionsList[index].slotId);
+                                                              c.updateConsumptionsButton(c.pendingRequisitionsList[index].requisitions!, c.pendingRequisitionsList[index].slotId);
                                                             },
-                                                            style: ElevatedButton.styleFrom(
-                                                                backgroundColor: Colors.blue.shade600,
-                                                                padding: EdgeInsets.all(8)),
+                                                            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue.shade600, padding: EdgeInsets.all(8)),
                                                             child: AppText(
                                                               text: 'Update \nConsumptions',
                                                               textAlign: TextAlign.center,
@@ -407,9 +410,7 @@ class RequisitionReturnView extends StatelessWidget {
                                                                 c.pendingRequisitionsList[index].slotId,
                                                               );
                                                             },
-                                                            style: ElevatedButton.styleFrom(
-                                                                backgroundColor: Colors.blue.shade600,
-                                                                padding: EdgeInsets.all(8)),
+                                                            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue.shade600, padding: EdgeInsets.all(8)),
                                                             child: AppText(
                                                               text: 'Return \nMaterials',
                                                               textAlign: TextAlign.center,
@@ -421,13 +422,9 @@ class RequisitionReturnView extends StatelessWidget {
                                                           ),
                                                           ElevatedButton(
                                                             onPressed: () {
-                                                              c.markComplete(
-                                                                  context: context,
-                                                                  slotId: c.pendingRequisitionsList[index].slotId!);
+                                                              c.markComplete(context: context, slotId: c.pendingRequisitionsList[index].slotId!);
                                                             },
-                                                            style: ElevatedButton.styleFrom(
-                                                                backgroundColor: Colors.blue.shade600,
-                                                                padding: EdgeInsets.all(8)),
+                                                            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue.shade600, padding: EdgeInsets.all(8)),
                                                             child: AppText(
                                                               text: 'Mark \nCompleted',
                                                               textAlign: TextAlign.center,
@@ -594,8 +591,7 @@ class RequisitionReturnView extends StatelessWidget {
                                                   ),
                                                   SizedBox(width: 32.w),
                                                   AppText(
-                                                    text:
-                                                        'Date: ${c.returnsList[index].retTime.toString().substring(0, 10)}',
+                                                    text: 'Date: ${c.returnsList[index].retTime.toString().substring(0, 10)}',
                                                     color: AppColors.txtColor,
                                                     size: MediaQuery.of(context).size.width > 400 ? 16 : 16.h,
                                                     fontFamily: AppFonts.interRegular,
@@ -695,7 +691,10 @@ class RequisitionReturnView extends StatelessWidget {
               c.sendApiList.clear();
               newRequestDialog(context);
             },
-            child: Icon(Icons.add),
+            child: Icon(
+              Icons.add,
+              color: AppColors.white,
+            ),
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         ),

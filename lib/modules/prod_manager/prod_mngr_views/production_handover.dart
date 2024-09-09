@@ -170,6 +170,12 @@ class ProductionHandover extends StatelessWidget {
                 c.update();
                 Get.back();
               },
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                backgroundColor: AppColors.txtColor,
+              ),
               child: Text('Cancel'),
             ),
             ElevatedButton(
@@ -177,6 +183,12 @@ class ProductionHandover extends StatelessWidget {
                 Get.back();
                 c.sendHandover(context);
               },
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                backgroundColor: AppColors.txtColor,
+              ),
               child: Text('Submit'),
             ),
           ],
@@ -336,7 +348,10 @@ class ProductionHandover extends StatelessWidget {
               c.sendApiList.clear();
               createHandoverDialog(context);
             },
-            child: Icon(Icons.add),
+            child: Icon(
+              Icons.add,
+              color: AppColors.white,
+            ),
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         );

@@ -64,6 +64,7 @@ class LoginVM extends GetxController {
         }
       },
     ).onError((error, stackTrace) {
+      debugPrint(error!.toString());
       ScaffoldMessenger.of(context).showSnackBar(
         appSnackbar(
           msg: 'Something wrong occured',

@@ -119,7 +119,10 @@ class SMHandovers extends StatelessWidget {
                                               borderRadius: BorderRadius.circular(10),
                                             ),
                                             backgroundColor: AppColors.btnColor),
-                                        child: Icon(Icons.check),
+                                        child: Icon(
+                                          Icons.check,
+                                          color: AppColors.white,
+                                        ),
                                       ),
                                     ],
                                   ),

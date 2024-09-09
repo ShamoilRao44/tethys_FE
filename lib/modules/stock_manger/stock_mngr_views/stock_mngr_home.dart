@@ -57,18 +57,22 @@ class StockMngrHome extends StatelessWidget {
                     GButton(
                       icon: Icons.dashboard,
                       text: 'Dashboard',
+                      textSize: 12.w,
                     ),
                     GButton(
                       icon: Icons.rate_review_rounded,
                       text: 'Requests & returns',
+                      textSize: 12.w,
                     ),
                     GButton(
                       icon: Icons.fire_truck,
                       text: 'Order & Consignment',
+                      textSize: 10,
                     ),
                     GButton(
                       icon: CupertinoIcons.cube_box,
                       text: 'Handovers',
+                      textSize: 10.w,
                     ),
                   ],
                   selectedIndex: c.indx.value,
