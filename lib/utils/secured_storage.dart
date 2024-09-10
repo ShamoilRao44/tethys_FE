@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecuredStorage {
@@ -35,7 +34,6 @@ class SecuredStorage {
 
 // Write value
   static Future<void> writeStringValue(String key, String value) async {
-    debugPrint(value);
     await storage?.write(key: key, value: value);
   }
 

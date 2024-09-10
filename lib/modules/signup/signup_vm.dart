@@ -17,8 +17,7 @@ class SignupVM extends GetxController {
     var data = {};
 
     data['name'] = nameCtrl.text;
-    data['email'] = emailCtrl.text;
-    debugPrint(emailCtrl.text);
+    data['email'] = emailCtrl.text.trim();
     data['role'] = roleCtrl.text == 'Stock Manager'
         ? 1
         : roleCtrl.text == 'Product Manager'
@@ -27,7 +26,7 @@ class SignupVM extends GetxController {
     data['phone'] = phoneCtrl.text;
     data['password'] = passwordCtrl.text;
 
-    debugPrint(data.toString());
+    debugPrint('Signup data: ${data.toString()}');
 
     await suri.signup(data).then(
       (res) {
@@ -49,6 +48,14 @@ class SignupVM extends GetxController {
           );
         }
       },
-    );
+    ).onError((error, stacktrace) {
+      debugPrint(error.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        appSnackbar(
+          msg: 'Something went Wrong',
+          color: AppColors.snackBarColorFailure,
+        ),
+      );
+    });
   }
 }

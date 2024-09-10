@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tethys/modules/login/login_model.dart';
@@ -15,10 +17,10 @@ class LoginVM extends GetxController {
   Future<void> login({required BuildContext context}) async {
     var data = {};
 
-    data['username'] = usernameCtrl.text.trim();
+    data['username'] = usernameCtrl.text.trim().toLowerCase();
     data['password'] = passwordCtrl.text.trim();
 
-    debugPrint(data.toString());
+    debugPrint("login data:${data.toString()}");
 
     await lri.login(data).then(
       (res) async {

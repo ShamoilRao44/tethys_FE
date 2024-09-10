@@ -23,7 +23,6 @@ import 'resources/app_routes.dart';
 
 void main() {
   SecuredStorage.initiateSecureStorage();
-
   runApp(const MyApp());
 }
 
@@ -40,9 +39,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: ThemeData(),
-            home:
-                // ProdMngrHome(),
-                SplashView(),
+            home: SplashView(),
             getPages: [
               GetPage(
                 name: AppRoutes.loginView,
@@ -76,7 +73,11 @@ class MyApp extends StatelessWidget {
                 binding: ProdMngrBinding(),
               ),
               GetPage(
-                  name: AppRoutes.pmInventory, page: () => PmInventory(), binding: ProdMngrBinding(), transition: Transition.zoom, transitionDuration: Duration(milliseconds: 200)),
+                  name: AppRoutes.pmInventory,
+                  page: () => PmInventory(),
+                  binding: ProdMngrBinding(),
+                  transition: Transition.zoom,
+                  transitionDuration: Duration(milliseconds: 200)),
               GetPage(
                 name: AppRoutes.gateKeepHome,
                 page: () => GateKeeperHome(),
@@ -100,8 +101,18 @@ class MyApp extends StatelessWidget {
                   binding: ProdMngrBinding(),
                   transition: Transition.zoom,
                   transitionDuration: Duration(milliseconds: 200)),
-              GetPage(name: AppRoutes.archives, page: () => ArchiveView(), binding: ArchiveBinding(), transition: Transition.zoom, transitionDuration: Duration(milliseconds: 200)),
-              GetPage(name: AppRoutes.infoPage, page: () => InfoPage(), binding: InfoPageBinding(), transition: Transition.zoom, transitionDuration: Duration(milliseconds: 200)),
+              GetPage(
+                  name: AppRoutes.archives,
+                  page: () => ArchiveView(),
+                  binding: ArchiveBinding(),
+                  transition: Transition.zoom,
+                  transitionDuration: Duration(milliseconds: 200)),
+              GetPage(
+                  name: AppRoutes.infoPage,
+                  page: () => InfoPage(),
+                  binding: InfoPageBinding(),
+                  transition: Transition.zoom,
+                  transitionDuration: Duration(milliseconds: 200)),
             ]);
       },
     );

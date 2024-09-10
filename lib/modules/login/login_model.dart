@@ -1,15 +1,9 @@
-// To parse this JSON data, do
-//
-//     final LoginModel = LoginModelFromJson(jsonString);
-
-// ignore_for_file: non_constant_identifier_names
-
 import 'dart:convert';
 
-LoginModel LoginModelFromJson(String str) =>
+LoginModel loginModelFromJson(String str) =>
     LoginModel.fromJson(json.decode(str));
 
-String LoginModelToJson(LoginModel data) => json.encode(data.toJson());
+String loginModelToJson(LoginModel data) => json.encode(data.toJson());
 
 class LoginModel {
   String? accessToken;

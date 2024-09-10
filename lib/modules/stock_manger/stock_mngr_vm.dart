@@ -28,7 +28,7 @@ class StockMngrVM extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   StockMngrRepoImpl smri = StockMngrRepoImpl();
   String selectedOptionForOC = 'Order';
-  double? topPadding;
+  // double? topPadding;
   RxInt indx = 0.obs;
   Widget? child = StockMngrDashboard();
   bool isApproved = false;
@@ -90,14 +90,14 @@ class StockMngrVM extends GetxController {
     update();
     super.onInit();
     await Future.wait([
-      getRequests(),
       fetchMaterialList(),
       fetchProductList(),
-      fetchReturns(),
       fetchOrders(),
       fetchConsignments(),
-      fetchInventory(),
       fetchHandovers(),
+      getRequests(),
+      fetchInventory(),
+      fetchReturns(),
     ]);
     isloading = false;
     update();
@@ -220,7 +220,7 @@ class StockMngrVM extends GetxController {
     ).onError((error, stackTrace) {
       debugPrint('Error in fetchProductsList()');
     });
-    debugPrint(prodNameList.toString());
+    debugPrint("product list: ${prodNameList.toString()}");
   }
 
   void toggleViews(bool value) {

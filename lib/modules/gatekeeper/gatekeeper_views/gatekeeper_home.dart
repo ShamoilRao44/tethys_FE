@@ -34,7 +34,7 @@ class GateKeeperHome extends StatelessWidget {
             // alignment: Alignment.bottomCenter,
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColors.boxShadow,
+              color: AppColors.bordeColor2,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30),
                 topRight: Radius.circular(30),
