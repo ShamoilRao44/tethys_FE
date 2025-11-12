@@ -15,7 +15,7 @@ class RequestsContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ArchiveVM>(builder: (c) {
       double containerHeight = MediaQuery.of(context).size.height - c.topPadding! - 48 - 16 - 64 - 16;
-      return Container(
+      return SizedBox(
         height: containerHeight,
         child: ListView.builder(
           itemCount: c.archivedReqList.length + 1,
@@ -90,7 +90,7 @@ class RequestsContainer extends StatelessWidget {
                                     SizedBox(height: 8.h),
                                     AppText(
                                       text:
-                                          'Date of request: ${c.archivedReqList[index].reqTime.toString().substring(0, 10) ?? ''}',
+                                          'Date of request: ${c.archivedReqList[index].reqTime.toString().substring(0, 10)}',
                                       color: AppColors.txtColor,
                                       size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
                                       fontFamily: AppFonts.interRegular,
@@ -100,7 +100,7 @@ class RequestsContainer extends StatelessWidget {
                                     SizedBox(height: 8),
                                     AppText(
                                       text:
-                                          'Date of completion: ${c.archivedReqList[index].compTime.toString().substring(0, 10) ?? ''}',
+                                          'Date of completion: ${c.archivedReqList[index].compTime.toString().substring(0, 10)}',
                                       color: AppColors.txtColor,
                                       size: MediaQuery.of(context).size.width > 400 ? 14 : 14.h,
                                       fontFamily: AppFonts.interRegular,
